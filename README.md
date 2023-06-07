@@ -1,2 +1,2 @@
-# Karma/ Gurme
+# karma/ gurme
 deneme
