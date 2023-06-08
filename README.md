@@ -1,6 +1,7 @@
 # **Takım İsmi**
 
-Karma/ Takım Flutter 154
+***Karma/ Takım Flutter 154
+
 
 # Ürün İle İlgili Bilgiler
 
@@ -11,8 +12,11 @@ Karma/ Takım Flutter 154
 - [Anıl Aladağ: Developer](https://www.linkedin.com/in/anilaladag/)
 - [Enes Sevim: Developer](https://www.linkedin.com/in/enes-sevim-42a0b1246/)
 
+
 ##  Ürün İsmi
 # **gurme**
+
+
 
 ## Product Backlog URL
 
