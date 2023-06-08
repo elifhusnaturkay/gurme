@@ -1,6 +1,6 @@
 # **Takım İsmi**
 
-*** Karma / Flutter 154
+** Karma / Flutter 154
 
 
 # Ürün İle İlgili Bilgiler
