@@ -5,11 +5,11 @@ Karma/ Takım Flutter 154
 # Ürün İle İlgili Bilgiler
 
 ## Takım Elemanları
-- [Elif Hüsna Turkay: Scrum Master / Developer][https://www.linkedin.com/in/elifhusnaturkay/]
-- [Ahmet Özcan: Product Owner / Developer][https://www.linkedin.com/in/ahmetoozcan/]
+- [Elif Hüsna Turkay: Scrum Master / Developer](https://www.linkedin.com/in/elifhusnaturkay/)
+- [Ahmet Özcan: Product Owner / Developer](https://www.linkedin.com/in/ahmetoozcan/)
 - [Buse Ay: Developer]
-- [Anıl Aladağ: Developer][https://www.linkedin.com/in/anilaladag/]
-- [Enes Sevim: Developer][https://www.linkedin.com/in/enes-sevim-42a0b1246/]
+- [Anıl Aladağ: Developer](https://www.linkedin.com/in/anilaladag/)
+- [Enes Sevim: Developer](https://www.linkedin.com/in/enes-sevim-42a0b1246/)
 
 ##  Ürün İsmi
 # **gurme**
