@@ -34,9 +34,4 @@
 
 
 
-## Juriye Not
-
-İlan formu veritabanına başarılı şekilde veri göndermesine rağmen, tecrübe yetersizliği ve zaman eksikliği sebebiyle ilanlar listesi ve teklif formları veritabanıyla ilişkilendirilememiştir.
-
-
 ---
