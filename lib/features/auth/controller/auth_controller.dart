@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gurme/common/utils/show_toast.dart';
 import 'package:gurme/features/auth/repository/auth_repository.dart';
 import 'package:gurme/models/user_model.dart';
 
@@ -18,11 +20,11 @@ class AuthController {
       : _authRepository = authRepository,
         _ref = ref;
 
-  void signInWithGoogle() async {
+  void signInWithGoogle(BuildContext context) async {
     final user = await _authRepository.signInWithGoogle();
 
     user.fold(
-        (l) => null,
+        (error) => showToast(context, error),
         (userModel) =>
             _ref.read(userProvider.notifier).update((state) => userModel));
   }

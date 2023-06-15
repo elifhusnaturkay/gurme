@@ -7,7 +7,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:gurme/common/constants/firebase_constants.dart';
 import 'package:gurme/core/providers/firebase_providers.dart';
-import 'package:gurme/core/providers/type_defs.dart';
+import 'package:gurme/common/utils/type_defs.dart';
 import 'package:gurme/models/user_model.dart';
 
 final authRepositoryProvider = Provider(

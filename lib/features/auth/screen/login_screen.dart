@@ -5,8 +5,8 @@ import 'package:gurme/features/auth/controller/auth_controller.dart';
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
 
-  void signInWithGoogle(WidgetRef ref) {
-    ref.read(authControllerProvider).signInWithGoogle();
+  void signInWithGoogle(BuildContext context, WidgetRef ref) {
+    ref.read(authControllerProvider).signInWithGoogle(context);
   }
 
   @override
@@ -15,7 +15,7 @@ class LoginScreen extends ConsumerWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            signInWithGoogle(ref);
+            signInWithGoogle(context, ref);
           },
           child: const Text('Login with Google'),
         ),
