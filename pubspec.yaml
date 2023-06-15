@@ -29,6 +29,7 @@ dependencies:
 
   # navigation
   go_router: ^8.0.3
+  fpdart: ^0.6.0
 
 dev_dependencies:
   flutter_test:
