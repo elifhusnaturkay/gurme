@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -66,7 +65,7 @@ class AuthRepository {
 
       return right(userModel);
     } on FirebaseException catch (e) {
-      throw e.message!;
+      return left(e.toString());
     } catch (e) {
       return left(e.toString());
     }
