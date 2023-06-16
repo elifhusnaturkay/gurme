@@ -88,4 +88,62 @@ class AuthRepository {
     }
     return right(null);
   }
+
+  FutureEither<UserModel> signInWithEmail(String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+
+      if (!(_auth.currentUser!.emailVerified)) {
+        await _auth.currentUser!.sendEmailVerification();
+      }
+
+      late UserModel userModel;
+
+      if (userCredential.additionalUserInfo!.isNewUser) {
+        userModel = UserModel(
+          name: userCredential.user!.displayName ?? 'No Name',
+          profilePic:
+              userCredential.user!.photoURL ?? AssetConstants.defaultProfilePic,
+          uid: userCredential.user!.uid,
+          isAuthenticated: true,
+          comments: [],
+        );
+      } else {
+        userModel = await getUserData(userCredential.user!.uid).first;
+      }
+
+      return right(userModel);
+    } on FirebaseException catch (e) {
+      return left(e.toString());
+    } catch (e) {
+      return left(e.toString());
+    }
+  }
+
+  FutureEither<UserModel> signUpWithEmail(String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      await _auth.currentUser!.sendEmailVerification();
+
+      UserModel userModel = UserModel(
+        name: userCredential.user!.displayName ?? 'No Name',
+        profilePic:
+            userCredential.user!.photoURL ?? AssetConstants.defaultProfilePic,
+        uid: userCredential.user!.uid,
+        isAuthenticated: true,
+        comments: [],
+      );
+
+      await _users.doc(userCredential.user!.uid).set(userModel.toMap());
+
+      return right(userModel);
+    } on FirebaseException catch (e) {
+      return left(e.toString());
+    } catch (e) {
+      return left(e.toString());
+    }
+  }
 }

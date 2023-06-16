@@ -35,4 +35,24 @@ class AuthController {
     response.fold((error) => showToast(context, error),
         (r) => _ref.read(userProvider.notifier).update((state) => null));
   }
+
+  void signInWithEmail(
+      BuildContext context, String email, String password) async {
+    final user = await _authRepository.signInWithEmail(email, password);
+
+    user.fold(
+        (error) => showToast(context, error),
+        (userModel) =>
+            _ref.read(userProvider.notifier).update((state) => userModel));
+  }
+
+  void signUpWithEmail(
+      BuildContext context, String email, String password) async {
+    final user = await _authRepository.signUpWithEmail(email, password);
+
+    user.fold(
+        (error) => showToast(context, error),
+        (userModel) =>
+            _ref.read(userProvider.notifier).update((state) => userModel));
+  }
 }
