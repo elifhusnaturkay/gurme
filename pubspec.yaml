@@ -29,6 +29,8 @@ dependencies:
 
   # navigation
   go_router: ^8.0.3
+
+  # utils
   fpdart: ^0.6.0
   fluttertoast: ^8.2.2
 
