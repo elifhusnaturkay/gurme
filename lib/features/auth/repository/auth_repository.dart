@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:gurme/common/constants/asset_constants.dart';
 import 'package:gurme/common/constants/firebase_constants.dart';
 import 'package:gurme/core/providers/firebase_providers.dart';
 import 'package:gurme/common/utils/type_defs.dart';
@@ -50,10 +51,10 @@ class AuthRepository {
       late UserModel userModel;
 
       if (userCredential.additionalUserInfo!.isNewUser) {
-        // TODO : Add default profile picture
         userModel = UserModel(
           name: userCredential.user!.displayName ?? 'No Name',
-          profilePic: userCredential.user!.photoURL ?? '',
+          profilePic:
+              userCredential.user!.photoURL ?? AssetConstants.defaultProfilePic,
           uid: userCredential.user!.uid,
           isAuthenticated: true,
           comments: [],
@@ -74,5 +75,17 @@ class AuthRepository {
   Stream<UserModel> getUserData(String uid) {
     return _users.doc(uid).snapshots().map(
         (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
+  }
+
+  FutureEither<void> signOutWithGoogle() async {
+    try {
+      await _googleSignIn.signOut();
+      await _auth.signOut();
+    } on FirebaseException catch (e) {
+      return left(e.toString());
+    } catch (e) {
+      return left(e.toString());
+    }
+    return right(null);
   }
 }

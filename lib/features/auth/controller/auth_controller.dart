@@ -28,4 +28,11 @@ class AuthController {
         (userModel) =>
             _ref.read(userProvider.notifier).update((state) => userModel));
   }
+
+  void signOutWithGoogle(BuildContext context) async {
+    final response = await _authRepository.signOutWithGoogle();
+
+    response.fold((error) => showToast(context, error),
+        (r) => _ref.read(userProvider.notifier).update((state) => null));
+  }
 }
