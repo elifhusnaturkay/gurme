@@ -47,8 +47,8 @@ class AuthController {
   }
 
   void signUpWithEmail(
-      BuildContext context, String email, String password) async {
-    final user = await _authRepository.signUpWithEmail(email, password);
+      BuildContext context, String email, String password, String name) async {
+    final user = await _authRepository.signUpWithEmail(email, password, name);
 
     user.fold(
         (error) => showToast(context, error),
