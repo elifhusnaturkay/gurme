@@ -1,36 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gurme/common/constants/asset_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gurme/features/auth/controller/auth_controller.dart';
+import 'package:gurme/common/constants/asset_constants.dart';
 
-class LoginScreen extends ConsumerStatefulWidget {
-  const LoginScreen({super.key});
-
-  @override
-  ConsumerState<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends ConsumerState<LoginScreen> {
-  void signInWithGoogle(BuildContext context, WidgetRef ref) {
-    ref.read(authControllerProvider).signInWithGoogle(context);
-  }
-
-  void signInWithEmail(
-      BuildContext context, WidgetRef ref, String email, String password) {
-    ref.read(authControllerProvider).signInWithEmail(context, email, password);
-  }
-
-  void signUpWithEmail(
-      BuildContext context, WidgetRef ref, String email, String password) {
-    ref.read(authControllerProvider).signUpWithEmail(context, email, password);
-  }
+class SignUpScreen extends StatelessWidget {
+  SignUpScreen({Key? key}) : super(key: key);
 
   void loseFocus() {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -48,17 +27,36 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 const SizedBox(
                   height: 19,
                 ),
-                Center(
-                  child: Text(
-                    "Giriş Yap",
-                    style: GoogleFonts.inter(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w700,
+                Stack(
+                  children: [
+                    const Positioned(
+                      left: 0,
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(20, 5, 0, 5),
+                        child: Icon(
+                          Icons.close,
+                          color: Color(0xFFBDBDBD),
+                        ),
+                      ),
                     ),
-                  ),
+                    Align(
+                      child: Text(
+                        "Kayıt Ol",
+                        style: GoogleFonts.inter(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 34,
+                ),
+                LoginTextfield(
+                    controller: nameController, hintText: "Ad Soyad"),
+                const SizedBox(
+                  height: 13,
                 ),
                 LoginTextfield(
                   controller: emailController,
@@ -107,7 +105,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   height: 25,
                 ),
                 Text(
-                  "Ya da şununla giriş yap",
+                  "Ya da şununla kayıt ol",
                   style: GoogleFonts.inter(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
@@ -129,7 +127,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        "Henüz bir hesabın yok mu? ",
+                        "Hesabın var mı? ",
                         style: GoogleFonts.inter(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -303,7 +301,7 @@ class LoginButton extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            'Giriş Yap',
+            'Kayıt Ol',
             style: GoogleFonts.inter(
               fontSize: 16,
               fontWeight: FontWeight.w700,
