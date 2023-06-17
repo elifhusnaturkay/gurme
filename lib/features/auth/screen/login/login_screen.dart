@@ -23,11 +23,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     ref.read(authControllerProvider).signInWithEmail(context, email, password);
   }
 
-  void signUpWithEmail(
-      BuildContext context, WidgetRef ref, String email, String password) {
-    ref.read(authControllerProvider).signUpWithEmail(context, email, password);
-  }
-
   void loseFocus() {
     FocusManager.instance.primaryFocus?.unfocus();
   }

@@ -76,7 +76,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
             onTap: () {
               if (_formKey.currentState!.validate()) {
                 signInWithEmail(context, ref, emailController.text,
-                    passwordController.text, nameCon);
+                    passwordController.text);
               }
             },
             text: 'Giriş Yap',
