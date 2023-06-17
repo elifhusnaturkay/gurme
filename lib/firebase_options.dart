@@ -25,7 +25,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macOS - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -67,7 +70,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '533762610231',
     projectId: 'karma-gurme',
     storageBucket: 'karma-gurme.appspot.com',
-    iosClientId: '533762610231-lrvh56j5rdo146m8cmaata8ln78gklu4.apps.googleusercontent.com',
+    iosClientId:
+        '533762610231-lrvh56j5rdo146m8cmaata8ln78gklu4.apps.googleusercontent.com',
     iosBundleId: 'com.karmaf154.gurme',
   );
 
@@ -77,7 +81,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '533762610231',
     projectId: 'karma-gurme',
     storageBucket: 'karma-gurme.appspot.com',
-    iosClientId: '533762610231-p4j3miml2srtth2vuvl04vaqar5gfeh5.apps.googleusercontent.com',
+    iosClientId:
+        '533762610231-p4j3miml2srtth2vuvl04vaqar5gfeh5.apps.googleusercontent.com',
     iosBundleId: 'com.karmaf154.gurme.RunnerTests',
   );
 }
