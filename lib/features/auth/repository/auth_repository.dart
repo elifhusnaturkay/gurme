@@ -121,7 +121,8 @@ class AuthRepository {
     }
   }
 
-  FutureEither<UserModel> signUpWithEmail(String email, String password) async {
+  FutureEither<UserModel> signUpWithEmail(
+      String email, String password, String name) async {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -129,7 +130,7 @@ class AuthRepository {
       await _auth.currentUser!.sendEmailVerification();
 
       UserModel userModel = UserModel(
-        name: userCredential.user!.displayName ?? 'No Name',
+        name: userCredential.user!.displayName ?? name,
         profilePic:
             userCredential.user!.photoURL ?? AssetConstants.defaultProfilePic,
         uid: userCredential.user!.uid,
