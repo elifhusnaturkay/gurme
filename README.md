@@ -69,8 +69,8 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür.Trello gurme f154 / sp
     <td>1</td>
     <td>2</td>
   <tr>
-    <td><img src="https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/1.%20Sprint/app_splash.png" width="350" height="540"></td>
-    <td><img src="https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/1.%20Sprint/app_login.png" width="350" height="540"></td>
+    <td><img src="https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/1.%20Sprint/app_splash.png" width="350" height="800"></td>
+    <td><img src="https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/1.%20Sprint/app_login.png" width="350" height="800"></td>
  </table>
 
 <table>
@@ -78,8 +78,8 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür.Trello gurme f154 / sp
     <td>3</td>
     <td>4</td>
   <tr>
-    <td><img src="https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/1.%20Sprint/app_signup.png" width="350" height="540"></td>
-    <td><img src="https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/1.%20Sprint/app_forgot_password.png" width="350" height="540"></td>
+    <td><img src="https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/1.%20Sprint/app_signup.png" width="350" height="800"></td>
+    <td><img src="https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/1.%20Sprint/app_forgot_password.png" width="350" height="800"></td>
  </table>
 
 
