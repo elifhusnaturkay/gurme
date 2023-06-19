@@ -10,9 +10,7 @@ class BigButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        onTap;
-      },
+      onTap: onTap,
       child: Container(
         height: 51,
         margin: const EdgeInsets.symmetric(horizontal: 25),
