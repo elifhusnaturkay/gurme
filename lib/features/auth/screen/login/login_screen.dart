@@ -27,9 +27,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

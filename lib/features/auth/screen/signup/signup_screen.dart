@@ -5,15 +5,11 @@ import 'package:gurme/common/widgets/square_tile.dart';
 import 'package:gurme/features/auth/screen/signup/signup_form.dart';
 
 class SignUpScreen extends StatelessWidget {
-  SignUpScreen({Key? key}) : super(key: key);
+  const SignUpScreen({Key? key}) : super(key: key);
 
   void loseFocus() {
     FocusManager.instance.primaryFocus?.unfocus();
   }
-
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
