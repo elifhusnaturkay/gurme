@@ -1,18 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/asset_constants.dart';
 import 'package:gurme/common/widgets/square_tile.dart';
+import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/auth/screen/signup/signup_form.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends ConsumerWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
   void loseFocus() {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
+  void signUpWithEmail(BuildContext context, WidgetRef ref, String email,
+      String password, String name) {
+    ref
+        .read(authControllerProvider)
+        .signUpWithEmail(context, email, password, name);
+  }
+
+  void signInWithGoogle(BuildContext context, WidgetRef ref) {
+    ref.read(authControllerProvider).signInWithGoogle(context);
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: GestureDetector(
         onTap: loseFocus,
@@ -68,7 +81,7 @@ class SignUpScreen extends StatelessWidget {
                 SquareTile(
                   imagePath: AssetConstants.googleLogo,
                   onTap: () {
-                    loseFocus();
+                    signInWithGoogle(context, ref);
                   },
                 ),
                 Container(
