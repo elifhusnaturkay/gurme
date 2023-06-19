@@ -6,14 +6,9 @@ import 'package:gurme/common/widgets/square_tile.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/auth/screen/login/login_form.dart';
 
-class LoginScreen extends ConsumerStatefulWidget {
+class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
 
-  @override
-  ConsumerState<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends ConsumerState<LoginScreen> {
   void signInWithGoogle(BuildContext context, WidgetRef ref) {
     ref.read(authControllerProvider).signInWithGoogle(context);
   }
@@ -28,7 +23,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: GestureDetector(
         onTap: loseFocus,

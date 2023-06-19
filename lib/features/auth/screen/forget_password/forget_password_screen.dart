@@ -3,21 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/features/auth/screen/forget_password/forget_password_form.dart';
 
-class ForgetPasswordScreen extends ConsumerStatefulWidget {
+class ForgetPasswordScreen extends ConsumerWidget {
   const ForgetPasswordScreen({super.key});
 
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _ForgetPasswordScreenState();
-}
-
-class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
   void loseFocus() {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: GestureDetector(
         onTap: loseFocus,
