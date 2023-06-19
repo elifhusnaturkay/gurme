@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/asset_constants.dart';
 import 'package:gurme/common/widgets/square_tile.dart';
@@ -40,13 +41,18 @@ class SignUpScreen extends ConsumerWidget {
                 ),
                 Stack(
                   children: [
-                    const Positioned(
+                    Positioned(
                       left: 0,
                       child: Padding(
-                        padding: EdgeInsets.fromLTRB(20, 5, 0, 5),
-                        child: Icon(
-                          Icons.close,
-                          color: Color(0xFFBDBDBD),
+                        padding: const EdgeInsets.fromLTRB(20, 5, 0, 5),
+                        child: GestureDetector(
+                          onTap: () {
+                            context.pop();
+                          },
+                          child: const Icon(
+                            Icons.close,
+                            color: Color(0xFFBDBDBD),
+                          ),
                         ),
                       ),
                     ),
@@ -99,7 +105,7 @@ class SignUpScreen extends ConsumerWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          loseFocus();
+                          context.go("/login");
                         },
                         child: Text(
                           "Giriş Yap",

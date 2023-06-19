@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/widgets/big_button.dart';
 import 'package:gurme/common/widgets/form_fields.dart';
@@ -19,7 +20,9 @@ class _LoginFormState extends ConsumerState<LoginForm> {
 
   void signInWithEmail(
       BuildContext context, WidgetRef ref, String email, String password) {
-    ref.read(authControllerProvider).signInWithEmail(context, email, password);
+    ref
+        .read(authControllerProvider.notifier)
+        .signInWithEmail(context, email, password);
   }
 
   @override
@@ -58,7 +61,9 @@ class _LoginFormState extends ConsumerState<LoginForm> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    context.push("/forgotpassword");
+                  },
                   child: Text(
                     "Şifreni mi unuttun?",
                     style: GoogleFonts.inter(

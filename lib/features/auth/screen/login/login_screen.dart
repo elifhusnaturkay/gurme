@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gurme/common/constants/asset_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/widgets/square_tile.dart';
@@ -10,12 +11,14 @@ class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
 
   void signInWithGoogle(BuildContext context, WidgetRef ref) {
-    ref.read(authControllerProvider).signInWithGoogle(context);
+    ref.read(authControllerProvider.notifier).signInWithGoogle(context);
   }
 
   void signInWithEmail(
       BuildContext context, WidgetRef ref, String email, String password) {
-    ref.read(authControllerProvider).signInWithEmail(context, email, password);
+    ref
+        .read(authControllerProvider.notifier)
+        .signInWithEmail(context, email, password);
   }
 
   void loseFocus() {
@@ -86,7 +89,7 @@ class LoginScreen extends ConsumerWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          loseFocus();
+                          context.push("/signup");
                         },
                         child: Text(
                           "Kayıt ol",
