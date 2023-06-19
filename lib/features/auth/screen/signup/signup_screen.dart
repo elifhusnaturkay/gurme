@@ -16,12 +16,12 @@ class SignUpScreen extends ConsumerWidget {
   void signUpWithEmail(BuildContext context, WidgetRef ref, String email,
       String password, String name) {
     ref
-        .read(authControllerProvider)
+        .read(authControllerProvider.notifier)
         .signUpWithEmail(context, email, password, name);
   }
 
   void signInWithGoogle(BuildContext context, WidgetRef ref) {
-    ref.read(authControllerProvider).signInWithGoogle(context);
+    ref.read(authControllerProvider.notifier).signInWithGoogle(context);
   }
 
   @override

@@ -77,7 +77,7 @@ class AuthRepository {
         (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
   }
 
-  FutureEither<void> signOutWithGoogle() async {
+  FutureEither<void> signOut() async {
     try {
       await _googleSignIn.signOut();
       await _auth.signOut();
@@ -147,4 +147,6 @@ class AuthRepository {
       return left(e.toString());
     }
   }
+
+  Stream<User?> get authStateChanged => _auth.authStateChanges();
 }

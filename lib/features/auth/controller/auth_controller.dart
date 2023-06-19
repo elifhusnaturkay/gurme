@@ -1,10 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gurme/common/utils/show_toast.dart';
 import 'package:gurme/features/auth/repository/auth_repository.dart';
 import 'package:gurme/models/user_model.dart';
 
-final authControllerProvider = Provider(
+final authControllerProvider = StateNotifierProvider(
   (ref) => AuthController(
     authRepository: ref.read(authRepositoryProvider),
     ref: ref,
@@ -13,12 +14,18 @@ final authControllerProvider = Provider(
 
 final userProvider = StateProvider<UserModel?>((ref) => null);
 
-class AuthController {
+final authStateChangeProvider = StreamProvider((ref) {
+  final authController = ref.watch(authControllerProvider.notifier);
+  return authController.authStateChanged;
+});
+
+class AuthController extends StateNotifier<bool> {
   final AuthRepository _authRepository;
   final Ref _ref;
   AuthController({required AuthRepository authRepository, required Ref ref})
       : _authRepository = authRepository,
-        _ref = ref;
+        _ref = ref,
+        super(false);
 
   void signInWithGoogle(BuildContext context) async {
     final user = await _authRepository.signInWithGoogle();
@@ -29,8 +36,8 @@ class AuthController {
             _ref.read(userProvider.notifier).update((state) => userModel));
   }
 
-  void signOutWithGoogle(BuildContext context) async {
-    final response = await _authRepository.signOutWithGoogle();
+  void signOut(BuildContext context) async {
+    final response = await _authRepository.signOut();
 
     response.fold((error) => showToast(context, error),
         (r) => _ref.read(userProvider.notifier).update((state) => null));
@@ -55,4 +62,6 @@ class AuthController {
         (userModel) =>
             _ref.read(userProvider.notifier).update((state) => userModel));
   }
+
+  Stream<User?> get authStateChanged => _authRepository.authStateChanged;
 }
