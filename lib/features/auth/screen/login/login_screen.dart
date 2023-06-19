@@ -65,7 +65,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     SquareTile(
                       imagePath: AssetConstants.googleLogo,
                       onTap: () {
-                        loseFocus();
+                        signInWithGoogle(context, ref);
                       },
                     ),
                     const Spacer(flex: 1),
