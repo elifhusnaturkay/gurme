@@ -27,6 +27,8 @@ class AuthController extends StateNotifier<bool> {
         _ref = ref,
         super(false);
 
+  Stream<User?> get authStateChanged => _authRepository.authStateChanged;
+
   void signInWithGoogle(BuildContext context) async {
     final user = await _authRepository.signInWithGoogle();
 
@@ -63,5 +65,12 @@ class AuthController extends StateNotifier<bool> {
             _ref.read(userProvider.notifier).update((state) => userModel));
   }
 
-  Stream<User?> get authStateChanged => _authRepository.authStateChanged;
+  void signInAnonymously(BuildContext context) async {
+    final user = await _authRepository.signInAnonymously();
+
+    user.fold(
+        (error) => showToast(context, error),
+        (userModel) =>
+            _ref.read(userProvider.notifier).update((state) => userModel));
+  }
 }
