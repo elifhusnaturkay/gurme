@@ -171,4 +171,16 @@ class AuthRepository {
       return left(e.toString());
     }
   }
+
+  FutureEither<void> sendResetEmail(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseException catch (e) {
+      return left(e.toString());
+    } catch (e) {
+      return left(e.toString());
+    }
+
+    return right(null);
+  }
 }

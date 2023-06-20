@@ -73,4 +73,13 @@ class AuthController extends StateNotifier<bool> {
         (userModel) =>
             _ref.read(userProvider.notifier).update((state) => userModel));
   }
+
+  void sendResetEmail(BuildContext context, String email) async {
+    final response = await _authRepository.sendResetEmail(email);
+
+    response.fold(
+      (error) => showToast(context, error),
+      (r) => (), // If e-mail sent correctly there is nothing to do
+    );
+  }
 }
