@@ -34,6 +34,13 @@ class AuthRepository {
   CollectionReference get _users =>
       _firestore.collection(FirebaseConstants.usersCollection);
 
+  Stream<User?> get authStateChanged => _auth.authStateChanges();
+
+  Stream<UserModel> getUserData(String uid) {
+    return _users.doc(uid).snapshots().map(
+        (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
+  }
+
   FutureEither<UserModel> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
@@ -70,11 +77,6 @@ class AuthRepository {
     } catch (e) {
       return left(e.toString());
     }
-  }
-
-  Stream<UserModel> getUserData(String uid) {
-    return _users.doc(uid).snapshots().map(
-        (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
   }
 
   FutureEither<void> signOut() async {
@@ -148,5 +150,25 @@ class AuthRepository {
     }
   }
 
-  Stream<User?> get authStateChanged => _auth.authStateChanges();
+  FutureEither<UserModel> signInAnonymously() async {
+    try {
+      UserCredential userCredential = await _auth.signInAnonymously();
+
+      UserModel userModel = UserModel(
+        name: 'Misafir',
+        profilePic: AssetConstants.anonymousUser,
+        uid: userCredential.user!.uid,
+        isAuthenticated: false,
+        comments: [],
+      );
+
+      await _users.doc(userCredential.user!.uid).set(userModel.toMap());
+
+      return right(userModel);
+    } on FirebaseException catch (e) {
+      return left(e.toString());
+    } catch (e) {
+      return left(e.toString());
+    }
+  }
 }
