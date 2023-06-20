@@ -21,6 +21,10 @@ class LoginScreen extends ConsumerWidget {
         .signInWithEmail(context, email, password);
   }
 
+  void signInAnonymously(BuildContext context, WidgetRef ref) {
+    ref.read(authControllerProvider.notifier).signInAnonymously(context);
+  }
+
   void loseFocus() {
     FocusManager.instance.primaryFocus?.unfocus();
   }
@@ -69,7 +73,9 @@ class LoginScreen extends ConsumerWidget {
                     const Spacer(flex: 1),
                     SquareTile(
                       imagePath: AssetConstants.anonymousUser,
-                      onTap: () {},
+                      onTap: () {
+                        signInAnonymously(context, ref);
+                      },
                     ),
                     const Spacer(),
                   ],
