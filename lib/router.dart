@@ -22,13 +22,35 @@ final router = GoRouter(
     GoRoute(
       path: '/signup',
       pageBuilder: (context, state) {
-        return const MaterialPage(child: SignUpScreen());
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: const SignUpScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return SlideTransition(
+              position: animation.drive(
+                  Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero)
+                      .chain(CurveTween(curve: Curves.ease))),
+              child: child,
+            );
+          },
+        );
       },
     ),
     GoRoute(
       path: '/forgotpassword',
       pageBuilder: (context, state) {
-        return const MaterialPage(child: ForgetPasswordScreen());
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: const ForgetPasswordScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return SlideTransition(
+              position: animation.drive(
+                  Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero)
+                      .chain(CurveTween(curve: Curves.ease))),
+              child: child,
+            );
+          },
+        );
       },
     ),
   ],
