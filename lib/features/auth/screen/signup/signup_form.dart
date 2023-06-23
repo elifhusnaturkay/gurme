@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gurme/common/widgets/big_button.dart';
+import 'package:gurme/common/widgets/submit_button.dart';
 import 'package:gurme/common/widgets/form_fields.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 
@@ -60,7 +60,7 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
             ),
           ),
           const SizedBox(height: 30),
-          BigButton(
+          SubmitButton(
             onTap: () {
               if (_formKey.currentState!.validate()) {
                 signUpWithEmail(context, ref, emailController.text,
