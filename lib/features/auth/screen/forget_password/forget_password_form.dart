@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gurme/common/utils/show_toast.dart';
-import 'package:gurme/common/widgets/big_button.dart';
+import 'package:gurme/common/widgets/submit_button.dart';
 import 'package:gurme/common/widgets/form_fields.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 
@@ -38,7 +38,7 @@ class _ForgetPasswordFormState extends ConsumerState<ForgetPasswordForm> {
             ),
           ),
           const SizedBox(height: 30),
-          BigButton(
+          SubmitButton(
             onTap: () {
               if (_formKey.currentState!.validate()) {
                 sendResetEmail(context, ref, emailController.text.trim());
