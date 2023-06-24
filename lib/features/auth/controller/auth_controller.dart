@@ -29,7 +29,7 @@ class AuthController extends StateNotifier<bool> {
 
   Stream<User?> get authStateChanged => _authRepository.authStateChanged;
 
-  void signInWithGoogle(BuildContext context) async {
+  Future<void> signInWithGoogle(BuildContext context) async {
     final user = await _authRepository.signInWithGoogle();
 
     user.fold(
@@ -38,14 +38,14 @@ class AuthController extends StateNotifier<bool> {
             _ref.read(userProvider.notifier).update((state) => userModel));
   }
 
-  void signOut(BuildContext context) async {
+  Future<void> signOut(BuildContext context) async {
     final response = await _authRepository.signOut();
 
     response.fold((error) => showToast(context, error),
         (r) => _ref.read(userProvider.notifier).update((state) => null));
   }
 
-  void signInWithEmail(
+  Future<void> signInWithEmail(
       BuildContext context, String email, String password) async {
     final user = await _authRepository.signInWithEmail(email, password);
 
@@ -55,7 +55,7 @@ class AuthController extends StateNotifier<bool> {
             _ref.read(userProvider.notifier).update((state) => userModel));
   }
 
-  void signUpWithEmail(
+  Future<void> signUpWithEmail(
       BuildContext context, String email, String password, String name) async {
     final user = await _authRepository.signUpWithEmail(email, password, name);
 
@@ -65,7 +65,7 @@ class AuthController extends StateNotifier<bool> {
             _ref.read(userProvider.notifier).update((state) => userModel));
   }
 
-  void signInAnonymously(BuildContext context) async {
+  Future<void> signInAnonymously(BuildContext context) async {
     final user = await _authRepository.signInAnonymously();
 
     user.fold(
@@ -74,12 +74,12 @@ class AuthController extends StateNotifier<bool> {
             _ref.read(userProvider.notifier).update((state) => userModel));
   }
 
-  void sendResetEmail(BuildContext context, String email) async {
+  Future<void> sendResetEmail(BuildContext context, String email) async {
     final response = await _authRepository.sendResetEmail(email);
 
     response.fold(
       (error) => showToast(context, error),
-      (r) => (), // If e-mail sent correctly there is nothing to do
+      (r) => showToast(context, 'Sıfırlama bağlantısı gönderildi'),
     );
   }
 }

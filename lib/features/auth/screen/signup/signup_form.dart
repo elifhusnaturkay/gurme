@@ -18,9 +18,9 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
-  void signUpWithEmail(BuildContext context, WidgetRef ref, String email,
-      String password, String name) {
-    ref
+  Future<void> signUpWithEmail(BuildContext context, WidgetRef ref,
+      String email, String password, String name) async {
+    await ref
         .read(authControllerProvider.notifier)
         .signUpWithEmail(context, email, password, name);
   }
@@ -61,9 +61,9 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
           ),
           const SizedBox(height: 30),
           SubmitButton(
-            onTap: () {
+            onTap: () async {
               if (_formKey.currentState!.validate()) {
-                signUpWithEmail(context, ref, emailController.text,
+                await signUpWithEmail(context, ref, emailController.text,
                     passwordController.text, nameController.text);
               }
             },

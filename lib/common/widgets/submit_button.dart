@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 class SubmitButton extends StatefulWidget {
   const SubmitButton({super.key, required this.onTap, required this.text});
 
-  final Function()? onTap;
+  final Future Function()? onTap;
   final String text;
 
   @override
@@ -35,7 +35,9 @@ class _BigButtonState extends State<SubmitButton> {
         ),
         child: Center(
           child: isLoading
-              ? const CircularProgressIndicator()
+              ? const CircularProgressIndicator(
+                  backgroundColor: Colors.white,
+                )
               : Text(
                   widget.text,
                   style: GoogleFonts.inter(

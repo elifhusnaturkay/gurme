@@ -14,13 +14,6 @@ class LoginScreen extends ConsumerWidget {
     ref.read(authControllerProvider.notifier).signInWithGoogle(context);
   }
 
-  void signInWithEmail(
-      BuildContext context, WidgetRef ref, String email, String password) {
-    ref
-        .read(authControllerProvider.notifier)
-        .signInWithEmail(context, email, password);
-  }
-
   void signInAnonymously(BuildContext context, WidgetRef ref) {
     ref.read(authControllerProvider.notifier).signInAnonymously(context);
   }

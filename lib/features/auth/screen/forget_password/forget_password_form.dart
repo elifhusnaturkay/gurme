@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gurme/common/utils/show_toast.dart';
 import 'package:gurme/common/widgets/submit_button.dart';
 import 'package:gurme/common/widgets/form_fields.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
@@ -17,8 +16,11 @@ class _ForgetPasswordFormState extends ConsumerState<ForgetPasswordForm> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
 
-  void sendResetEmail(BuildContext context, WidgetRef ref, String email) {
-    ref.read(authControllerProvider.notifier).sendResetEmail(context, email);
+  Future<void> sendResetEmail(
+      BuildContext context, WidgetRef ref, String email) async {
+    await ref
+        .read(authControllerProvider.notifier)
+        .sendResetEmail(context, email);
   }
 
   @override
@@ -39,10 +41,9 @@ class _ForgetPasswordFormState extends ConsumerState<ForgetPasswordForm> {
           ),
           const SizedBox(height: 30),
           SubmitButton(
-            onTap: () {
+            onTap: () async {
               if (_formKey.currentState!.validate()) {
-                sendResetEmail(context, ref, emailController.text.trim());
-                showToast(context, 'Sıfırlama bağlantısı gönderildi');
+                await sendResetEmail(context, ref, emailController.text.trim());
               }
             },
             text: 'Sıfırlama Bağlantısını Gönder',
