@@ -16,7 +16,6 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
 
   Future<void> signUpWithEmail(BuildContext context, WidgetRef ref,
       String email, String password, String name) async {
