@@ -59,10 +59,12 @@ class AuthController extends StateNotifier<bool> {
       BuildContext context, String email, String password, String name) async {
     final user = await _authRepository.signUpWithEmail(email, password, name);
 
-    user.fold(
-        (error) => showToast(context, error),
-        (userModel) =>
-            _ref.read(userProvider.notifier).update((state) => userModel));
+    user.fold((error) {
+      showToast(context, error);
+    }, (userModel) {
+      _ref.read(userProvider.notifier).update((state) => userModel);
+      showToast(context, 'Kayıt olma işlemi başarılı');
+    });
   }
 
   Future<void> signInAnonymously(BuildContext context) async {
