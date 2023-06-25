@@ -19,6 +19,11 @@ final authStateChangeProvider = StreamProvider((ref) {
   return authController.authStateChanged;
 });
 
+final getUserDataProvider = StreamProvider.family((ref, String uid) {
+  final authController = ref.watch(authControllerProvider.notifier);
+  return authController.getUserData(uid);
+});
+
 class AuthController extends StateNotifier<bool> {
   final AuthRepository _authRepository;
   final Ref _ref;
@@ -83,5 +88,9 @@ class AuthController extends StateNotifier<bool> {
       (error) => showToast(context, error),
       (r) => showToast(context, 'Sıfırlama bağlantısı gönderildi'),
     );
+  }
+
+  Stream<UserModel> getUserData(String uid) {
+    return _authRepository.getUserData(uid);
   }
 }
