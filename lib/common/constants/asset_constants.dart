@@ -6,4 +6,7 @@ class AssetConstants {
 
   static String defaultProfilePic =
       "https://icon-library.com/images/default-profile-icon/default-profile-icon-6.jpg";
+
+  static String defaultBannerPic =
+      "https://thumbs.dreamstime.com/b/abstract-stained-pattern-rectangle-background-blue-sky-over-fiery-red-orange-color-modern-painting-art-watercolor-effe-texture-123047399.jpg";
 }
