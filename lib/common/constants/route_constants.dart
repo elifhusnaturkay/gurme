@@ -3,5 +3,5 @@ class RouteConstants {
   static const signUpScreen = "signup";
   static const forgotPasswordScreen = "forgotpassword";
   static const homeScreen = "home";
-  static const seatchScreen = "search";
+  static const searchScreen = "search";
 }
