@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gurme/common/constants/asset_constants.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -26,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
       color: Colors.indigo.shade400,
       child: Center(
         child: Image.asset(
-          "assets/images/splash_logo_white.png",
+          AssetConstants.longLogoWhite,
           width: MediaQuery.of(context).size.width / 1.5,
         ),
       ),

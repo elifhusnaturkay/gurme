@@ -84,4 +84,8 @@ class AuthController extends StateNotifier<bool> {
       (r) => showToast(context, 'Sıfırlama bağlantısı gönderildi'),
     );
   }
+
+  Stream<UserModel> getUserData(String uid) {
+    return _authRepository.getUserData(uid);
+  }
 }
