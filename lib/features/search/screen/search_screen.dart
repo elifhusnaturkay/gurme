@@ -12,23 +12,23 @@ class SearchScreen extends ConsumerStatefulWidget {
 class _SearchScreenState extends ConsumerState<SearchScreen> {
   @override
   Widget build(BuildContext context) {
+    final delegate = SearchScreenDelegate(ref);
+
     return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          leading: Text('Gurme'),
-          actions: [
-            IconButton(
-              onPressed: () {
-                showSearch(
-                    context: context, delegate: SearchScreenDelegate(ref));
-              },
-              icon: Icon(Icons.search),
-            ),
-            IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
-          ],
-          backgroundColor: Colors.indigo.shade400,
-        ),
+        child: Scaffold(
+      appBar: AppBar(
+        leading: const Text('Gurme'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showSearch(context: context, delegate: delegate);
+            },
+            icon: const Icon(Icons.search),
+          ),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+        ],
+        backgroundColor: Colors.indigo.shade400,
       ),
-    );
+    ));
   }
 }

@@ -17,17 +17,13 @@ class SearchRepository {
   CollectionReference get _company => _firestore.collection('company');
 
   Stream<List<Item>> searchItems(String query) {
+    if (query == null || query.isEmpty) {
+      Stream.value([]);
+    }
+
     return _items
-        .where(
-          'name',
-          isGreaterThanOrEqualTo: query.isEmpty ? 0 : query,
-          isLessThan: query.isEmpty
-              ? null
-              : query.substring(0, query.length - 1) +
-                  String.fromCharCode(
-                    query.codeUnitAt(query.length - 1) + 1,
-                  ),
-        )
+        .where('name', isGreaterThanOrEqualTo: query)
+        .where('name', isLessThan: '${query}z')
         .snapshots()
         .map((event) {
       List<Item> items = [];
