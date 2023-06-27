@@ -9,10 +9,13 @@ final searchControllerProvider = StateNotifierProvider<SearchController, bool>(
   ),
 );
 
-final searchItemProvider = StreamProvider.family(
-  (ref, String query) =>
-      ref.watch(searchControllerProvider.notifier).searchItem(query),
-);
+final queryProvider = StateProvider<String?>((ref) => null);
+
+final searchItemProvider =
+    StreamProvider.autoDispose.family((ref, String query) {
+  final searchText = ref.watch(queryProvider);
+  return ref.watch(searchControllerProvider.notifier).searchItem(searchText);
+});
 
 class SearchController extends StateNotifier<bool> {
   final SearchRepository _searchRepository;
@@ -25,7 +28,7 @@ class SearchController extends StateNotifier<bool> {
         _ref = ref,
         super(false);
 
-  Stream<List<Item>> searchItem(String query) {
+  Stream<List<Item>> searchItem(String? query) {
     return _searchRepository.searchItems(query);
   }
 }

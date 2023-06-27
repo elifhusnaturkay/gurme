@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gurme/core/providers/firebase_providers.dart';
-import 'package:gurme/models/company_model.dart';
 import 'package:gurme/models/item_model.dart';
 
 final searchRepositoryProvider = Provider((ref) {
@@ -16,9 +15,9 @@ class SearchRepository {
   CollectionReference get _items => _firestore.collection('items');
   CollectionReference get _company => _firestore.collection('company');
 
-  Stream<List<Item>> searchItems(String query) {
+  Stream<List<Item>> searchItems(String? query) {
     if (query == null || query.isEmpty) {
-      Stream.value([]);
+      return Stream.value([]);
     }
 
     return _items
