@@ -17,6 +17,14 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   Future<void> signUpWithEmail(BuildContext context, WidgetRef ref,
       String email, String password, String name) async {
     await ref

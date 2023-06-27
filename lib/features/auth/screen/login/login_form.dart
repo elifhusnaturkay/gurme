@@ -18,6 +18,13 @@ class _LoginFormState extends ConsumerState<LoginForm> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   Future<void> signInWithEmail(BuildContext context, WidgetRef ref,
       String email, String password) async {
     await ref

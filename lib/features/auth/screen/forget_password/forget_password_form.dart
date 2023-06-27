@@ -24,6 +24,12 @@ class _ForgetPasswordFormState extends ConsumerState<ForgetPasswordForm> {
   }
 
   @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
