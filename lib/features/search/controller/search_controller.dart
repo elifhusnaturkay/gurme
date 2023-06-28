@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gurme/features/search/repository/search_repository.dart';
+import 'package:gurme/models/company_model.dart';
 import 'package:gurme/models/item_model.dart';
 
 final searchControllerProvider = StateNotifierProvider<SearchController, bool>(
@@ -10,11 +11,20 @@ final searchControllerProvider = StateNotifierProvider<SearchController, bool>(
 );
 
 final queryProvider = StateProvider<String?>((ref) => null);
+final isSearchingItemsProvider = StateProvider<bool>((ref) => false);
 
-final searchItemProvider =
-    StreamProvider.autoDispose.family((ref, String query) {
+final searchItemProvider = StreamProvider.autoDispose((ref) {
   final searchText = ref.watch(queryProvider);
+
   return ref.watch(searchControllerProvider.notifier).searchItem(searchText);
+});
+
+final searchCompanyProvider = StreamProvider.autoDispose((ref) {
+  final searchText = ref.watch(queryProvider);
+
+  return ref
+      .watch(searchControllerProvider.notifier)
+      .searchCompanies(searchText);
 });
 
 class SearchController extends StateNotifier<bool> {
@@ -30,5 +40,9 @@ class SearchController extends StateNotifier<bool> {
 
   Stream<List<Item>> searchItem(String? query) {
     return _searchRepository.searchItems(query);
+  }
+
+  Stream<List<Company>> searchCompanies(String? query) {
+    return _searchRepository.searchCompanies(query);
   }
 }
