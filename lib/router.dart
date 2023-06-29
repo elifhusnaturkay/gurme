@@ -7,6 +7,7 @@ import 'package:gurme/features/auth/screen/login/login_screen.dart';
 import 'package:gurme/features/auth/screen/signup/signup_screen.dart';
 import 'package:gurme/features/company/company_screen.dart';
 import 'package:gurme/features/home/screen/home_screen.dart';
+import 'package:gurme/features/search/screen/search_screen.dart';
 import 'package:gurme/features/splash/splash_screen.dart';
 
 final routerProvider = Provider<GoRouter>(
@@ -72,12 +73,21 @@ final routerProvider = Provider<GoRouter>(
           },
         ),
         GoRoute(
+<<<<<<< HEAD
           name: RouteConstants.companyScreen,
           path: "/",
           pageBuilder: (context, state) {
             return const MaterialPage(child: CompanyScreen());
           },
         ),
+=======
+          name: RouteConstants.searchScreen,
+          path: "/search",
+          pageBuilder: (context, state) {
+            return const MaterialPage(child: SearchScreen());
+          },
+        )
+>>>>>>> search
       ],
     );
   },
