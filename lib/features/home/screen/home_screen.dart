@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/asset_constants.dart';
 import 'package:gurme/common/constants/route_constants.dart';
+import 'package:gurme/features/home/controller/home_controller.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -96,7 +97,7 @@ class HomeScreen extends ConsumerWidget {
                       left: (MediaQuery.of(context).size.width / 100) * 5),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "En Popülerler",
+                    "En popüler ürünler",
                     style: GoogleFonts.inter(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -109,23 +110,39 @@ class HomeScreen extends ConsumerWidget {
                     viewportFraction: 1,
                     enableInfiniteScroll: true,
                   ),
-                  items: [1, 2, 3, 4, 5].map(
-                    (i) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return Container(
-                            width: MediaQuery.of(context).size.width,
-                            margin: const EdgeInsets.fromLTRB(15, 5, 15, 5),
-                            decoration: const BoxDecoration(
-                              color: Color.fromRGBO(92, 107, 192, 0.2),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8)),
-                            ),
-                          );
+                  items: ref.watch(getPopularItemsProvider).when(
+                        data: (items) {
+                          return items.map(
+                            (item) {
+                              return Builder(
+                                builder: (BuildContext context) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    margin:
+                                        const EdgeInsets.fromLTRB(15, 5, 15, 5),
+                                    decoration: const BoxDecoration(
+                                      color: Color.fromRGBO(92, 107, 192, 0.2),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(8)),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Text(item.name),
+                                        Text(item.rating.toString()),
+                                        Text(item.ratingCount.toString()),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ).toList();
                         },
-                      );
-                    },
-                  ).toList(),
+                        error: ((error, stackTrace) {
+                          return [Text(error.toString())];
+                        }),
+                        loading: () => [const CircularProgressIndicator()],
+                      ),
                 ),
                 const SizedBox(
                   height: 30,
@@ -135,7 +152,7 @@ class HomeScreen extends ConsumerWidget {
                       left: (MediaQuery.of(context).size.width / 100) * 5),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "En Beğelilenler",
+                    "En popüler restoranlar",
                     style: GoogleFonts.inter(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -148,23 +165,40 @@ class HomeScreen extends ConsumerWidget {
                     viewportFraction: 1,
                     enableInfiniteScroll: true,
                   ),
-                  items: [1, 2, 3, 4, 5].map(
-                    (i) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return Container(
-                            width: MediaQuery.of(context).size.width,
-                            margin: const EdgeInsets.fromLTRB(15, 5, 15, 5),
-                            decoration: const BoxDecoration(
-                              color: Color.fromRGBO(92, 107, 192, 0.2),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8)),
-                            ),
-                          );
+                  items: ref.watch(getPopularCompaniesProvider).when(
+                        data: (companies) {
+                          print('Companies LENGTH ${companies.length}');
+                          return companies.map(
+                            (company) {
+                              return Builder(
+                                builder: (BuildContext context) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    margin:
+                                        const EdgeInsets.fromLTRB(15, 5, 15, 5),
+                                    decoration: const BoxDecoration(
+                                      color: Color.fromRGBO(92, 107, 192, 0.2),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(8)),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Text(company.name),
+                                        Text(company.rating.toString()),
+                                        Text(company.ratingCount.toString()),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ).toList();
                         },
-                      );
-                    },
-                  ).toList(),
+                        error: ((error, stackTrace) {
+                          return [Text(error.toString())];
+                        }),
+                        loading: () => [const CircularProgressIndicator()],
+                      ),
                 ),
                 const SizedBox(
                   height: 30,
@@ -188,23 +222,34 @@ class HomeScreen extends ConsumerWidget {
                     clipBehavior: Clip.hardEdge,
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
-                    children: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(
-                      (i) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Container(
-                              width: 100,
-                              margin: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                              decoration: const BoxDecoration(
-                                color: Color.fromRGBO(92, 107, 192, 0.2),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8)),
-                              ),
-                            );
+                    children: ref.watch(getCategoriesProvider).when(
+                          data: (categories) {
+                            return categories.map(
+                              (category) {
+                                return Builder(
+                                  builder: (BuildContext context) {
+                                    return Container(
+                                      width: 100,
+                                      margin: const EdgeInsets.fromLTRB(
+                                          15, 0, 0, 0),
+                                      decoration: const BoxDecoration(
+                                        color:
+                                            Color.fromRGBO(92, 107, 192, 0.2),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8)),
+                                      ),
+                                      child: Text(category.picture),
+                                    );
+                                  },
+                                );
+                              },
+                            ).toList();
                           },
-                        );
-                      },
-                    ).toList(),
+                          error: ((error, stackTrace) {
+                            return [Text(error.toString())];
+                          }),
+                          loading: () => [const CircularProgressIndicator()],
+                        ),
                   ),
                 ),
                 const SizedBox(
