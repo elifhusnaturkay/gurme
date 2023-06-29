@@ -73,21 +73,12 @@ final routerProvider = Provider<GoRouter>(
           },
         ),
         GoRoute(
-<<<<<<< HEAD
           name: RouteConstants.companyScreen,
           path: "/",
           pageBuilder: (context, state) {
             return const MaterialPage(child: CompanyScreen());
           },
         ),
-=======
-          name: RouteConstants.searchScreen,
-          path: "/search",
-          pageBuilder: (context, state) {
-            return const MaterialPage(child: SearchScreen());
-          },
-        )
->>>>>>> search
       ],
     );
   },
