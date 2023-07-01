@@ -19,32 +19,49 @@ class HomeRepository {
   CollectionReference get _category => _firestore.collection('category');
 
   Stream<List<Item>> getPopularItems() {
-    return _items
-        .orderBy('ratingCount', descending: true)
-        .orderBy('rating', descending: true)
-        .limit(5)
-        .snapshots()
-        .map((event) {
+    return _items.orderBy('rating', descending: true).snapshots().map((event) {
       List<Item> items = [];
       for (var item in event.docs) {
         items.add(Item.fromMap(item.data() as Map<String, dynamic>));
       }
-      return items;
+
+      // Items are considered popular if their rating count is at least 20
+      // To prevent display low ratingCount but high rating items
+      List<Item> popularItems = [];
+      for (var item in items) {
+        if (popularItems.length == 5) {
+          break;
+        }
+        if (item.ratingCount >= 20) {
+          popularItems.add(item);
+        }
+      }
+      return popularItems;
     });
   }
 
   Stream<List<Company>> getPopularCompanies() {
     return _company
-        .orderBy('ratingCount', descending: true)
         .orderBy('rating', descending: true)
-        .limit(5)
         .snapshots()
         .map((event) {
       List<Company> companies = [];
       for (var company in event.docs) {
         companies.add(Company.fromMap(company.data() as Map<String, dynamic>));
       }
-      return companies;
+
+      // Companies are considered popular if their rating count is at least 50
+      // To prevent display low ratingCount but high rating companies
+      List<Company> popularCompanies = [];
+      for (var company in companies) {
+        if (popularCompanies.length == 5) {
+          break;
+        }
+        if (company.ratingCount >= 50) {
+          popularCompanies.add(company);
+        }
+      }
+      return popularCompanies;
     });
   }
 
