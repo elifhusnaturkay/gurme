@@ -9,6 +9,7 @@ class Company {
   final String bannerPic;
   final double rating;
   final int ratingCount;
+  final int commentCount;
   final List<String> categoryIds;
   Company({
     required this.id,
@@ -16,6 +17,7 @@ class Company {
     required this.bannerPic,
     required this.rating,
     required this.ratingCount,
+    required this.commentCount,
     required this.categoryIds,
   });
 
@@ -25,6 +27,7 @@ class Company {
     String? bannerPic,
     double? rating,
     int? ratingCount,
+    int? commentCount,
     List<String>? categoryIds,
   }) {
     return Company(
@@ -33,6 +36,7 @@ class Company {
       bannerPic: bannerPic ?? this.bannerPic,
       rating: rating ?? this.rating,
       ratingCount: ratingCount ?? this.ratingCount,
+      commentCount: commentCount ?? this.commentCount,
       categoryIds: categoryIds ?? this.categoryIds,
     );
   }
@@ -44,6 +48,7 @@ class Company {
       'bannerPic': bannerPic,
       'rating': rating,
       'ratingCount': ratingCount,
+      'commentCount': commentCount,
       'categoryIds': categoryIds,
     };
   }
@@ -55,6 +60,7 @@ class Company {
       bannerPic: map['bannerPic'] ?? '',
       rating: map['rating'] ?? 0.0,
       ratingCount: map['ratingCount'] ?? 0,
+      commentCount: map['commentCount'] ?? 0,
       categoryIds: List<String>.from(map['categoryIds']),
     );
   }
@@ -66,7 +72,7 @@ class Company {
 
   @override
   String toString() {
-    return 'Company(id: $id, name: $name, bannerPic: $bannerPic, rating: $rating, ratingCount: $ratingCount, categoryIds: $categoryIds)';
+    return 'Company(id: $id, name: $name, bannerPic: $bannerPic, rating: $rating, ratingCount: $ratingCount, commentCount: $commentCount, categoryIds: $categoryIds)';
   }
 
   @override
@@ -78,6 +84,7 @@ class Company {
         other.bannerPic == bannerPic &&
         other.rating == rating &&
         other.ratingCount == ratingCount &&
+        other.commentCount == commentCount &&
         listEquals(other.categoryIds, categoryIds);
   }
 
@@ -88,6 +95,7 @@ class Company {
         bannerPic.hashCode ^
         rating.hashCode ^
         ratingCount.hashCode ^
+        commentCount.hashCode ^
         categoryIds.hashCode;
   }
 }

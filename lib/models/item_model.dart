@@ -10,6 +10,7 @@ class Item {
   final String categoryName;
   final double rating;
   final int ratingCount;
+  final int commentCount;
   Item({
     required this.id,
     required this.name,
@@ -19,6 +20,7 @@ class Item {
     required this.categoryName,
     required this.rating,
     required this.ratingCount,
+    required this.commentCount,
   });
 
   Item copyWith({
@@ -30,6 +32,7 @@ class Item {
     String? categoryName,
     double? rating,
     int? ratingCount,
+    int? commentCount,
   }) {
     return Item(
       id: id ?? this.id,
@@ -40,6 +43,7 @@ class Item {
       categoryName: categoryName ?? this.categoryName,
       rating: rating ?? this.rating,
       ratingCount: ratingCount ?? this.ratingCount,
+      commentCount: commentCount ?? this.commentCount,
     );
   }
 
@@ -53,19 +57,21 @@ class Item {
       'categoryName': categoryName,
       'rating': rating,
       'ratingCount': ratingCount,
+      'commentCount': commentCount,
     };
   }
 
   factory Item.fromMap(Map<String, dynamic> map) {
     return Item(
-      id: map['id'] as String,
-      name: map['name'] as String,
-      categoryId: map['categoryId'] as String,
-      companyId: map['companyId'] as String,
-      companyName: map['companyName'] as String,
-      categoryName: map['categoryName'] as String,
-      rating: map['rating'] as double,
-      ratingCount: map['ratingCount'] as int,
+      id: map['id'] ?? '',
+      name: map['name'] ?? '',
+      categoryId: map['categoryId'] ?? '',
+      companyId: map['companyId'] ?? '',
+      companyName: map['companyName'] ?? '',
+      categoryName: map['categoryName'] ?? '',
+      rating: map['rating'] ?? 0.0,
+      ratingCount: map['ratingCount'] ?? 0,
+      commentCount: map['commentCount'] ?? 0,
     );
   }
 
@@ -76,7 +82,7 @@ class Item {
 
   @override
   String toString() {
-    return 'Item(id: $id, name: $name, categoryId: $categoryId, companyId: $companyId, companyName: $companyName, categoryName: $categoryName, rating: $rating, ratingCount: $ratingCount)';
+    return 'Item(id: $id, name: $name, categoryId: $categoryId, companyId: $companyId, companyName: $companyName, categoryName: $categoryName, rating: $rating, ratingCount: $ratingCount, commentCount: $commentCount)';
   }
 
   @override
@@ -90,7 +96,8 @@ class Item {
         other.companyName == companyName &&
         other.categoryName == categoryName &&
         other.rating == rating &&
-        other.ratingCount == ratingCount;
+        other.ratingCount == ratingCount &&
+        other.commentCount == commentCount;
   }
 
   @override
@@ -102,6 +109,7 @@ class Item {
         companyName.hashCode ^
         categoryName.hashCode ^
         rating.hashCode ^
-        ratingCount.hashCode;
+        ratingCount.hashCode ^
+        commentCount.hashCode;
   }
 }
