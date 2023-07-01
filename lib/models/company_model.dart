@@ -7,11 +7,15 @@ class Company {
   final String id;
   final String name;
   final String bannerPic;
+  final double rating;
+  final int ratingCount;
   final List<String> categoryIds;
   Company({
     required this.id,
     required this.name,
     required this.bannerPic,
+    required this.rating,
+    required this.ratingCount,
     required this.categoryIds,
   });
 
@@ -19,12 +23,16 @@ class Company {
     String? id,
     String? name,
     String? bannerPic,
+    double? rating,
+    int? ratingCount,
     List<String>? categoryIds,
   }) {
     return Company(
       id: id ?? this.id,
       name: name ?? this.name,
       bannerPic: bannerPic ?? this.bannerPic,
+      rating: rating ?? this.rating,
+      ratingCount: ratingCount ?? this.ratingCount,
       categoryIds: categoryIds ?? this.categoryIds,
     );
   }
@@ -34,6 +42,8 @@ class Company {
       'id': id,
       'name': name,
       'bannerPic': bannerPic,
+      'rating': rating,
+      'ratingCount': ratingCount,
       'categoryIds': categoryIds,
     };
   }
@@ -43,6 +53,8 @@ class Company {
       id: map['id'] ?? '',
       name: map['name'] ?? '',
       bannerPic: map['bannerPic'] ?? '',
+      rating: map['rating'] ?? 0.0,
+      ratingCount: map['ratingCount'] ?? 0,
       categoryIds: List<String>.from(map['categoryIds']),
     );
   }
@@ -54,7 +66,7 @@ class Company {
 
   @override
   String toString() {
-    return 'Company(id: $id, name: $name, bannerPic: $bannerPic, categoryIds: $categoryIds)';
+    return 'Company(id: $id, name: $name, bannerPic: $bannerPic, rating: $rating, ratingCount: $ratingCount, categoryIds: $categoryIds)';
   }
 
   @override
@@ -64,6 +76,8 @@ class Company {
     return other.id == id &&
         other.name == name &&
         other.bannerPic == bannerPic &&
+        other.rating == rating &&
+        other.ratingCount == ratingCount &&
         listEquals(other.categoryIds, categoryIds);
   }
 
@@ -72,6 +86,8 @@ class Company {
     return id.hashCode ^
         name.hashCode ^
         bannerPic.hashCode ^
+        rating.hashCode ^
+        ratingCount.hashCode ^
         categoryIds.hashCode;
   }
 }
