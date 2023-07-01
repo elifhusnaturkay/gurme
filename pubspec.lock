@@ -517,6 +517,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.1"
+  rect_getter:
+    dependency: transitive
+    description:
+      name: rect_getter
+      sha256: "1c71e4ab5fb7d83d2b14a8338f979bc9ae57eefba786e7fbc91f6746dac2193d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   riverpod:
     dependency: transitive
     description:
@@ -525,6 +533,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.6"
+  scroll_to_index:
+    dependency: "direct main"
+    description:
+      name: scroll_to_index
+      sha256: b707546e7500d9f070d63e5acf74fd437ec7eeeb68d3412ef7b0afada0b4f176
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   shared_preferences:
     dependency: transitive
     description:
@@ -658,6 +674,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  vertical_scrollable_tabview:
+    dependency: "direct main"
+    description:
+      name: vertical_scrollable_tabview
+      sha256: "9dd1237eaab4f05b335d77d3834a3968f4e756616700257a8baf8b2c546451cf"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
   win32:
     dependency: transitive
     description:
