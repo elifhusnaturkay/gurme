@@ -1,0 +1,83 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gurme/core/providers/firebase_providers.dart';
+import 'package:gurme/models/category_model.dart';
+import 'package:gurme/models/company_model.dart';
+import 'package:gurme/models/item_model.dart';
+
+final companyRepositoryProvider = Provider((ref) {
+  return CompanyRepository(firestore: ref.watch(firestoreProvider));
+});
+
+class CompanyRepository {
+  final FirebaseFirestore _firestore;
+  CompanyRepository({required FirebaseFirestore firestore})
+      : _firestore = firestore;
+
+  CollectionReference get _items => _firestore.collection('items');
+  CollectionReference get _company => _firestore.collection('company');
+  CollectionReference get _category => _firestore.collection('category');
+
+  Future<Company> getCompanyById(String id) async {
+    late Company company;
+    await _company.doc(id).get().then((value) {
+      company = Company.fromMap(value.data() as Map<String, dynamic>);
+    });
+
+    return company;
+  }
+
+  Future<List<CategoryModel>> getCategories(List<String> categoryId) async {
+    List<CategoryModel> categories = [];
+    final querySnapshot =
+        await _category.where('id', whereIn: categoryId).get();
+
+    for (var category in querySnapshot.docs) {
+      categories
+          .add(CategoryModel.fromMap(category.data() as Map<String, dynamic>));
+    }
+    return categories;
+  }
+
+  Future<List<List<Item>>> getAllItems(
+      String companyId, List<String> categoryIds) async {
+    List<List<Item>> allItems = [];
+
+    for (var i = 0; i < categoryIds.length; i++) {
+      final itemsByCategory =
+          await getItemsByCategory(companyId, categoryIds[i]);
+      allItems.add(itemsByCategory);
+    }
+    return allItems;
+  }
+
+  Future<List<Item>> getItemsByCategory(
+      String companyId, String categoryId) async {
+    List<Item> items = [];
+
+    final querySnapshot = await _items
+        .where('categoryId', isEqualTo: categoryId)
+        .where('companyId', isEqualTo: companyId)
+        .get();
+
+    for (var item in querySnapshot.docs) {
+      items.add(Item.fromMap(item.data() as Map<String, dynamic>));
+    }
+
+    return items;
+  }
+
+  Stream<List<Item>> getPopularItems(String companyId) {
+    return _items
+        .where('companyId', isEqualTo: companyId)
+        .orderBy('ratingCount', descending: true)
+        .snapshots()
+        .map((event) {
+      List<Item> items = [];
+      for (var item in event.docs) {
+        items.add(Item.fromMap(item.data() as Map<String, dynamic>));
+      }
+      return items;
+    });
+  }
+}
