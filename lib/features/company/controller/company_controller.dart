@@ -10,21 +10,16 @@ final companyControllerProvider =
       comapanyRepository: ref.watch(companyRepositoryProvider));
 });
 
-final getPoularItemsProvider =
-    StreamProvider.family.autoDispose((ref, String companyId) {
-  return ref
-      .watch(companyControllerProvider.notifier)
-      .getPopularItems(companyId);
-});
-
 class CompanyData {
   final Company company;
   final List<CategoryModel> categories;
+  final List<Item> popularItems;
   final List<List<Item>> items;
 
   CompanyData({
     required this.company,
     required this.categories,
+    required this.popularItems,
     required this.items,
   });
 }
@@ -36,11 +31,18 @@ final companyDataProvider = FutureProvider.family
   final categories = await ref
       .watch(companyControllerProvider.notifier)
       .getCategories(company.categoryIds);
+  final popularItems = await ref
+      .watch(companyControllerProvider.notifier)
+      .getPopularItems(company.id);
   final items = await ref
       .watch(companyControllerProvider.notifier)
       .getAllItems(company.id, company.categoryIds);
 
-  return CompanyData(company: company, categories: categories, items: items);
+  return CompanyData(
+      company: company,
+      categories: categories,
+      popularItems: popularItems,
+      items: items);
 });
 
 class CompanyController extends StateNotifier<bool> {
@@ -51,8 +53,8 @@ class CompanyController extends StateNotifier<bool> {
   })  : _comapanyRepository = comapanyRepository,
         super(false);
 
-  Stream<List<Item>> getPopularItems(String companyId) {
-    return _comapanyRepository.getPopularItems(companyId);
+  Future<List<Item>> getPopularItems(String companyId) async {
+    return await _comapanyRepository.getPopularItems(companyId);
   }
 
   Future<Company> getCompanyById(String id) async {

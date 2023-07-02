@@ -73,17 +73,18 @@ class CompanyRepository {
     return items;
   }
 
-  Stream<List<Item>> getPopularItems(String companyId) {
-    return _items
+  Future<List<Item>> getPopularItems(String companyId) async {
+    List<Item> popularItems = [];
+
+    final querySnapshot = await _items
         .where('companyId', isEqualTo: companyId)
         .orderBy('ratingCount', descending: true)
-        .snapshots()
-        .map((event) {
-      List<Item> items = [];
-      for (var item in event.docs) {
-        items.add(Item.fromMap(item.data() as Map<String, dynamic>));
-      }
-      return items;
-    });
+        .get();
+
+    for (var item in querySnapshot.docs) {
+      popularItems.add(Item.fromMap(item.data() as Map<String, dynamic>));
+    }
+
+    return popularItems;
   }
 }
