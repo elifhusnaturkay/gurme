@@ -27,15 +27,21 @@ class CompanyRepository {
     return company;
   }
 
-  Future<List<CategoryModel>> getCategories(List<String> categoryId) async {
-    List<CategoryModel> categories = [];
+  Future<List<CategoryModel>> getCategories(List<String> categoryIds) async {
+    final categoriesMap = <String, CategoryModel>{};
     final querySnapshot =
-        await _category.where('id', whereIn: categoryId).get();
+        await _category.where('id', whereIn: categoryIds).get();
 
     for (var category in querySnapshot.docs) {
-      categories
-          .add(CategoryModel.fromMap(category.data() as Map<String, dynamic>));
+      final categoryModel =
+          CategoryModel.fromMap(category.data() as Map<String, dynamic>);
+      categoriesMap[categoryModel.id] = categoryModel;
     }
+
+    final categories = categoryIds
+        .map((id) => categoriesMap[id])
+        .whereType<CategoryModel>()
+        .toList();
     return categories;
   }
 
