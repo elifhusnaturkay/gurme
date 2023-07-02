@@ -5,7 +5,7 @@ import 'package:gurme/common/constants/route_constants.dart';
 import 'package:gurme/features/auth/screen/forget_password/forget_password_screen.dart';
 import 'package:gurme/features/auth/screen/login/login_screen.dart';
 import 'package:gurme/features/auth/screen/signup/signup_screen.dart';
-import 'package:gurme/features/company/company_screen.dart';
+import 'package:gurme/features/company/screen/company_screen.dart';
 import 'package:gurme/features/home/screen/home_screen.dart';
 import 'package:gurme/features/search/screen/search_screen.dart';
 import 'package:gurme/features/splash/splash_screen.dart';
@@ -67,16 +67,17 @@ final routerProvider = Provider<GoRouter>(
         ),
         GoRoute(
           name: RouteConstants.homeScreen,
-          path: "/home",
+          path: "/",
           pageBuilder: (context, state) {
             return const MaterialPage(child: HomeScreen());
           },
         ),
         GoRoute(
           name: RouteConstants.companyScreen,
-          path: "/",
+          path: "/company/:id",
           pageBuilder: (context, state) {
-            return const MaterialPage(child: CompanyScreen());
+            return MaterialPage(
+                child: CompanyScreen(id: state.pathParameters['id']!));
           },
         ),
       ],
