@@ -177,9 +177,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                     }
                     return Column(
                       children: [
-                        const SizedBox(
-                          height: 15,
-                        ),
                         Expanded(
                           child: ListView.builder(
                             itemCount: items.length,
@@ -189,6 +186,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                 title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
                                     Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -291,9 +291,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                             color: Colors.grey.shade300,
                                           )
                                         : const SizedBox(),
-                                    index != items.length - 1
-                                        ? const SizedBox(height: 10)
-                                        : const SizedBox(height: 15),
                                   ],
                                 ),
                                 // TODO: add popup or navigate to restaurants

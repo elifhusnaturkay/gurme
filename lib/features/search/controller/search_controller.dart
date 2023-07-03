@@ -10,7 +10,7 @@ final searchControllerProvider = StateNotifierProvider<SearchController, bool>(
   ),
 );
 
-final queryProvider = StateProvider<String?>((ref) => null);
+final queryProvider = StateProvider.autoDispose<String?>((ref) => null);
 final isSearchingItemsProvider = StateProvider<bool>((ref) => false);
 
 final searchItemProvider = StreamProvider.autoDispose((ref) {
