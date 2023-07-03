@@ -381,6 +381,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  loading_animation_widget:
+    dependency: "direct main"
+    description:
+      name: loading_animation_widget
+      sha256: "1901682600273a966c34cf44a85fc5355da92a8d08a8a43c11adc4e471993e3a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0+4"
   logging:
     dependency: transitive
     description:
@@ -518,7 +526,7 @@ packages:
     source: hosted
     version: "3.2.1"
   rect_getter:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: rect_getter
       sha256: "1c71e4ab5fb7d83d2b14a8338f979bc9ae57eefba786e7fbc91f6746dac2193d"
@@ -541,6 +549,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  scrollable_positioned_list:
+    dependency: "direct main"
+    description:
+      name: scrollable_positioned_list
+      sha256: "1b54d5f1329a1e263269abc9e2543d90806131aa14fe7c6062a8054d57249287"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.8"
   shared_preferences:
     dependency: transitive
     description:
@@ -674,14 +690,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
-  vertical_scrollable_tabview:
-    dependency: "direct main"
-    description:
-      name: vertical_scrollable_tabview
-      sha256: "9dd1237eaab4f05b335d77d3834a3968f4e756616700257a8baf8b2c546451cf"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.0"
   win32:
     dependency: transitive
     description:
