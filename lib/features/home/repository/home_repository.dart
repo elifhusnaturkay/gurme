@@ -79,7 +79,7 @@ class HomeRepository {
 
   Stream<List<Item>> getRandomItems() async* {
     List<Item> randomItems = [];
-    final randomId = AutoIdGenerator.autoId();
+    final randomId = RandomIdGenerator.autoId();
 
     QuerySnapshot querySnapshot = await _items
         .where('id', isLessThanOrEqualTo: randomId)
