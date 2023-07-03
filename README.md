@@ -8,9 +8,9 @@
 ## Takım Elemanları
 - [Ahmet Özcan: Product Owner / Developer](https://www.linkedin.com/in/ahmetoozcan/)
 - [Elif Hüsna Turkay: Scrum Master / Developer](https://www.linkedin.com/in/elifhusnaturkay/)
-- [Buse Ay: Developer](https://www.linkedin.com/in/aybuse/)
 - [Anıl Aladağ: Developer](https://www.linkedin.com/in/anilaladag/)
 - [Enes Sevim: Developer](https://www.linkedin.com/in/enes-sevim-42a0b1246/)
+- ~~[Buse Ay: Developer](https://www.linkedin.com/in/aybuse/)~~
 
 
 ##  Ürün İsmi
