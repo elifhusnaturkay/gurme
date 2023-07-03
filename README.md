@@ -134,16 +134,8 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür.Trello gurme f154 / sp
 ![Sprint1_3](https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/2.%20Sprint/Sprint2_3.png)
 ![Sprint1_4](https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/2.%20Sprint/Sprint2_4.png)
 
-<table>
-  <tr>
-    <td>1</td>
-  <tr>
-    <td><img src="https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/2.%20Sprint/app_video.png" width="350" height="800"></td>
- </table>
+https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/2.%20Sprint/app_video.png
 
-
-
-  
 - **Sprint Review**: 
 
  
