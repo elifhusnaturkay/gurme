@@ -18,65 +18,68 @@ class HomeScreen extends ConsumerWidget {
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-            child: AppBar(
-              backgroundColor: const Color.fromRGBO(246, 246, 246, 0.5),
-              elevation: 0,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(8),
+            child: Hero(
+              tag: "hometosearch",
+              child: AppBar(
+                backgroundColor: const Color.fromRGBO(246, 246, 246, 0.5),
+                elevation: 0,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8),
+                  ),
+                  side: BorderSide(
+                    color: Color(0xFFE8E8E8),
+                  ),
                 ),
-                side: BorderSide(
-                  color: Color(0xFFE8E8E8),
+                centerTitle: true,
+                title: Text(
+                  "Gurme",
+                  style: GoogleFonts.poppins(
+                    fontSize: 35,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.indigo.shade400,
+                  ),
                 ),
-              ),
-              centerTitle: true,
-              title: Text(
-                "Gurme",
-                style: GoogleFonts.poppins(
-                  fontSize: 35,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.indigo.shade400,
-                ),
-              ),
-              leading: GestureDetector(
-                onTap: () {},
-                child: const Icon(
-                  Icons.menu_rounded,
-                  color: Colors.black,
-                  size: 25,
-                ),
-              ),
-              actions: [
-                GestureDetector(
-                  onTap: () {
-                    context.pushNamed(RouteConstants.searchScreen);
-                  },
+                leading: GestureDetector(
+                  onTap: () {},
                   child: const Icon(
-                    Icons.search_rounded,
+                    Icons.menu_rounded,
                     color: Colors.black,
                     size: 25,
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: CircleAvatar(
-                    backgroundColor: const Color.fromRGBO(92, 107, 192, 0.5),
-                    radius: 15,
+                actions: [
+                  GestureDetector(
+                    onTap: () {
+                      context.pushNamed(RouteConstants.searchScreen);
+                    },
+                    child: const Icon(
+                      Icons.search_rounded,
+                      color: Colors.black,
+                      size: 25,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () {},
                     child: CircleAvatar(
+                      backgroundColor: const Color.fromRGBO(92, 107, 192, 0.5),
                       radius: 15,
-                      backgroundImage: NetworkImage(
-                        AssetConstants.defaultProfilePic,
+                      child: CircleAvatar(
+                        radius: 15,
+                        backgroundImage: NetworkImage(
+                          AssetConstants.defaultProfilePic,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-              ],
+                  const SizedBox(
+                    width: 10,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -167,26 +170,32 @@ class HomeScreen extends ConsumerWidget {
                   ),
                   items: ref.watch(getPopularCompaniesProvider).when(
                         data: (companies) {
-                          print('Companies LENGTH ${companies.length}');
                           return companies.map(
                             (company) {
                               return Builder(
                                 builder: (BuildContext context) {
-                                  return Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    margin:
-                                        const EdgeInsets.fromLTRB(15, 5, 15, 5),
-                                    decoration: const BoxDecoration(
-                                      color: Color.fromRGBO(92, 107, 192, 0.2),
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(8)),
+                                  return GestureDetector(
+                                    onTap: () => context.pushNamed(
+                                      RouteConstants.companyScreen,
+                                      pathParameters: {"id": company.id},
                                     ),
-                                    child: Column(
-                                      children: [
-                                        Text(company.name),
-                                        Text(company.rating.toString()),
-                                        Text(company.ratingCount.toString()),
-                                      ],
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      margin: const EdgeInsets.fromLTRB(
+                                          15, 5, 15, 5),
+                                      decoration: const BoxDecoration(
+                                        color:
+                                            Color.fromRGBO(92, 107, 192, 0.2),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8)),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Text(company.name),
+                                          Text(company.rating.toString()),
+                                          Text(company.ratingCount.toString()),
+                                        ],
+                                      ),
                                     ),
                                   );
                                 },
