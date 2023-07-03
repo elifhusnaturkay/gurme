@@ -80,6 +80,15 @@ final routerProvider = Provider<GoRouter>(
                 child: CompanyScreen(id: state.pathParameters['id']!));
           },
         ),
+        GoRoute(
+          name: RouteConstants.searchScreen,
+          path: "/company",
+          pageBuilder: (context, state) {
+            return const MaterialPage(
+              child: SearchScreen(),
+            );
+          },
+        ),
       ],
     );
   },
