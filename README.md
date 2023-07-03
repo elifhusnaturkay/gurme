@@ -136,7 +136,7 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür.Trello gurme f154 / sp
 
 https://github.com/elifhusnaturkay/gurme/assets/93215375/0d6fe355-8454-4402-9d3f-a75abc402b06
 
-- **Sprint Review**: 
+- **Sprint Review**: Alınan kararlar: Sprintin verimli geçmemesi sonucunda takımca verimli bir çalışma stiline geçiş düşünülmüştür, geriye kalan Item, User, Suggested screenler uygulamaya aktarılıp ayrıyaten data kısımlarını halledilip, son olarak geoloacation kütüphanesi ile konum biliglerine göre önerilenler sunulması düşünülmüştür. Son sprintimizde kodun içindeki karamışıklar düzletilip, projenin her kısmında temiz kod'a geçiş sağlanılması düşünülmüştür.
 
  
   
