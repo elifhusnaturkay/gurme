@@ -18,6 +18,8 @@
 
 
 
+
+
 ## Product Backlog URL
 
 
@@ -97,6 +99,77 @@ Alınan kararlar: Home Page, User, Kafe(Restoran) modelleri düşünülmüş, d�
 - **Sprint Retrospective:**
 - Takım içindeki görev dağılımıyla ilgili düzenleme yapılması kararı alınmıştır.
 - Takım üyelerinin gelecek sprintlerde aktif olması gerektiğine vurgu yapılmıştır.
+
+
+-**Diğer Notlar**:
+- N/A
+
+---
+
+
+# Sprint 2
+
+- **Sprint Notları**: User Story'ler product backlog'ların açıklamlarına yazılmıştır. Tasklar yeşil kapakla gösterilmiş olup, backloglar mor renkle gösterilmiştir.
+
+- **Sprint içinde tamamlanması tahmin edilen puan**: 100 Puan
+
+- **Puan tamamlama mantığı**: Sprintimizin ikinci sprint backlogu üretilmiş, üretilen backlogun tamamiyle bitirlmesi kararlanılmıştır. Bu sprintte iş yükü daha fazla olan ekranlar ele alındığından sprint toplam puanı 100 olarak belirlenmiştir.
+
+- **Backlog düzeni ve Story seçimleri**: Backlog'umuz kullanıcın uygulamayı kullanmaya başladığı ilk zamanlardaki story'lerine bağlı gelişmiştir. Storylerin puanları uygulamanın içinde kilit noktalarına göre belirlenilmiştir.
+
+Story'ler yapılacak işlere (task'lere) bölünmüştür.Trello gurme f154 / sprint2 panosunda bulunan yeşil item'lar yapılacak işleri (task) gösterirken, mor item'lar story'leri temsil etmektedir.
+
+- **Daily Scrum**: Sprint boyunca takımca bir toplantı yapılmış, discord üzerinden iletişimde kalınmıştır. Enes Sevim ve Ahmet Özcan takım üyeleri günlük olarak buluşup pair programming şeklinde kod yazıp ayrıyaten uygulamanın ilerleme yönüne karar vermişlerdir. Scrum toplantısı png olarak Readme'de tarafımızdan paylaşılmaktadır.
+
+#
+[**Sprint 2 Daily Scrum Logs**](https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/1.%20Sprint/Sprint1_scrum_log.png)
+
+## Product Backlog URL
+
+[Trello Backlog Board_Sprint_2](https://trello.com/b/fCJQ8IaM/gurme-f154-sprint2)
+
+- **Sprint board update**: Sprint board screenshotları: 
+![Sprint2_1]
+![Sprint2_2]
+![Sprint2_3]
+![Sprint2_4]
+![Sprint2_5]
+
+<table>
+  <tr>
+    <td>1</td>
+    <td>2</td>
+  <tr>
+    <td><img src="....." width="350" height="800"></td>
+    <td><img src="....." width="350" height="800"></td>
+ </table>
+
+<table>
+  <tr>
+    <td>3</td>
+    <td>4</td>
+  <tr>
+    <td><img src="....." width="350" height="800"></td>
+    <td><img src="....." width="350" height="800"></td>
+ </table>
+
+
+
+  
+  
+- **Sprint Review**: 
+
+ 
+  
+- **Sprint Review katılımcıları:** 
+ 1. *Ahmet Özcan* (Product Owner) 
+ 2. *Enes Sevim* (Developer)
+ 3. *Elif Hüsna Turkay* (Scrum Master)
+  
+- **Sprint Retrospective:**
+- Takım içindeki görev dağılımıyla ilgili düzenleme yapılması kararı alınmıştır.
+- Takım üyelerinin gelecek sprintlerde aktif olması gerektiğine vurgu yapılmıştır.
+- Home page ve Detail Page'de UX deneyimini iyileştirmek için çalışmaların devam etmesine karar verilmiştir.
 
 
 -**Diğer Notlar**:
