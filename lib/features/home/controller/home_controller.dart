@@ -21,6 +21,10 @@ final getCategoriesProvider = StreamProvider.autoDispose((ref) {
   return ref.watch(homeControllerProvider.notifier).getCategories();
 });
 
+final getRandomItemsProvider = StreamProvider.autoDispose((ref) {
+  return ref.watch(homeControllerProvider.notifier).getRandomItems();
+});
+
 class HomeController extends StateNotifier<bool> {
   final HomeRepository _homeRepository;
 
@@ -38,5 +42,9 @@ class HomeController extends StateNotifier<bool> {
 
   Stream<List<CategoryModel>> getCategories() {
     return _homeRepository.getCategories();
+  }
+
+  Stream<List<Item>> getRandomItems() {
+    return _homeRepository.getRandomItems();
   }
 }

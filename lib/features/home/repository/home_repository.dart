@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gurme/common/utils/get_random_id.dart';
 import 'package:gurme/core/providers/firebase_providers.dart';
 import 'package:gurme/models/category_model.dart';
 import 'package:gurme/models/company_model.dart';
@@ -74,5 +75,33 @@ class HomeRepository {
       }
       return categories;
     });
+  }
+
+  Stream<List<Item>> getRandomItems() async* {
+    List<Item> randomItems = [];
+    final randomId = AutoIdGenerator.autoId();
+
+    QuerySnapshot querySnapshot = await _items
+        .where('id', isLessThanOrEqualTo: randomId)
+        .orderBy('id', descending: true)
+        .limit(10)
+        .get();
+
+    for (var item in querySnapshot.docs) {
+      randomItems.add(Item.fromMap(item.data() as Map<String, dynamic>));
+    }
+
+    if (randomItems.length != 10) {
+      final remainingItemLength = 10 - randomItems.length;
+      querySnapshot = await _items
+          .where('id', isGreaterThanOrEqualTo: randomId)
+          .orderBy('id')
+          .limit(remainingItemLength)
+          .get();
+      for (var item in querySnapshot.docs) {
+        randomItems.add(Item.fromMap(item.data() as Map<String, dynamic>));
+      }
+    }
+    yield randomItems;
   }
 }

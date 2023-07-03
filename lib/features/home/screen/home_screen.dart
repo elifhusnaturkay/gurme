@@ -278,39 +278,49 @@ class HomeScreen extends ConsumerWidget {
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(
-                    (i) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return Row(
-                            children: [
-                              Container(
-                                width: 50,
-                                height: 50,
-                                margin: const EdgeInsets.fromLTRB(15, 5, 10, 5),
-                                decoration: const BoxDecoration(
-                                  color: Color.fromRGBO(92, 107, 192, 0.2),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8)),
-                                ),
-                              ),
-                              Container(
-                                height: 50,
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  "$i. Limonata",
-                                  style: GoogleFonts.inter(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
+                  children: ref.watch(getRandomItemsProvider).when(
+                        data: (randomItems) {
+                          return randomItems.map(
+                            (randomItem) {
+                              return Builder(
+                                builder: (BuildContext context) {
+                                  return Row(
+                                    children: [
+                                      Container(
+                                        width: 50,
+                                        height: 50,
+                                        margin: const EdgeInsets.fromLTRB(
+                                            15, 5, 10, 5),
+                                        decoration: const BoxDecoration(
+                                          color:
+                                              Color.fromRGBO(92, 107, 192, 0.2),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8)),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 50,
+                                        alignment: Alignment.topLeft,
+                                        child: Text(
+                                          randomItem.name,
+                                          style: GoogleFonts.inter(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          ).toList();
                         },
-                      );
-                    },
-                  ).toList(),
+                        error: ((error, stackTrace) {
+                          return [Text(error.toString())];
+                        }),
+                        loading: () => [const CircularProgressIndicator()],
+                      ),
                 ),
               ],
             ),
