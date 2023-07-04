@@ -3,6 +3,7 @@ import 'dart:convert';
 
 class Item {
   final String id;
+  final String picture;
   final String name;
   final String lowercaseName;
   final String categoryId;
@@ -14,6 +15,7 @@ class Item {
   final int commentCount;
   Item({
     required this.id,
+    required this.picture,
     required this.name,
     required this.lowercaseName,
     required this.categoryId,
@@ -27,6 +29,7 @@ class Item {
 
   Item copyWith({
     String? id,
+    String? picture,
     String? name,
     String? lowercaseName,
     String? categoryId,
@@ -39,6 +42,7 @@ class Item {
   }) {
     return Item(
       id: id ?? this.id,
+      picture: picture ?? this.picture,
       name: name ?? this.name,
       lowercaseName: lowercaseName ?? this.lowercaseName,
       categoryId: categoryId ?? this.categoryId,
@@ -54,6 +58,7 @@ class Item {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
+      'picture': picture,
       'name': name,
       'lowercaseName': lowercaseName,
       'categoryId': categoryId,
@@ -69,8 +74,9 @@ class Item {
   factory Item.fromMap(Map<String, dynamic> map) {
     return Item(
       id: map['id'] ?? '',
+      picture: map['picture'] ?? '',
       name: map['name'] ?? '',
-      lowercaseName: map['lowercaseName'] ?? '',
+      lowercaseName: map['lowerc??eName'] ?? '',
       categoryId: map['categoryId'] ?? '',
       companyId: map['companyId'] ?? '',
       companyName: map['companyName'] ?? '',
@@ -88,7 +94,7 @@ class Item {
 
   @override
   String toString() {
-    return 'Item(id: $id, name: $name, lowercaseName: $lowercaseName, categoryId: $categoryId, companyId: $companyId, companyName: $companyName, categoryName: $categoryName, rating: $rating, ratingCount: $ratingCount, commentCount: $commentCount)';
+    return 'Item(id: $id, picture: $picture, name: $name, lowercaseName: $lowercaseName, categoryId: $categoryId, companyId: $companyId, companyName: $companyName, categoryName: $categoryName, rating: $rating, ratingCount: $ratingCount, commentCount: $commentCount)';
   }
 
   @override
@@ -96,6 +102,7 @@ class Item {
     if (identical(this, other)) return true;
 
     return other.id == id &&
+        other.picture == picture &&
         other.name == name &&
         other.lowercaseName == lowercaseName &&
         other.categoryId == categoryId &&
@@ -110,6 +117,7 @@ class Item {
   @override
   int get hashCode {
     return id.hashCode ^
+        picture.hashCode ^
         name.hashCode ^
         lowercaseName.hashCode ^
         categoryId.hashCode ^

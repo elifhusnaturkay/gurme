@@ -139,8 +139,8 @@ class HomeScreen extends ConsumerWidget {
                                           borderRadius: const BorderRadius.all(
                                             Radius.circular(8),
                                           ),
-                                          child: Image.asset(
-                                            AssetConstants.longLogoPurple,
+                                          child: Image.network(
+                                            item.picture,
                                             fit: BoxFit.cover,
                                           ),
                                         ),
@@ -660,9 +660,8 @@ class HomeScreen extends ConsumerWidget {
                                                       const BorderRadius.all(
                                                     Radius.circular(8),
                                                   ),
-                                                  child: Image.asset(
-                                                    AssetConstants
-                                                        .longLogoPurple,
+                                                  child: Image.network(
+                                                    category.picture,
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
