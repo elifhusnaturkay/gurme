@@ -66,10 +66,11 @@ class AuthRepository {
           isAuthenticated: true,
           comments: [],
         );
+
+        await _users.doc(userCredential.user!.uid).set(userModel.toMap());
       } else {
         userModel = await getUserData(userCredential.user!.uid).first;
       }
-      await _users.doc(userCredential.user!.uid).set(userModel.toMap());
 
       return right(userModel);
     } on FirebaseException catch (e) {
