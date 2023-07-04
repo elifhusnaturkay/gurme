@@ -111,94 +111,67 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
                       elevation: 0,
                       pinned: true,
                       centerTitle: false,
-                      flexibleSpace: Hero(
-                        tag: "tobanner",
-                        child: FlexibleSpaceBar(
-                          titlePadding: EdgeInsets.fromLTRB(15,
-                              MediaQuery.of(context).padding.top + 5, 15, 0),
-                          centerTitle: false,
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    companyData.company.name,
-                                    style: GoogleFonts.inter(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    softWrap: true,
+                      flexibleSpace: FlexibleSpaceBar(
+                        titlePadding: EdgeInsets.fromLTRB(
+                            15, MediaQuery.of(context).padding.top + 5, 15, 0),
+                        centerTitle: false,
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  companyData.company.name,
+                                  style: GoogleFonts.inter(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
                                   ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: true,
                                 ),
                               ),
-                              const Spacer(),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        companyData.company.rating.toString(),
-                                        style: GoogleFonts.inter(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.grey.shade400,
-                                        ),
+                            ),
+                            const Spacer(),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      companyData.company.rating.toString(),
+                                      style: GoogleFonts.inter(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.grey.shade400,
                                       ),
-                                      const SizedBox(width: 5),
-                                      const Icon(
-                                        Icons.grade_rounded,
-                                        size: 18,
-                                        color: Colors.amber,
+                                    ),
+                                    const SizedBox(width: 5),
+                                    const Icon(
+                                      Icons.grade_rounded,
+                                      size: 18,
+                                      color: Colors.amber,
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      companyData.company.ratingCount
+                                          .toString(),
+                                      style: GoogleFonts.inter(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.grey.shade400,
                                       ),
-                                      const SizedBox(width: 5),
-                                      Text(
-                                        companyData.company.ratingCount
-                                            .toString(),
-                                        style: GoogleFonts.inter(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.grey.shade400,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        companyData.company.commentCount
-                                            .toString(),
-                                        style: GoogleFonts.inter(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.grey.shade400,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Icon(
-                                        Icons.chat_rounded,
-                                        color: Colors.indigo.shade400,
-                                        size: 14,
-                                      ),
-                                      const SizedBox(
-                                        width: 2,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ),

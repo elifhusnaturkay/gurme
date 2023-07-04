@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/asset_constants.dart';
 import 'package:gurme/common/constants/route_constants.dart';
+import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/home/controller/home_controller.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -70,7 +71,9 @@ class HomeScreen extends ConsumerWidget {
                       child: CircleAvatar(
                         radius: 15,
                         backgroundImage: NetworkImage(
-                          AssetConstants.defaultProfilePic,
+                          ref.watch(userProvider) != null
+                              ? ref.watch(userProvider)!.profilePic
+                              : AssetConstants.defaultProfilePic,
                         ),
                       ),
                     ),
@@ -84,7 +87,7 @@ class HomeScreen extends ConsumerWidget {
           ),
         ),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).canvasColor,
       body: Column(
         children: [
           Expanded(
@@ -125,14 +128,224 @@ class HomeScreen extends ConsumerWidget {
                                         const EdgeInsets.fromLTRB(15, 5, 15, 5),
                                     decoration: const BoxDecoration(
                                       color: Color.fromRGBO(92, 107, 192, 0.2),
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(8)),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(8),
+                                      ),
                                     ),
-                                    child: Column(
+                                    child: Stack(
+                                      fit: StackFit.expand,
                                       children: [
-                                        Text(item.name),
-                                        Text(item.rating.toString()),
-                                        Text(item.ratingCount.toString()),
+                                        ClipRRect(
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(8),
+                                          ),
+                                          child: Image.asset(
+                                            AssetConstants.longLogoPurple,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        Positioned(
+                                          bottom: 10,
+                                          left: 10,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                decoration: const BoxDecoration(
+                                                  color: Color(0xFFE9EAFF),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(6),
+                                                  ),
+                                                ),
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                  6,
+                                                  4,
+                                                  6,
+                                                  5,
+                                                ),
+                                                child: Text(
+                                                  item.companyName,
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black
+                                                        .withOpacity(0.8),
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Container(
+                                                decoration: const BoxDecoration(
+                                                  color: Color(0xFFE9EAFF),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(6),
+                                                  ),
+                                                ),
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                  6,
+                                                  4,
+                                                  6,
+                                                  5,
+                                                ),
+                                                child: Text(
+                                                  item.name,
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black
+                                                        .withOpacity(0.8),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Positioned(
+                                          top: 10,
+                                          right: 10,
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                              color: Color(0xFFE9EAFF),
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(6),
+                                              ),
+                                            ),
+                                            padding: const EdgeInsets.fromLTRB(
+                                              4,
+                                              2,
+                                              2,
+                                              2,
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  "0.1 km",
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.grey.shade400,
+                                                  ),
+                                                ),
+                                                Icon(
+                                                  Icons.location_pin,
+                                                  size: 18,
+                                                  color: Colors.indigo.shade400,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          bottom: 10,
+                                          right: 10,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Container(
+                                                decoration: const BoxDecoration(
+                                                  color: Color(0xFFE9EAFF),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(6),
+                                                  ),
+                                                ),
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                  4,
+                                                  2,
+                                                  4,
+                                                  2,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      item.rating.toString(),
+                                                      style: GoogleFonts.inter(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: Colors
+                                                            .grey.shade400,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 5),
+                                                    const Icon(
+                                                      Icons.grade_rounded,
+                                                      size: 18,
+                                                      color: Colors.amber,
+                                                    ),
+                                                    const SizedBox(width: 5),
+                                                    Text(
+                                                      item.ratingCount
+                                                          .toString(),
+                                                      style: GoogleFonts.inter(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: Colors
+                                                            .grey.shade400,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Container(
+                                                decoration: const BoxDecoration(
+                                                  color: Color(0xFFE9EAFF),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(6),
+                                                  ),
+                                                ),
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                  4,
+                                                  2,
+                                                  2,
+                                                  2,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      item.commentCount
+                                                          .toString(),
+                                                      style: GoogleFonts.inter(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: Colors
+                                                            .grey.shade400,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Icon(
+                                                      Icons.chat_rounded,
+                                                      color: Colors
+                                                          .indigo.shade400,
+                                                      size: 16,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 2,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   );
@@ -187,13 +400,199 @@ class HomeScreen extends ConsumerWidget {
                                         color:
                                             Color.fromRGBO(92, 107, 192, 0.2),
                                         borderRadius: BorderRadius.all(
-                                            Radius.circular(8)),
+                                          Radius.circular(8),
+                                        ),
                                       ),
-                                      child: Column(
+                                      child: Stack(
+                                        fit: StackFit.expand,
                                         children: [
-                                          Text(company.name),
-                                          Text(company.rating.toString()),
-                                          Text(company.ratingCount.toString()),
+                                          ClipRRect(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(8),
+                                            ),
+                                            child: Image.network(
+                                              company.bannerPic,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          Positioned(
+                                            bottom: 10,
+                                            left: 10,
+                                            child: Container(
+                                              decoration: const BoxDecoration(
+                                                color: Color(0xFFE9EAFF),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(6),
+                                                ),
+                                              ),
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                6,
+                                                4,
+                                                6,
+                                                5,
+                                              ),
+                                              child: Text(
+                                                company.name,
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.black
+                                                      .withOpacity(0.8),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            top: 10,
+                                            right: 10,
+                                            child: Container(
+                                              decoration: const BoxDecoration(
+                                                color: Color(0xFFE9EAFF),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(6),
+                                                ),
+                                              ),
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                4,
+                                                2,
+                                                2,
+                                                2,
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    "0.1 km",
+                                                    style: GoogleFonts.inter(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color:
+                                                          Colors.grey.shade400,
+                                                    ),
+                                                  ),
+                                                  Icon(
+                                                    Icons.location_pin,
+                                                    size: 18,
+                                                    color:
+                                                        Colors.indigo.shade400,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            bottom: 10,
+                                            right: 10,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                Container(
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    color: Color(0xFFE9EAFF),
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                      Radius.circular(6),
+                                                    ),
+                                                  ),
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                    4,
+                                                    2,
+                                                    4,
+                                                    2,
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        company.rating
+                                                            .toString(),
+                                                        style:
+                                                            GoogleFonts.inter(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Colors
+                                                              .grey.shade400,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(width: 5),
+                                                      const Icon(
+                                                        Icons.grade_rounded,
+                                                        size: 18,
+                                                        color: Colors.amber,
+                                                      ),
+                                                      const SizedBox(width: 5),
+                                                      Text(
+                                                        company.ratingCount
+                                                            .toString(),
+                                                        style:
+                                                            GoogleFonts.inter(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Colors
+                                                              .grey.shade400,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Container(
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    color: Color(0xFFE9EAFF),
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                      Radius.circular(6),
+                                                    ),
+                                                  ),
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                    4,
+                                                    2,
+                                                    2,
+                                                    2,
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        company.commentCount
+                                                            .toString(),
+                                                        style:
+                                                            GoogleFonts.inter(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Colors
+                                                              .grey.shade400,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Icon(
+                                                        Icons.chat_rounded,
+                                                        color: Colors
+                                                            .indigo.shade400,
+                                                        size: 16,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 2,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -224,41 +623,77 @@ class HomeScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
+                const SizedBox(height: 5),
                 SizedBox(
-                  width: 500,
                   height: 100,
-                  child: ListView(
-                    clipBehavior: Clip.hardEdge,
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    children: ref.watch(getCategoriesProvider).when(
-                          data: (categories) {
-                            return categories.map(
-                              (category) {
-                                return Builder(
-                                  builder: (BuildContext context) {
-                                    return Container(
-                                      width: 100,
-                                      margin: const EdgeInsets.fromLTRB(
-                                          15, 0, 0, 0),
-                                      decoration: const BoxDecoration(
-                                        color:
-                                            Color.fromRGBO(92, 107, 192, 0.2),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8)),
-                                      ),
-                                      child: Text(category.picture),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8, right: 8),
+                    child: IntrinsicHeight(
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: ref.watch(getCategoriesProvider).when(
+                              data: (categories) {
+                                return categories.map(
+                                  (category) {
+                                    return Builder(
+                                      builder: (BuildContext context) {
+                                        return Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                height: 75,
+                                                width: 75,
+                                                margin:
+                                                    const EdgeInsets.fromLTRB(
+                                                        8, 0, 8, 0),
+                                                decoration: const BoxDecoration(
+                                                  color: Color.fromRGBO(
+                                                      92, 107, 192, 0.2),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(8),
+                                                  ),
+                                                ),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                    Radius.circular(8),
+                                                  ),
+                                                  child: Image.asset(
+                                                    AssetConstants
+                                                        .longLogoPurple,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Text(
+                                              category.name
+                                                  .replaceAll(" ", "\n"),
+                                              style: GoogleFonts.inter(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              maxLines: 2,
+                                            ),
+                                          ],
+                                        );
+                                      },
                                     );
                                   },
-                                );
+                                ).toList();
                               },
-                            ).toList();
-                          },
-                          error: ((error, stackTrace) {
-                            return [Text(error.toString())];
-                          }),
-                          loading: () => [const CircularProgressIndicator()],
-                        ),
+                              error: (error, stackTrace) {
+                                return [Text(error.toString())];
+                              },
+                              loading: () => [
+                                const CircularProgressIndicator(),
+                              ],
+                            ),
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -290,12 +725,17 @@ class HomeScreen extends ConsumerWidget {
                                         width: 50,
                                         height: 50,
                                         margin: const EdgeInsets.fromLTRB(
-                                            15, 5, 10, 5),
+                                          15,
+                                          5,
+                                          10,
+                                          5,
+                                        ),
                                         decoration: const BoxDecoration(
                                           color:
                                               Color.fromRGBO(92, 107, 192, 0.2),
                                           borderRadius: BorderRadius.all(
-                                              Radius.circular(8)),
+                                            Radius.circular(8),
+                                          ),
                                         ),
                                       ),
                                       Container(
