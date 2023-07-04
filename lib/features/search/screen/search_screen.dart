@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gurme/common/constants/route_constants.dart';
 import 'package:gurme/features/search/controller/search_controller.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key});
@@ -183,11 +186,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                             itemBuilder: (BuildContext context, int index) {
                               final item = items[index];
                               return ListTile(
+                                onTap: () {},
                                 title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const SizedBox(
-                                      height: 10,
+                                      height: 5,
                                     ),
                                     Row(
                                       crossAxisAlignment:
@@ -203,14 +207,32 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                             ),
                                             color: Colors.grey.shade200,
                                           ),
-                                        ),
-                                        const SizedBox(width: 15),
-                                        Text(
-                                          item.name,
-                                          style: GoogleFonts.inter(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.w600,
+                                          child: Image.network(
+                                            "src",
+                                            fit: BoxFit.cover,
                                           ),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              item.name,
+                                              style: GoogleFonts.inter(
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Text(
+                                              item.companyName,
+                                              style: GoogleFonts.inter(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                         const Spacer(),
                                         Column(
@@ -278,7 +300,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                       ],
                                     ),
                                     index != items.length - 1
-                                        ? const SizedBox(height: 15)
+                                        ? const SizedBox(height: 5)
                                         : const SizedBox(),
                                     index != items.length - 1
                                         ? Container(
@@ -290,11 +312,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                             height: 1,
                                             color: Colors.grey.shade300,
                                           )
-                                        : const SizedBox(),
+                                        : const SizedBox(height: 5),
                                   ],
                                 ),
-                                // TODO: add popup or navigate to restaurants
-                                onTap: () {},
                               );
                             },
                           ),
@@ -303,8 +323,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                     );
                   },
                   error: (error, stackTrace) => const Text("error"),
-                  loading: () => const Center(
-                    child: CircularProgressIndicator(),
+                  loading: () => Center(
+                    child: LoadingAnimationWidget.waveDots(
+                      color: Colors.indigo.shade400,
+                      size: 50,
+                    ),
                   ),
                 )
             : ref.watch(searchCompanyProvider).when(
@@ -319,16 +342,125 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                       itemBuilder: (BuildContext context, int index) {
                         final company = companies[index];
                         return ListTile(
-                          title: Text(company.name),
-                          // TODO: navigate to restaurants
-                          onTap: () {},
+                          onTap: () => context.pushNamed(
+                            RouteConstants.companyScreen,
+                            pathParameters: {"id": company.id},
+                          ),
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(8),
+                                      ),
+                                      color: Colors.grey.shade200,
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(8),
+                                      ),
+                                      child: Image.network(
+                                        company.bannerPic,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    company.name,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            company.rating.toString(),
+                                            style: GoogleFonts.inter(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              color: Colors.grey.shade400,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 5),
+                                          const Icon(
+                                            Icons.grade_rounded,
+                                            size: 18,
+                                            color: Colors.amber,
+                                          ),
+                                          const SizedBox(width: 5),
+                                          Text(
+                                            company.ratingCount.toString(),
+                                            style: GoogleFonts.inter(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              color: Colors.grey.shade400,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "0.1 km",
+                                            style: GoogleFonts.inter(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              color: Colors.grey.shade400,
+                                            ),
+                                          ),
+                                          Icon(
+                                            Icons.location_pin,
+                                            size: 16,
+                                            color: Colors.indigo.shade400,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              index != companies.length - 1
+                                  ? const SizedBox(height: 5)
+                                  : const SizedBox(),
+                              index != companies.length - 1
+                                  ? Container(
+                                      margin: const EdgeInsets.fromLTRB(
+                                          80, 0, 20, 0),
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 1,
+                                      color: Colors.grey.shade300,
+                                    )
+                                  : const SizedBox(height: 5),
+                            ],
+                          ),
                         );
                       },
                     );
                   },
                   error: (error, stackTrace) => const Text("error"),
-                  loading: () => const Center(
-                    child: CircularProgressIndicator(),
+                  loading: () => Center(
+                    child: LoadingAnimationWidget.waveDots(
+                      color: Colors.indigo.shade400,
+                      size: 50,
+                    ),
                   ),
                 ),
       ),

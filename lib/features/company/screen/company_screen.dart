@@ -102,6 +102,44 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
                               fit: BoxFit.cover,
                             ),
                           ),
+                          Positioned(
+                            bottom: 10,
+                            right: 10,
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFFE9EAFF),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(6),
+                                  ),
+                                ),
+                                padding: const EdgeInsets.fromLTRB(
+                                  4,
+                                  2,
+                                  2,
+                                  2,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "Haritada Göster",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Icon(
+                                      Icons.near_me_rounded,
+                                      size: 18,
+                                      color: Colors.indigo.shade400,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -115,63 +153,81 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
                         titlePadding: EdgeInsets.fromLTRB(
                             15, MediaQuery.of(context).padding.top + 5, 15, 0),
                         centerTitle: false,
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  companyData.company.name,
-                                  style: GoogleFonts.inter(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
+                        title: Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    companyData.company.name,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
                                   ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  softWrap: true,
                                 ),
                               ),
-                            ),
-                            const Spacer(),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      companyData.company.rating.toString(),
-                                      style: GoogleFonts.inter(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.grey.shade400,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        companyData.company.rating.toString(),
+                                        style: GoogleFonts.inter(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.grey.shade400,
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(width: 5),
-                                    const Icon(
-                                      Icons.grade_rounded,
-                                      size: 18,
-                                      color: Colors.amber,
-                                    ),
-                                    const SizedBox(width: 5),
-                                    Text(
-                                      companyData.company.ratingCount
-                                          .toString(),
-                                      style: GoogleFonts.inter(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.grey.shade400,
+                                      const SizedBox(width: 5),
+                                      const Icon(
+                                        Icons.grade_rounded,
+                                        size: 18,
+                                        color: Colors.amber,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                              ],
-                            ),
-                          ],
+                                      const SizedBox(width: 5),
+                                      Text(
+                                        companyData.company.ratingCount
+                                            .toString(),
+                                        style: GoogleFonts.inter(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.grey.shade400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "0.1 km",
+                                        style: GoogleFonts.inter(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.grey.shade400,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Icon(
+                                        Icons.location_pin,
+                                        size: 18,
+                                        color: Colors.indigo.shade400,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -198,9 +254,182 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(8)),
                                   ),
-                                  child: Column(
+                                  child: Stack(
+                                    fit: StackFit.expand,
                                     children: [
-                                      Text(popularItem.toString()),
+                                      ClipRRect(
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(8),
+                                        ),
+                                        child: Image.network(
+                                          popularItem.picture,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 10,
+                                        left: 10,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              decoration: const BoxDecoration(
+                                                color: Color(0xFFE9EAFF),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(6),
+                                                ),
+                                              ),
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                6,
+                                                4,
+                                                6,
+                                                5,
+                                              ),
+                                              child: Text(
+                                                popularItem.companyName,
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.black
+                                                      .withOpacity(0.8),
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Container(
+                                              decoration: const BoxDecoration(
+                                                color: Color(0xFFE9EAFF),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(6),
+                                                ),
+                                              ),
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                6,
+                                                4,
+                                                6,
+                                                5,
+                                              ),
+                                              child: Text(
+                                                popularItem.name,
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.black
+                                                      .withOpacity(0.8),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 10,
+                                        right: 10,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Container(
+                                              decoration: const BoxDecoration(
+                                                color: Color(0xFFE9EAFF),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(6),
+                                                ),
+                                              ),
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                4,
+                                                2,
+                                                4,
+                                                2,
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    popularItem.rating
+                                                        .toString(),
+                                                    style: GoogleFonts.inter(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Colors.black
+                                                          .withOpacity(0.8),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 5),
+                                                  const Icon(
+                                                    Icons.grade_rounded,
+                                                    size: 18,
+                                                    color: Colors.amber,
+                                                  ),
+                                                  const SizedBox(width: 5),
+                                                  Text(
+                                                    popularItem.ratingCount
+                                                        .toString(),
+                                                    style: GoogleFonts.inter(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Colors.black
+                                                          .withOpacity(0.8),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Container(
+                                              decoration: const BoxDecoration(
+                                                color: Color(0xFFE9EAFF),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(6),
+                                                ),
+                                              ),
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                4,
+                                                2,
+                                                2,
+                                                2,
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    popularItem.commentCount
+                                                        .toString(),
+                                                    style: GoogleFonts.inter(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Colors.black
+                                                          .withOpacity(0.8),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Icon(
+                                                    Icons.chat_rounded,
+                                                    color:
+                                                        Colors.indigo.shade400,
+                                                    size: 16,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 2,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 );
@@ -286,6 +515,10 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
                                                           ),
                                                           color: Colors
                                                               .grey.shade200,
+                                                        ),
+                                                        child: Image.network(
+                                                          "src",
+                                                          fit: BoxFit.cover,
                                                         ),
                                                       ),
                                                       const SizedBox(width: 15),
