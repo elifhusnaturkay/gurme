@@ -4,6 +4,7 @@ import 'dart:convert';
 class Item {
   final String id;
   final String name;
+  final String lowercaseName;
   final String categoryId;
   final String companyId;
   final String companyName;
@@ -14,6 +15,7 @@ class Item {
   Item({
     required this.id,
     required this.name,
+    required this.lowercaseName,
     required this.categoryId,
     required this.companyId,
     required this.companyName,
@@ -26,6 +28,7 @@ class Item {
   Item copyWith({
     String? id,
     String? name,
+    String? lowercaseName,
     String? categoryId,
     String? companyId,
     String? companyName,
@@ -37,6 +40,7 @@ class Item {
     return Item(
       id: id ?? this.id,
       name: name ?? this.name,
+      lowercaseName: lowercaseName ?? this.lowercaseName,
       categoryId: categoryId ?? this.categoryId,
       companyId: companyId ?? this.companyId,
       companyName: companyName ?? this.companyName,
@@ -51,6 +55,7 @@ class Item {
     return <String, dynamic>{
       'id': id,
       'name': name,
+      'lowercaseName': lowercaseName,
       'categoryId': categoryId,
       'companyId': companyId,
       'companyName': companyName,
@@ -65,6 +70,7 @@ class Item {
     return Item(
       id: map['id'] ?? '',
       name: map['name'] ?? '',
+      lowercaseName: map['lowercaseName'] ?? '',
       categoryId: map['categoryId'] ?? '',
       companyId: map['companyId'] ?? '',
       companyName: map['companyName'] ?? '',
@@ -82,7 +88,7 @@ class Item {
 
   @override
   String toString() {
-    return 'Item(id: $id, name: $name, categoryId: $categoryId, companyId: $companyId, companyName: $companyName, categoryName: $categoryName, rating: $rating, ratingCount: $ratingCount, commentCount: $commentCount)';
+    return 'Item(id: $id, name: $name, lowercaseName: $lowercaseName, categoryId: $categoryId, companyId: $companyId, companyName: $companyName, categoryName: $categoryName, rating: $rating, ratingCount: $ratingCount, commentCount: $commentCount)';
   }
 
   @override
@@ -91,6 +97,7 @@ class Item {
 
     return other.id == id &&
         other.name == name &&
+        other.lowercaseName == lowercaseName &&
         other.categoryId == categoryId &&
         other.companyId == companyId &&
         other.companyName == companyName &&
@@ -104,6 +111,7 @@ class Item {
   int get hashCode {
     return id.hashCode ^
         name.hashCode ^
+        lowercaseName.hashCode ^
         categoryId.hashCode ^
         companyId.hashCode ^
         companyName.hashCode ^

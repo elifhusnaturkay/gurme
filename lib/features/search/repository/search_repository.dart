@@ -21,9 +21,11 @@ class SearchRepository {
       return Stream.value([]);
     }
 
+    String lowercaseQuery = query.toLowerCase();
+
     return _items
-        .where('name', isGreaterThanOrEqualTo: query)
-        .where('name', isLessThan: '${query}z')
+        .where('lowercaseName', isGreaterThanOrEqualTo: lowercaseQuery)
+        .where('lowercaseName', isLessThanOrEqualTo: '$lowercaseQuery\uf8ff')
         .snapshots()
         .map((event) {
       List<Item> items = [];
@@ -39,9 +41,11 @@ class SearchRepository {
       return Stream.value([]);
     }
 
+    String lowercaseQuery = query.toLowerCase();
+
     return _company
-        .where('name', isGreaterThanOrEqualTo: query)
-        .where('name', isLessThan: '${query}z')
+        .where('lowercaseName', isGreaterThanOrEqualTo: lowercaseQuery)
+        .where('lowercaseName', isLessThanOrEqualTo: '$lowercaseQuery\uf8ff')
         .snapshots()
         .map((event) {
       List<Company> companies = [];

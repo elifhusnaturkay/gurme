@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 class Company {
   final String id;
   final String name;
+  final String lowercaseName;
   final String bannerPic;
   final double rating;
   final int ratingCount;
@@ -14,6 +15,7 @@ class Company {
   Company({
     required this.id,
     required this.name,
+    required this.lowercaseName,
     required this.bannerPic,
     required this.rating,
     required this.ratingCount,
@@ -24,6 +26,7 @@ class Company {
   Company copyWith({
     String? id,
     String? name,
+    String? lowercaseName,
     String? bannerPic,
     double? rating,
     int? ratingCount,
@@ -33,6 +36,7 @@ class Company {
     return Company(
       id: id ?? this.id,
       name: name ?? this.name,
+      lowercaseName: lowercaseName ?? this.lowercaseName,
       bannerPic: bannerPic ?? this.bannerPic,
       rating: rating ?? this.rating,
       ratingCount: ratingCount ?? this.ratingCount,
@@ -45,6 +49,7 @@ class Company {
     return <String, dynamic>{
       'id': id,
       'name': name,
+      'lowercaseName': lowercaseName,
       'bannerPic': bannerPic,
       'rating': rating,
       'ratingCount': ratingCount,
@@ -57,6 +62,7 @@ class Company {
     return Company(
       id: map['id'] ?? '',
       name: map['name'] ?? '',
+      lowercaseName: map['lowercaseName'] ?? '',
       bannerPic: map['bannerPic'] ?? '',
       rating: map['rating'] ?? 0.0,
       ratingCount: map['ratingCount'] ?? 0,
@@ -72,7 +78,7 @@ class Company {
 
   @override
   String toString() {
-    return 'Company(id: $id, name: $name, bannerPic: $bannerPic, rating: $rating, ratingCount: $ratingCount, commentCount: $commentCount, categoryIds: $categoryIds)';
+    return 'Company(id: $id, name: $name, lowercaseName: $lowercaseName, bannerPic: $bannerPic, rating: $rating, ratingCount: $ratingCount, commentCount: $commentCount, categoryIds: $categoryIds)';
   }
 
   @override
@@ -81,6 +87,7 @@ class Company {
 
     return other.id == id &&
         other.name == name &&
+        other.lowercaseName == lowercaseName &&
         other.bannerPic == bannerPic &&
         other.rating == rating &&
         other.ratingCount == ratingCount &&
@@ -92,6 +99,7 @@ class Company {
   int get hashCode {
     return id.hashCode ^
         name.hashCode ^
+        lowercaseName.hashCode ^
         bannerPic.hashCode ^
         rating.hashCode ^
         ratingCount.hashCode ^
