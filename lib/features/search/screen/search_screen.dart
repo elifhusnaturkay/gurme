@@ -172,7 +172,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                   data: (items) {
                     if (items.isEmpty && searchController.text.length > 3) {
                       return const Center(
-                        child: Text('No suggestions found.'),
+                        child: Text('Maalesef aradığınız ürün bulunamadı'),
                       );
                     }
                     return Column(
@@ -311,7 +311,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                   data: (companies) {
                     if (companies.isEmpty && searchController.text.length > 3) {
                       return const Center(
-                        child: Text('No suggestions found.'),
+                        child: Text('Maalesef aradığınız restoran bulunamadı'),
                       );
                     }
                     return ListView.builder(
