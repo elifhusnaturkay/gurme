@@ -82,8 +82,8 @@ class AuthRepository {
 
   FutureEither<void> signOut() async {
     try {
-      await _googleSignIn.signOut();
       await _auth.signOut();
+      await _googleSignIn.signOut();
     } on FirebaseException catch (e) {
       return left(e.toString());
     } catch (e) {
