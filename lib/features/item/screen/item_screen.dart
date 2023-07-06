@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gurme/common/constants/asset_constants.dart';
+import 'package:gurme/common/widgets/loading_spinner.dart';
+import 'package:gurme/features/item/controller/item_controller.dart';
+import 'package:gurme/models/item_model.dart';
 
 Future<dynamic> showPopUpScreen({
   required BuildContext context,
@@ -24,9 +26,11 @@ Future<dynamic> showPopUpScreen({
 }
 
 class ItemScreen extends ConsumerStatefulWidget {
+  final Item _item;
   const ItemScreen({
     super.key,
-  });
+    required Item item,
+  }) : _item = item;
 
   @override
   ConsumerState<ItemScreen> createState() => _ItemScreenState();
@@ -112,7 +116,7 @@ class _ItemScreenState extends ConsumerState<ItemScreen>
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(8),
                               child: Image.network(
-                                AssetConstants.defaultBannerPic,
+                                widget._item.picture,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -125,7 +129,7 @@ class _ItemScreenState extends ConsumerState<ItemScreen>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Limonata",
+                                    widget._item.name,
                                     style: GoogleFonts.inter(
                                       fontSize: 32,
                                       fontWeight: FontWeight.w600,
@@ -135,7 +139,7 @@ class _ItemScreenState extends ConsumerState<ItemScreen>
                                     softWrap: true,
                                   ),
                                   Text(
-                                    "Restoran Adı",
+                                    widget._item.companyName,
                                     style: GoogleFonts.inter(
                                       fontSize: 20,
                                       fontWeight: FontWeight.normal,
@@ -167,48 +171,60 @@ class _ItemScreenState extends ConsumerState<ItemScreen>
                   ],
                 ),
               ),
-              Expanded(
-                child: ListView.builder(
-                  controller: scrollController,
-                  shrinkWrap: true,
-                  itemCount: 100,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 4,
-                        vertical: 1,
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.indigo.shade400.withOpacity(0.2),
-                        ),
-                        child: ListTile(
-                          title: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              CircleAvatar(
-                                radius: 26,
-                                foregroundImage: NetworkImage(
-                                  AssetConstants.defaultProfilePic,
+              ref.watch(commentDataProvider(widget._item.id)).when(
+                    data: (commentData) {
+                      return Expanded(
+                        child: ListView.builder(
+                          controller: scrollController,
+                          shrinkWrap: true,
+                          itemCount: commentData.comments.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 4,
+                                vertical: 1,
+                              ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color:
+                                      Colors.indigo.shade400.withOpacity(0.2),
+                                ),
+                                child: ListTile(
+                                  title: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 26,
+                                        foregroundImage: NetworkImage(
+                                          commentData.users[index].profilePic,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Text(
+                                        commentData.users[index].name,
+                                        style: GoogleFonts.inter(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                              const SizedBox(width: 5),
-                              Text(
-                                "İsim Soyisim",
-                                style: GoogleFonts.inter(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
+                            );
+                          },
                         ),
-                      ),
-                    );
-                  },
-                ),
-              )
+                      );
+                    },
+                    error: (error, stackTrace) {
+                      return Text(error.toString());
+                    },
+                    loading: () => const LoadingSpinner(
+                      height: 50,
+                      width: 50,
+                    ),
+                  )
             ],
           );
         },
