@@ -758,7 +758,7 @@ class HomeScreen extends ConsumerWidget {
                                           ),
                                         ),
                                         child: Image.network(
-                                          "src",
+                                          randomItem.picture,
                                           fit: BoxFit.cover,
                                         ),
                                       ),
