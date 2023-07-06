@@ -689,7 +689,10 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
           error: (error, stackTrace) => Center(child: Text(error.toString())),
           loading: () => const Scaffold(
             body: Center(
-              child: LoadingSpinner(),
+              child: LoadingSpinner(
+                height: 75,
+                width: 75,
+              ),
             ),
           ),
         );
