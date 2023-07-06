@@ -4,9 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gurme/common/widgets/loading_spinner.dart';
+import 'package:gurme/common/constants/asset_constants.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
-import 'package:gurme/features/splash/controller/splash_controller.dart';
 import 'package:gurme/firebase_options.dart';
 import 'package:gurme/models/user_model.dart';
 import 'package:gurme/router.dart';
@@ -18,7 +17,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(
     ProviderScope(
       child: DevicePreview(enabled: true, builder: (context) => const MyApp()),
@@ -47,32 +46,42 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ref.watch(authStateChangeProvider).when(
-          data: (user) {
-            if (user != null) {
-              getUserData(user);
-            }
-            if (userModel == null) {
-              ref
-                  .read(authControllerProvider.notifier)
-                  .signInAnonymously(context);
-            }
-            return MaterialApp.router(
-              debugShowCheckedModeBanner: false,
-              title: 'Gurme',
-              locale: DevicePreview.locale(context),
-              builder: DevicePreview.appBuilder,
-              routeInformationParser:
-                  ref.watch(routerProvider).routeInformationParser,
-              routeInformationProvider:
-                  ref.watch(routerProvider).routeInformationProvider,
-              routerDelegate: ref.watch(routerProvider).routerDelegate,
-              theme: ref.watch(themeProvider),
-            );
-          },
-          error: (error, stackTrace) {
-            return Text(error.toString());
-          },
-          loading: () => const LoadingSpinner(),
+      data: (user) {
+        if (user != null) {
+          getUserData(user);
+        }
+        if (userModel == null) {
+          ref.read(authControllerProvider.notifier).signInAnonymously(context);
+        }
+        return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          title: 'Gurme',
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
+          routeInformationParser:
+              ref.watch(routerProvider).routeInformationParser,
+          routeInformationProvider:
+              ref.watch(routerProvider).routeInformationProvider,
+          routerDelegate: ref.watch(routerProvider).routerDelegate,
+          theme: ref.watch(themeProvider),
         );
+      },
+      error: (error, stackTrace) {
+        return Text(error.toString());
+      },
+      loading: () {
+        return MaterialApp(
+          home: Container(
+            color: Colors.indigo.shade400,
+            child: Center(
+              child: Image.asset(
+                AssetConstants.longLogoWhite,
+                width: MediaQuery.of(context).size.width / 1.5,
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }
