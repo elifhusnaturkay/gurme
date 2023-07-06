@@ -191,7 +191,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                   showPopUpScreen(
                                     context: context,
                                     builder: (context) {
-                                      return const ItemScreen();
+                                      return ItemScreen(
+                                        item: item,
+                                      );
                                     },
                                   );
                                 },
@@ -216,7 +218,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                             color: Colors.grey.shade200,
                                           ),
                                           child: Image.network(
-                                            "src",
+                                            item.picture,
                                             fit: BoxFit.cover,
                                           ),
                                         ),
