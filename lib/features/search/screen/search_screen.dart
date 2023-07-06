@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/route_constants.dart';
+import 'package:gurme/features/item/screen/item_screen.dart';
 import 'package:gurme/features/search/controller/search_controller.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -186,7 +187,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                             itemBuilder: (BuildContext context, int index) {
                               final item = items[index];
                               return ListTile(
-                                onTap: () {},
+                                onTap: () {
+                                  showPopUpScreen(
+                                    context: context,
+                                    builder: (context) {
+                                      return const ItemScreen();
+                                    },
+                                  );
+                                },
                                 title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
