@@ -1,33 +1,38 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:gurme/models/user_model.dart';
+
 class Comment {
   final String id;
-  final String userId;
+  final UserModel user;
   final String itemId;
   final int rating;
+  final String userRef;
   final String? text;
-
   Comment({
     required this.id,
-    required this.userId,
+    required this.user,
     required this.itemId,
     required this.rating,
+    required this.userRef,
     this.text,
   });
 
   Comment copyWith({
     String? id,
-    String? userId,
+    UserModel? user,
     String? itemId,
     int? rating,
+    String? userRef,
     String? text,
   }) {
     return Comment(
       id: id ?? this.id,
-      userId: userId ?? this.userId,
+      user: user ?? this.user,
       itemId: itemId ?? this.itemId,
       rating: rating ?? this.rating,
+      userRef: userRef ?? this.userRef,
       text: text ?? this.text,
     );
   }
@@ -35,9 +40,10 @@ class Comment {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'userId': userId,
+      'user': user.toMap(),
       'itemId': itemId,
       'rating': rating,
+      'userRef': userRef,
       'text': text,
     };
   }
@@ -45,9 +51,10 @@ class Comment {
   factory Comment.fromMap(Map<String, dynamic> map) {
     return Comment(
       id: map['id'] ?? '',
-      userId: map['userId'] ?? '',
+      user: UserModel.fromMap(map['user']),
       itemId: map['itemId'] ?? '',
       rating: map['rating'] ?? 0,
+      userRef: map['userRef'] ?? '',
       text: map['text'],
     );
   }
@@ -59,7 +66,7 @@ class Comment {
 
   @override
   String toString() {
-    return 'Comment(id: $id, userId: $userId, itemId: $itemId, rating: $rating, text: $text)';
+    return 'Comment(id: $id, user: $user, itemId: $itemId, rating: $rating, userRef: $userRef, text: $text)';
   }
 
   @override
@@ -67,18 +74,20 @@ class Comment {
     if (identical(this, other)) return true;
 
     return other.id == id &&
-        other.userId == userId &&
+        other.user == user &&
         other.itemId == itemId &&
         other.rating == rating &&
+        other.userRef == userRef &&
         other.text == text;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-        userId.hashCode ^
+        user.hashCode ^
         itemId.hashCode ^
         rating.hashCode ^
+        userRef.hashCode ^
         text.hashCode;
   }
 }

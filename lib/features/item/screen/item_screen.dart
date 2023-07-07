@@ -171,13 +171,13 @@ class _ItemScreenState extends ConsumerState<ItemScreen>
                   ],
                 ),
               ),
-              ref.watch(commentDataProvider(widget._item.id)).when(
-                    data: (commentData) {
+              ref.watch(getCommentsProvider(widget._item.id)).when(
+                    data: (comments) {
                       return Expanded(
                         child: ListView.builder(
                           controller: scrollController,
                           shrinkWrap: true,
-                          itemCount: commentData.comments.length,
+                          itemCount: comments.length,
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: const EdgeInsets.symmetric(
@@ -197,12 +197,12 @@ class _ItemScreenState extends ConsumerState<ItemScreen>
                                       CircleAvatar(
                                         radius: 26,
                                         foregroundImage: NetworkImage(
-                                          commentData.users[index].profilePic,
+                                          comments[index].user.profilePic,
                                         ),
                                       ),
                                       const SizedBox(width: 5),
                                       Text(
-                                        commentData.users[index].name,
+                                        comments[index].user.name,
                                         style: GoogleFonts.inter(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w600,

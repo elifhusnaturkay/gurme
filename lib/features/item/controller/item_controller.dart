@@ -15,19 +15,11 @@ class CommentData {
   CommentData({required this.comments, required this.users});
 }
 
-final commentDataProvider = FutureProvider.family
-    .autoDispose<CommentData, String>((ref, String id) async {
-  final comments =
-      await ref.watch(itemControllerProvider.notifier).getComments(id);
-
-  List<String> userIds = [];
-  for (var comment in comments) {
-    userIds.add(comment.userId);
-  }
-  final users =
-      await ref.watch(itemControllerProvider.notifier).getUsers(userIds);
-  return CommentData(comments: comments, users: users);
-});
+final getCommentsProvider = FutureProvider.family.autoDispose(
+  (ref, String itemId) {
+    return ref.watch(itemControllerProvider.notifier).getComments(itemId);
+  },
+);
 
 class ItemController extends StateNotifier<bool> {
   final ItemRepository _itemRepository;
@@ -38,9 +30,5 @@ class ItemController extends StateNotifier<bool> {
 
   Future<List<Comment>> getComments(String itemId) async {
     return await _itemRepository.getComments(itemId);
-  }
-
-  Future<List<UserModel>> getUsers(List<String> userIds) async {
-    return await _itemRepository.getUsers(userIds);
   }
 }

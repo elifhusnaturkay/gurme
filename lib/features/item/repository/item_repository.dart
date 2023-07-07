@@ -26,21 +26,22 @@ class ItemRepository {
     for (var comment in querySnapshot.docs) {
       comments.add(Comment.fromMap(comment.data() as Map<String, dynamic>));
     }
-    return comments;
-  }
 
-  Future<List<UserModel>> getUsers(List<String> userIds) async {
-    final usersMap = <String, UserModel>{};
-    final querySnapshot = await _users.where('uid', whereIn: userIds).get();
-
-    for (var user in querySnapshot.docs) {
-      final userModel = UserModel.fromMap(user.data() as Map<String, dynamic>);
-      usersMap[userModel.uid] = userModel;
+    for (var comment in comments) {
+      final querySnapshot = await _users.doc(comment.userRef).get();
+      final userData =
+          UserModel.fromMap(querySnapshot.data() as Map<String, dynamic>);
+      if (comment.user != userData) {
+        comment = comment.copyWith(
+            id: comment.id,
+            user: userData,
+            itemId: comment.itemId,
+            rating: comment.rating,
+            text: comment.text,
+            userRef: comment.userRef);
+        _firestore.collection('comments').add(comment as Map<String, dynamic>);
+      }
     }
-
-    final users =
-        userIds.map((id) => usersMap[id]).whereType<UserModel>().toList();
-
-    return users;
+    return comments;
   }
 }
