@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gurme/common/widgets/loading_spinner.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
-import 'package:gurme/features/splash/controller/splash_controller.dart';
 import 'package:gurme/firebase_options.dart';
 import 'package:gurme/models/user_model.dart';
 import 'package:gurme/router.dart';
