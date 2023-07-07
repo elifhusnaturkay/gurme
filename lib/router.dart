@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -15,9 +16,23 @@ final routerProvider = Provider<GoRouter>(
     return GoRouter(
       routes: [
         GoRoute(
-          path: '/splash',
+          path: '/',
           pageBuilder: (context, state) {
-            return const MaterialPage(child: SplashScreen());
+            return CustomTransitionPage(
+              key: state.pageKey,
+              child: const SplashScreen(),
+              transitionDuration: const Duration(seconds: 0),
+              reverseTransitionDuration: const Duration(seconds: 2),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return SlideTransition(
+                  position: secondaryAnimation.drive(
+                      Tween<Offset>(begin: Offset.zero, end: const Offset(0, 1))
+                          .chain(CurveTween(curve: Curves.ease))),
+                  child: child,
+                );
+              },
+            );
           },
         ),
         GoRoute(
@@ -67,7 +82,7 @@ final routerProvider = Provider<GoRouter>(
         ),
         GoRoute(
           name: RouteConstants.homeScreen,
-          path: "/",
+          path: "/home",
           pageBuilder: (context, state) {
             return const MaterialPage(child: HomeScreen());
           },
@@ -82,7 +97,7 @@ final routerProvider = Provider<GoRouter>(
         ),
         GoRoute(
           name: RouteConstants.searchScreen,
-          path: "/company",
+          path: "/search",
           pageBuilder: (context, state) {
             return const MaterialPage(
               child: SearchScreen(),
