@@ -30,6 +30,25 @@ dependencies:
   # navigation
   go_router: ^8.0.3
 
+  # location
+  geolocator: ^9.0.2
+
+  # utils
+  fpdart: ^0.6.0
+  fluttertoast: ^8.2.2
+
+  # url
+  url_launcher: ^6.1.12
+
+  # ui
+  google_fonts: ^4.0.0
+  carousel_slider: ^4.2.1
+  device_preview: ^1.1.0
+  scroll_to_index: ^3.0.1
+  rect_getter: ^1.1.0
+  scrollable_positioned_list: ^0.3.8
+  loading_animation_widget: ^1.2.0+4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
