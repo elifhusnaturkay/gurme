@@ -1,9 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gurme/common/utils/location_utils.dart';
 import 'package:gurme/common/widgets/loading_spinner.dart';
 import 'package:gurme/core/providers/global_keys.dart';
+import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/company/controller/company_controller.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
@@ -80,6 +83,12 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
 
   @override
   Widget build(BuildContext context) {
+    GeoPoint? userLocation;
+    if (ref.read(userProvider.notifier).state?.currentLocation != null) {
+      userLocation = GeoPoint(
+          ref.read(userProvider.notifier).state!.currentLocation!.latitude,
+          ref.read(userProvider.notifier).state!.currentLocation!.longitude);
+    }
     return ref.watch(companyDataProvider(widget._id)).when(
           data: (companyData) {
             _tabController = TabController(
@@ -106,7 +115,10 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
                             bottom: 10,
                             right: 10,
                             child: GestureDetector(
-                              onTap: () {},
+                              onTap: () async {
+                                return await LocationUtils.showOnMap(
+                                    context, companyData.company.location);
+                              },
                               child: Container(
                                 decoration: const BoxDecoration(
                                   color: Color(0xFFE9EAFF),
@@ -206,24 +218,31 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
                                   const SizedBox(
                                     height: 5,
                                   ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "0.1 km",
-                                        style: GoogleFonts.inter(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.grey.shade400,
+                                  if (userLocation != null)
+                                    Row(
+                                      children: [
+                                        Text(
+                                          LocationUtils.calculateDistance(
+                                              userLocation.latitude,
+                                              userLocation.longitude,
+                                              companyData
+                                                  .company.location.latitude,
+                                              companyData
+                                                  .company.location.longitude),
+                                          style: GoogleFonts.inter(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.grey.shade400,
+                                          ),
                                         ),
-                                      ),
-                                      const SizedBox(width: 5),
-                                      Icon(
-                                        Icons.location_pin,
-                                        size: 18,
-                                        color: Colors.indigo.shade400,
-                                      ),
-                                    ],
-                                  ),
+                                        const SizedBox(width: 5),
+                                        Icon(
+                                          Icons.location_pin,
+                                          size: 18,
+                                          color: Colors.indigo.shade400,
+                                        ),
+                                      ],
+                                    ),
                                 ],
                               ),
                             ],
@@ -517,7 +536,7 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
                                                               .grey.shade200,
                                                         ),
                                                         child: Image.network(
-                                                          "src",
+                                                          item.picture,
                                                           fit: BoxFit.cover,
                                                         ),
                                                       ),
