@@ -717,13 +717,20 @@ class HomeScreen extends ConsumerWidget {
                                             ),
                                           ),
                                           const SizedBox(height: 5),
-                                          Text(
-                                            category.name.replaceAll(" ", "\n"),
-                                            style: GoogleFonts.inter(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
+                                          SizedBox(
+                                            width: 100,
+                                            height: 40,
+                                            child: Text(
+                                              category.name,
+                                              style: GoogleFonts.inter(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              softWrap: true,
+                                              textAlign: TextAlign.center,
                                             ),
-                                            maxLines: 2,
                                           ),
                                         ],
                                       );
@@ -783,9 +790,13 @@ class HomeScreen extends ConsumerWidget {
                                             Radius.circular(8),
                                           ),
                                         ),
-                                        child: Image.network(
-                                          randomItem.picture,
-                                          fit: BoxFit.cover,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          child: Image.network(
+                                            randomItem.picture,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
                                       Container(
