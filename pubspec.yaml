@@ -37,6 +37,9 @@ dependencies:
   fpdart: ^0.6.0
   fluttertoast: ^8.2.2
 
+  # url
+  url_launcher: ^6.1.12
+
   # ui
   google_fonts: ^4.0.0
   carousel_slider: ^4.2.1
