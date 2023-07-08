@@ -157,7 +157,7 @@ class AuthRepository {
 
       UserModel userModel = UserModel(
         name: 'Misafir',
-        profilePic: AssetConstants.anonymousUser,
+        profilePic: AssetConstants.defaultProfilePic,
         uid: userCredential.user!.uid,
         isAuthenticated: false,
         comments: [],
