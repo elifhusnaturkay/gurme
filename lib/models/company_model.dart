@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class Company {
@@ -11,6 +12,7 @@ class Company {
   final double rating;
   final int ratingCount;
   final int commentCount;
+  final GeoPoint location;
   final List<String> categoryIds;
   Company({
     required this.id,
@@ -20,6 +22,7 @@ class Company {
     required this.rating,
     required this.ratingCount,
     required this.commentCount,
+    required this.location,
     required this.categoryIds,
   });
 
@@ -31,6 +34,7 @@ class Company {
     double? rating,
     int? ratingCount,
     int? commentCount,
+    GeoPoint? location,
     List<String>? categoryIds,
   }) {
     return Company(
@@ -41,6 +45,7 @@ class Company {
       rating: rating ?? this.rating,
       ratingCount: ratingCount ?? this.ratingCount,
       commentCount: commentCount ?? this.commentCount,
+      location: location ?? this.location,
       categoryIds: categoryIds ?? this.categoryIds,
     );
   }
@@ -54,6 +59,7 @@ class Company {
       'rating': rating,
       'ratingCount': ratingCount,
       'commentCount': commentCount,
+      'location': location,
       'categoryIds': categoryIds,
     };
   }
@@ -67,6 +73,7 @@ class Company {
       rating: map['rating'] ?? 0.0,
       ratingCount: map['ratingCount'] ?? 0,
       commentCount: map['commentCount'] ?? 0,
+      location: map['location'],
       categoryIds: List<String>.from(map['categoryIds']),
     );
   }
@@ -78,7 +85,7 @@ class Company {
 
   @override
   String toString() {
-    return 'Company(id: $id, name: $name, lowercaseName: $lowercaseName, bannerPic: $bannerPic, rating: $rating, ratingCount: $ratingCount, commentCount: $commentCount, categoryIds: $categoryIds)';
+    return 'Company(id: $id, name: $name, lowercaseName: $lowercaseName, bannerPic: $bannerPic, rating: $rating, ratingCount: $ratingCount, commentCount: $commentCount, location: $location, categoryIds: $categoryIds)';
   }
 
   @override
@@ -92,6 +99,7 @@ class Company {
         other.rating == rating &&
         other.ratingCount == ratingCount &&
         other.commentCount == commentCount &&
+        other.location == location &&
         listEquals(other.categoryIds, categoryIds);
   }
 
@@ -104,6 +112,7 @@ class Company {
         rating.hashCode ^
         ratingCount.hashCode ^
         commentCount.hashCode ^
+        location.hashCode ^
         categoryIds.hashCode;
   }
 }

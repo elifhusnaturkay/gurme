@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Item {
   final String id;
   final String picture;
@@ -13,6 +15,7 @@ class Item {
   final double rating;
   final int ratingCount;
   final int commentCount;
+  final GeoPoint location;
   Item({
     required this.id,
     required this.picture,
@@ -25,6 +28,7 @@ class Item {
     required this.rating,
     required this.ratingCount,
     required this.commentCount,
+    required this.location,
   });
 
   Item copyWith({
@@ -39,6 +43,7 @@ class Item {
     double? rating,
     int? ratingCount,
     int? commentCount,
+    GeoPoint? location,
   }) {
     return Item(
       id: id ?? this.id,
@@ -52,6 +57,7 @@ class Item {
       rating: rating ?? this.rating,
       ratingCount: ratingCount ?? this.ratingCount,
       commentCount: commentCount ?? this.commentCount,
+      location: location ?? this.location,
     );
   }
 
@@ -68,6 +74,7 @@ class Item {
       'rating': rating,
       'ratingCount': ratingCount,
       'commentCount': commentCount,
+      'location': location,
     };
   }
 
@@ -84,6 +91,7 @@ class Item {
       rating: map['rating'] ?? 0.0,
       ratingCount: map['ratingCount'] ?? 0,
       commentCount: map['commentCount'] ?? 0,
+      location: map['location'],
     );
   }
 
@@ -94,7 +102,7 @@ class Item {
 
   @override
   String toString() {
-    return 'Item(id: $id, picture: $picture, name: $name, lowercaseName: $lowercaseName, categoryId: $categoryId, companyId: $companyId, companyName: $companyName, categoryName: $categoryName, rating: $rating, ratingCount: $ratingCount, commentCount: $commentCount)';
+    return 'Item(id: $id, picture: $picture, name: $name, lowercaseName: $lowercaseName, categoryId: $categoryId, companyId: $companyId, companyName: $companyName, categoryName: $categoryName, rating: $rating, ratingCount: $ratingCount, commentCount: $commentCount, location: $location)';
   }
 
   @override
@@ -111,7 +119,8 @@ class Item {
         other.categoryName == categoryName &&
         other.rating == rating &&
         other.ratingCount == ratingCount &&
-        other.commentCount == commentCount;
+        other.commentCount == commentCount &&
+        other.location == location;
   }
 
   @override
@@ -126,6 +135,7 @@ class Item {
         categoryName.hashCode ^
         rating.hashCode ^
         ratingCount.hashCode ^
-        commentCount.hashCode;
+        commentCount.hashCode ^
+        location.hashCode;
   }
 }
