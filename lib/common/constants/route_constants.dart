@@ -5,4 +5,5 @@ class RouteConstants {
   static const homeScreen = "home";
   static const searchScreen = "search";
   static const companyScreen = "company";
+  static const profileScreen = "profile";
 }

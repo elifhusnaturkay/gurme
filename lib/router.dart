@@ -7,6 +7,7 @@ import 'package:gurme/features/auth/screen/login/login_screen.dart';
 import 'package:gurme/features/auth/screen/signup/signup_screen.dart';
 import 'package:gurme/features/company/screen/company_screen.dart';
 import 'package:gurme/features/home/screen/home_screen.dart';
+import 'package:gurme/features/profile/screen/profile_screen.dart';
 import 'package:gurme/features/search/screen/search_screen.dart';
 import 'package:gurme/features/splash/screen/splash_screen.dart';
 
@@ -101,6 +102,14 @@ final routerProvider = Provider<GoRouter>(
             return const MaterialPage(
               child: SearchScreen(),
             );
+          },
+        ),
+        GoRoute(
+          name: RouteConstants.profileScreen,
+          path: "/profile/:id",
+          pageBuilder: (context, state) {
+            return MaterialPage(
+                child: ProfileScreen(id: state.pathParameters['id']!));
           },
         ),
       ],
