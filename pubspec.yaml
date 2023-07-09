@@ -42,6 +42,7 @@ dependencies:
   rect_getter: ^1.1.0
   scrollable_positioned_list: ^0.3.8
   loading_animation_widget: ^1.2.0+4
+  flutter_rating_bar: ^4.0.1
 
 dev_dependencies:
   flutter_test:
