@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/asset_constants.dart';
+import 'package:gurme/common/constants/route_constants.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/item/controller/item_controller.dart';
 import 'package:gurme/models/comment_model.dart';
@@ -322,7 +324,10 @@ class CommentTile extends StatelessWidget {
                           margin: const EdgeInsets.all(2),
                           child: GestureDetector(
                             onTap: () {
-                              print("object");
+                              context.pushNamed(
+                                RouteConstants.profileScreen,
+                                pathParameters: {"id": comment.user.uid},
+                              );
                             },
                             child: CircleAvatar(
                               backgroundColor: Colors.transparent,
