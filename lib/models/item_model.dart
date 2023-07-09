@@ -83,7 +83,7 @@ class Item {
       id: map['id'] ?? '',
       picture: map['picture'] ?? '',
       name: map['name'] ?? '',
-      lowercaseName: map['lowerc??eName'] ?? '',
+      lowercaseName: map['lowercaseName'] ?? '',
       categoryId: map['categoryId'] ?? '',
       companyId: map['companyId'] ?? '',
       companyName: map['companyName'] ?? '',
