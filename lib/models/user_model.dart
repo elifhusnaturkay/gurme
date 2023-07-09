@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class UserModel {
@@ -9,14 +8,12 @@ class UserModel {
   final String profilePic;
   final String uid;
   final bool isAuthenticated;
-  final GeoPoint? currentLocation;
   final List<String> comments;
   UserModel({
     required this.name,
     required this.profilePic,
     required this.uid,
     required this.isAuthenticated,
-    this.currentLocation,
     required this.comments,
   });
 
@@ -25,7 +22,6 @@ class UserModel {
     String? profilePic,
     String? uid,
     bool? isAuthenticated,
-    GeoPoint? currentLocation,
     List<String>? comments,
   }) {
     return UserModel(
@@ -33,7 +29,6 @@ class UserModel {
       profilePic: profilePic ?? this.profilePic,
       uid: uid ?? this.uid,
       isAuthenticated: isAuthenticated ?? this.isAuthenticated,
-      currentLocation: currentLocation ?? this.currentLocation,
       comments: comments ?? this.comments,
     );
   }
@@ -44,7 +39,6 @@ class UserModel {
       'profilePic': profilePic,
       'uid': uid,
       'isAuthenticated': isAuthenticated,
-      'currentLocation': currentLocation,
       'comments': comments,
     };
   }
@@ -55,7 +49,6 @@ class UserModel {
       profilePic: map['profilePic'] ?? '',
       uid: map['uid'] ?? '',
       isAuthenticated: map['isAuthenticated'] ?? false,
-      currentLocation: map['currentLocation'],
       comments: List<String>.from(map['comments']),
     );
   }
@@ -67,7 +60,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(name: $name, profilePic: $profilePic, uid: $uid, isAuthenticated: $isAuthenticated, currentLocation: $currentLocation, comments: $comments)';
+    return 'UserModel(name: $name, profilePic: $profilePic, uid: $uid, isAuthenticated: $isAuthenticated, comments: $comments)';
   }
 
   @override
@@ -78,7 +71,6 @@ class UserModel {
         other.profilePic == profilePic &&
         other.uid == uid &&
         other.isAuthenticated == isAuthenticated &&
-        other.currentLocation == currentLocation &&
         listEquals(other.comments, comments);
   }
 
@@ -88,7 +80,6 @@ class UserModel {
         profilePic.hashCode ^
         uid.hashCode ^
         isAuthenticated.hashCode ^
-        currentLocation.hashCode ^
         comments.hashCode;
   }
 }

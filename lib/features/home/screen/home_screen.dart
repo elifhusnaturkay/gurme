@@ -8,6 +8,7 @@ import 'package:gurme/common/constants/route_constants.dart';
 import 'package:gurme/common/utils/location_utils.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/home/controller/home_controller.dart';
+import 'package:gurme/main.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -15,10 +16,10 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     GeoPoint? userLocation;
-    if (ref.read(userProvider.notifier).state?.currentLocation != null) {
+    if (ref.read(locationProvider.notifier).state != null) {
       userLocation = GeoPoint(
-          ref.read(userProvider.notifier).state!.currentLocation!.latitude,
-          ref.read(userProvider.notifier).state!.currentLocation!.longitude);
+          ref.read(locationProvider.notifier).state!.latitude,
+          ref.read(locationProvider.notifier).state!.longitude);
     }
     return Scaffold(
       backgroundColor: Theme.of(context).canvasColor,

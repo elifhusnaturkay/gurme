@@ -5,9 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/route_constants.dart';
 import 'package:gurme/common/utils/location_utils.dart';
-import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/item/screen/item_screen.dart';
 import 'package:gurme/features/search/controller/search_controller.dart';
+import 'package:gurme/main.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
@@ -65,10 +65,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
   @override
   Widget build(BuildContext context) {
     GeoPoint? userLocation;
-    if (ref.read(userProvider.notifier).state?.currentLocation != null) {
+    if (ref.read(locationProvider.notifier).state != null) {
       userLocation = GeoPoint(
-          ref.read(userProvider.notifier).state!.currentLocation!.latitude,
-          ref.read(userProvider.notifier).state!.currentLocation!.longitude);
+          ref.read(locationProvider.notifier).state!.latitude,
+          ref.read(locationProvider.notifier).state!.longitude);
     }
     return GestureDetector(
       onTap: loseFocus,
