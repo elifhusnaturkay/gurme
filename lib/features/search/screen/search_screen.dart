@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/route_constants.dart';
+import 'package:gurme/common/utils/location_utils.dart';
+import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/item/screen/item_screen.dart';
 import 'package:gurme/features/search/controller/search_controller.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -59,10 +62,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     super.dispose();
   }
 
-  // final queryProvider = StateProvider<String?>((ref) => null);
-
   @override
   Widget build(BuildContext context) {
+    GeoPoint? userLocation;
+    if (ref.read(userProvider.notifier).state?.currentLocation != null) {
+      userLocation = GeoPoint(
+          ref.read(userProvider.notifier).state!.currentLocation!.latitude,
+          ref.read(userProvider.notifier).state!.currentLocation!.longitude);
+    }
     return GestureDetector(
       onTap: loseFocus,
       child: Scaffold(
@@ -217,9 +224,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                             ),
                                             color: Colors.grey.shade200,
                                           ),
-                                          child: Image.network(
-                                            item.picture,
-                                            fit: BoxFit.cover,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            child: Image.network(
+                                              item.picture,
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
                                         ),
                                         const SizedBox(width: 10),
@@ -426,23 +437,28 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            "0.1 km",
-                                            style: GoogleFonts.inter(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                              color: Colors.grey.shade400,
+                                      if (userLocation != null)
+                                        Row(
+                                          children: [
+                                            Text(
+                                              LocationUtils.calculateDistance(
+                                                  userLocation.latitude,
+                                                  userLocation.longitude,
+                                                  company.location.latitude,
+                                                  company.location.longitude),
+                                              style: GoogleFonts.inter(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.grey.shade400,
+                                              ),
                                             ),
-                                          ),
-                                          Icon(
-                                            Icons.location_pin,
-                                            size: 16,
-                                            color: Colors.indigo.shade400,
-                                          ),
-                                        ],
-                                      ),
+                                            Icon(
+                                              Icons.location_pin,
+                                              size: 16,
+                                              color: Colors.indigo.shade400,
+                                            ),
+                                          ],
+                                        ),
                                     ],
                                   ),
                                 ],

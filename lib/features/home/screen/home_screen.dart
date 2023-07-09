@@ -1,10 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gurme/common/constants/asset_constants.dart';
 import 'package:gurme/common/constants/route_constants.dart';
+import 'package:gurme/common/utils/location_utils.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/home/controller/home_controller.dart';
 
@@ -13,6 +14,12 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    GeoPoint? userLocation;
+    if (ref.read(userProvider.notifier).state?.currentLocation != null) {
+      userLocation = GeoPoint(
+          ref.read(userProvider.notifier).state!.currentLocation!.latitude,
+          ref.read(userProvider.notifier).state!.currentLocation!.longitude);
+    }
     return Scaffold(
       backgroundColor: Theme.of(context).canvasColor,
       appBar: PreferredSize(
@@ -73,10 +80,7 @@ class HomeScreen extends ConsumerWidget {
                       child: CircleAvatar(
                         radius: 15,
                         backgroundImage: NetworkImage(
-                          ref.watch(userProvider) != null
-                              ? ref.watch(userProvider)!.profilePic
-                              : AssetConstants.defaultProfilePic,
-                        ),
+                            ref.watch(userProvider.notifier).state!.profilePic),
                       ),
                     ),
                   ),
@@ -216,46 +220,57 @@ class HomeScreen extends ConsumerWidget {
                                               ],
                                             ),
                                           ),
-                                          Positioned(
-                                            top: 10,
-                                            right: 10,
-                                            child: Container(
-                                              decoration: const BoxDecoration(
-                                                color: Color(0xFFE9EAFF),
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(6),
+                                          if (userLocation != null)
+                                            Positioned(
+                                              top: 10,
+                                              right: 10,
+                                              child: Container(
+                                                decoration: const BoxDecoration(
+                                                  color: Color(0xFFE9EAFF),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(6),
+                                                  ),
+                                                ),
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                  4,
+                                                  2,
+                                                  2,
+                                                  2,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      LocationUtils
+                                                          .calculateDistance(
+                                                              userLocation
+                                                                  .latitude,
+                                                              userLocation
+                                                                  .longitude,
+                                                              item.location
+                                                                  .latitude,
+                                                              item.location
+                                                                  .longitude),
+                                                      style: GoogleFonts.inter(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: Colors.black
+                                                            .withOpacity(0.8),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 5),
+                                                    Icon(
+                                                      Icons.location_pin,
+                                                      size: 18,
+                                                      color: Colors
+                                                          .indigo.shade400,
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                4,
-                                                2,
-                                                2,
-                                                2,
-                                              ),
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    "0.1 km",
-                                                    style: GoogleFonts.inter(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: Colors.black
-                                                          .withOpacity(0.8),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(width: 5),
-                                                  Icon(
-                                                    Icons.location_pin,
-                                                    size: 18,
-                                                    color:
-                                                        Colors.indigo.shade400,
-                                                  ),
-                                                ],
-                                              ),
                                             ),
-                                          ),
                                           Positioned(
                                             bottom: 10,
                                             right: 10,
@@ -464,46 +479,57 @@ class HomeScreen extends ConsumerWidget {
                                               ),
                                             ),
                                           ),
-                                          Positioned(
-                                            top: 10,
-                                            right: 10,
-                                            child: Container(
-                                              decoration: const BoxDecoration(
-                                                color: Color(0xFFE9EAFF),
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(6),
+                                          if (userLocation != null)
+                                            Positioned(
+                                              top: 10,
+                                              right: 10,
+                                              child: Container(
+                                                decoration: const BoxDecoration(
+                                                  color: Color(0xFFE9EAFF),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(6),
+                                                  ),
+                                                ),
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                  4,
+                                                  2,
+                                                  2,
+                                                  2,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      LocationUtils
+                                                          .calculateDistance(
+                                                              userLocation
+                                                                  .latitude,
+                                                              userLocation
+                                                                  .longitude,
+                                                              company.location
+                                                                  .latitude,
+                                                              company.location
+                                                                  .longitude),
+                                                      style: GoogleFonts.inter(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: Colors.black
+                                                            .withOpacity(0.8),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 5),
+                                                    Icon(
+                                                      Icons.location_pin,
+                                                      size: 18,
+                                                      color: Colors
+                                                          .indigo.shade400,
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                4,
-                                                2,
-                                                2,
-                                                2,
-                                              ),
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    "0.1 km",
-                                                    style: GoogleFonts.inter(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: Colors.black
-                                                          .withOpacity(0.8),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(width: 5),
-                                                  Icon(
-                                                    Icons.location_pin,
-                                                    size: 18,
-                                                    color:
-                                                        Colors.indigo.shade400,
-                                                  ),
-                                                ],
-                                              ),
                                             ),
-                                          ),
                                           Positioned(
                                             bottom: 10,
                                             right: 10,
@@ -691,13 +717,20 @@ class HomeScreen extends ConsumerWidget {
                                             ),
                                           ),
                                           const SizedBox(height: 5),
-                                          Text(
-                                            category.name.replaceAll(" ", "\n"),
-                                            style: GoogleFonts.inter(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
+                                          SizedBox(
+                                            width: 100,
+                                            height: 40,
+                                            child: Text(
+                                              category.name,
+                                              style: GoogleFonts.inter(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              softWrap: true,
+                                              textAlign: TextAlign.center,
                                             ),
-                                            maxLines: 2,
                                           ),
                                         ],
                                       );
@@ -757,9 +790,13 @@ class HomeScreen extends ConsumerWidget {
                                             Radius.circular(8),
                                           ),
                                         ),
-                                        child: Image.network(
-                                          randomItem.picture,
-                                          fit: BoxFit.cover,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          child: Image.network(
+                                            randomItem.picture,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
                                       Container(

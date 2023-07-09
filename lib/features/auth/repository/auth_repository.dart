@@ -82,8 +82,8 @@ class AuthRepository {
 
   FutureEither<void> signOut() async {
     try {
-      await _googleSignIn.signOut();
       await _auth.signOut();
+      await _googleSignIn.signOut();
     } on FirebaseException catch (e) {
       return left(e.toString());
     } catch (e) {
@@ -157,7 +157,7 @@ class AuthRepository {
 
       UserModel userModel = UserModel(
         name: 'Misafir',
-        profilePic: AssetConstants.anonymousUser,
+        profilePic: AssetConstants.defaultProfilePic,
         uid: userCredential.user!.uid,
         isAuthenticated: false,
         comments: [],

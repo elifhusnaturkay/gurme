@@ -6,7 +6,7 @@ class AssetConstants {
   static String shortLogoPurple = 'assets/images/short_logo_purple.png';
 
   static String defaultProfilePic =
-      "https://icon-library.com/images/default-profile-icon/default-profile-icon-6.jpg";
+      "https://firebasestorage.googleapis.com/v0/b/karma-gurme.appspot.com/o/user%2Fdefault_profile_picture.jpg?alt=media&token=a41ea647-d31c-4e4d-af57-e9054e033057";
 
   static String defaultBannerPic =
       "https://thumbs.dreamstime.com/b/abstract-stained-pattern-rectangle-background-blue-sky-over-fiery-red-orange-color-modern-painting-art-watercolor-effe-texture-123047399.jpg";

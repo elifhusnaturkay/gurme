@@ -29,13 +29,11 @@ final searchCompanyProvider = StreamProvider.autoDispose((ref) {
 
 class SearchController extends StateNotifier<bool> {
   final SearchRepository _searchRepository;
-  final Ref _ref;
 
   SearchController({
     required SearchRepository searchRepository,
     required Ref ref,
   })  : _searchRepository = searchRepository,
-        _ref = ref,
         super(false);
 
   Stream<List<Item>> searchItem(String? query) {

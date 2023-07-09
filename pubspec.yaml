@@ -30,9 +30,15 @@ dependencies:
   # navigation
   go_router: ^8.0.3
 
+  # location
+  geolocator: ^9.0.2
+
   # utils
   fpdart: ^0.6.0
   fluttertoast: ^8.2.2
+
+  # url
+  url_launcher: ^6.1.12
 
   # ui
   google_fonts: ^4.0.0
