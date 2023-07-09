@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/asset_constants.dart';
+import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/item/controller/item_controller.dart';
 import 'package:gurme/models/comment_model.dart';
 import 'package:gurme/models/item_model.dart';
@@ -74,6 +75,7 @@ class _ItemScreenState extends ConsumerState<ItemScreen>
                 scrollPosition: scrollPosition,
                 widget: widget,
                 scrollController: scrollController,
+                ref: ref,
               ),
               ref.watch(getCommentsProvider(widget._item.id)).when(
                     data: (comments) {
@@ -91,11 +93,6 @@ class _ItemScreenState extends ConsumerState<ItemScreen>
                                 shrinkWrap: true,
                                 itemCount: comments.length,
                                 itemBuilder: (context, index) {
-                                  if (comments[index].text == null ||
-                                      comments[index].text!.isEmpty) {
-                                    return Container();
-                                  }
-
                                   return CommentTile(
                                     comment: comments[index],
                                   );
@@ -120,11 +117,14 @@ class _ItemScreenState extends ConsumerState<ItemScreen>
 }
 
 class ItemScreenItemCard extends StatelessWidget {
-  const ItemScreenItemCard(
-      {super.key,
-      required this.scrollPosition,
-      required this.widget,
-      required this.scrollController});
+  final WidgetRef ref;
+  const ItemScreenItemCard({
+    super.key,
+    required this.scrollPosition,
+    required this.widget,
+    required this.scrollController,
+    required this.ref,
+  });
 
   final ValueNotifier<double> scrollPosition;
   final ItemScreen widget;
@@ -255,7 +255,8 @@ class ItemScreenItemCard extends StatelessWidget {
                         useSafeArea: true,
                         context: context,
                         builder: (context) {
-                          return const CommentFieldScreen();
+                          return CommentFieldScreen(
+                              ref: ref, item: widget._item);
                         },
                       );
                     },
@@ -485,9 +486,11 @@ class ZeroCommentTile extends StatelessWidget {
 }
 
 class CommentFieldScreen extends StatelessWidget {
-  const CommentFieldScreen({
-    super.key,
-  });
+  final WidgetRef ref;
+  final Item item;
+  CommentFieldScreen({super.key, required this.ref, required this.item});
+
+  final commentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -520,6 +523,7 @@ class CommentFieldScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
             child: TextField(
+              controller: commentController,
               cursorColor: Colors.indigo.shade400,
               maxLines: 3,
               decoration: InputDecoration(
@@ -536,7 +540,15 @@ class CommentFieldScreen extends StatelessWidget {
           const SizedBox(height: 20),
           ElevatedButton(
             // TODO: Collection Kaydı
-            onPressed: () {},
+            onPressed: () async {
+              await ref.read(itemControllerProvider.notifier).sendComment(
+                    context,
+                    ref.read(userProvider.notifier).state!,
+                    item,
+                    _ratingCount,
+                    commentController.text.trim(),
+                  );
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.indigo.shade400,
               shape: const StadiumBorder(),

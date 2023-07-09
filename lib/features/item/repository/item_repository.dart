@@ -23,33 +23,36 @@ class ItemRepository {
   CollectionReference get _items => _firestore.collection('items');
   CollectionReference get _company => _firestore.collection('company');
 
-  Future<List<Comment>> getComments(String itemId) async {
-    final querySnapshot = await _comments
+  Stream<List<Comment>> getComments(String itemId) {
+    return _comments
         .where('itemId', isEqualTo: itemId)
         .where('text', isNull: false)
-        .get();
+        .snapshots()
+        .asyncMap((querySnapshot) async {
+      List<Comment> comments = [];
+      for (var comment in querySnapshot.docs) {
+        comments.add(Comment.fromMap(comment.data() as Map<String, dynamic>));
+      }
 
-    List<Comment> comments = [];
-    for (var comment in querySnapshot.docs) {
-      comments.add(Comment.fromMap(comment.data() as Map<String, dynamic>));
-    }
-
-    for (var comment in comments) {
-      final querySnapshot = await _users.doc(comment.userRef).get();
-      final userData =
-          UserModel.fromMap(querySnapshot.data() as Map<String, dynamic>);
-      if (comment.user != userData) {
-        comment = comment.copyWith(
+      for (var comment in comments) {
+        final querySnapshot = await _users.doc(comment.userRef).get();
+        final userData =
+            UserModel.fromMap(querySnapshot.data() as Map<String, dynamic>);
+        if (comment.user != userData) {
+          comment = comment.copyWith(
             id: comment.id,
             user: userData,
             itemId: comment.itemId,
             rating: comment.rating,
             text: comment.text,
-            userRef: comment.userRef);
-        await _comments.add(comment as Map<String, dynamic>);
+            userRef: comment.userRef,
+          );
+          await _comments.doc(comment.id).update(comment.toMap());
+        }
       }
-    }
-    return comments;
+
+      return comments;
+    });
   }
 
   FutureEither<void> sendComment(
@@ -57,8 +60,10 @@ class ItemRepository {
     final String commentId = RandomIdGenerator.autoId();
     late Comment comment;
 
+    final bool isCommentEmpty = !RegExp(r'\S').hasMatch(text);
+
     // if text has only whitespace characters
-    if (!RegExp(r'\S').hasMatch(text)) {
+    if (isCommentEmpty) {
       comment = Comment(
           user: user,
           id: commentId,
@@ -77,22 +82,25 @@ class ItemRepository {
     }
 
     try {
+      await updateItem(item, rating, isCommentEmpty);
+      await updateCompany(item.companyId, rating, isCommentEmpty);
       return right(_comments.doc(commentId).set(comment.toMap()));
     } catch (e) {
       return left('Yorum gönderilirken bir şeyler ters gitti');
     }
   }
 
-  Future<void> updateCompany(Item item, int rating, bool isCommentEmpty) async {
+  Future<void> updateCompany(
+      String companyId, int rating, bool isCommentEmpty) async {
     late Company company;
-    await _company.doc(item.companyId).get().then((value) {
+    await _company.doc(companyId).get().then((value) {
       company = Company.fromMap(value.data() as Map<String, dynamic>);
     });
 
     // update rating
     final sumOfCompanyRating = company.ratingCount * company.rating;
     final newCompanyRating =
-        (sumOfCompanyRating + rating) / company.ratingCount + 1;
+        (sumOfCompanyRating + rating) / (company.ratingCount + 1);
 
     late Company updatedCompany;
     if (isCommentEmpty) {
@@ -103,6 +111,7 @@ class ItemRepository {
           commentCount: company.commentCount,
           lowercaseName: company.lowercaseName,
           name: company.name,
+          location: company.location,
           rating: newCompanyRating,
           ratingCount: company.ratingCount + 1);
     } else {
@@ -113,16 +122,17 @@ class ItemRepository {
           commentCount: company.commentCount + 1,
           lowercaseName: company.lowercaseName,
           name: company.name,
+          location: company.location,
           rating: newCompanyRating,
           ratingCount: company.ratingCount + 1);
     }
 
-    await _company.doc(item.companyId).update(updatedCompany.toMap());
+    await _company.doc(companyId).update(updatedCompany.toMap());
   }
 
   Future<void> updateItem(Item item, int rating, bool isCommentEmpty) async {
     final sumOfItemRating = item.ratingCount * item.rating;
-    final newItemRating = (sumOfItemRating + rating) / item.ratingCount + 1;
+    final newItemRating = (sumOfItemRating + rating) / (item.ratingCount + 1);
     late Item updatedItem;
     if (isCommentEmpty) {
       updatedItem = item.copyWith(
@@ -135,6 +145,7 @@ class ItemRepository {
           commentCount: item.commentCount,
           lowercaseName: item.lowercaseName,
           name: item.name,
+          location: item.location,
           rating: newItemRating,
           ratingCount: item.ratingCount + 1);
     } else {
@@ -148,6 +159,7 @@ class ItemRepository {
           commentCount: item.commentCount + 1,
           lowercaseName: item.lowercaseName,
           name: item.name,
+          location: item.location,
           rating: newItemRating,
           ratingCount: item.ratingCount + 1);
     }
