@@ -8,6 +8,7 @@ import 'package:gurme/common/constants/route_constants.dart';
 import 'package:gurme/common/utils/location_utils.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/home/controller/home_controller.dart';
+import 'package:gurme/features/home/drawers/favorites_drawer.dart';
 import 'package:gurme/main.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -23,6 +24,7 @@ class HomeScreen extends ConsumerWidget {
     }
     return Scaffold(
       backgroundColor: Theme.of(context).canvasColor,
+      drawer: const FavoritesDrawer(),
       appBar: PreferredSize(
         preferredSize: const Size(double.infinity, 60),
         child: SafeArea(
@@ -31,6 +33,7 @@ class HomeScreen extends ConsumerWidget {
             child: Hero(
               tag: "hometosearch",
               child: AppBar(
+                automaticallyImplyLeading: false,
                 backgroundColor: Theme.of(context).canvasColor,
                 foregroundColor: const Color.fromRGBO(246, 246, 246, 0.5),
                 elevation: 2,
@@ -51,49 +54,192 @@ class HomeScreen extends ConsumerWidget {
                     color: Colors.indigo.shade400,
                   ),
                 ),
-                leading: GestureDetector(
-                  onTap: () {},
-                  child: const Icon(
-                    Icons.menu_rounded,
-                    color: Colors.black,
-                    size: 25,
-                  ),
+                leading: Builder(
+                  builder: (context) {
+                    return IconButton(
+                      onPressed: () {
+                        Scaffold.of(context).openDrawer();
+                      },
+                      icon: const Icon(
+                        Icons.menu_rounded,
+                        color: Colors.black,
+                        size: 25,
+                      ),
+                    );
+                  },
                 ),
                 actions: [
-                  GestureDetector(
-                    onTap: () {
+                  IconButton(
+                    constraints: const BoxConstraints(),
+                    onPressed: () {
                       context.pushNamed(RouteConstants.searchScreen);
                     },
-                    child: const Icon(
+                    icon: const Icon(
                       Icons.search_rounded,
                       color: Colors.black,
                       size: 25,
                     ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      context.pushNamed(
-                        RouteConstants.profileScreen,
-                        pathParameters: {
-                          "id": ref.read(userProvider.notifier).state!.uid
+                  Builder(
+                    builder: (context) {
+                      return IconButton(
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Theme.of(context).canvasColor,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.elliptical(20, 17),
+                                topRight: Radius.elliptical(20, 17),
+                              ),
+                            ),
+                            enableDrag: true,
+                            useSafeArea: true,
+                            builder: (context) {
+                              bool isAuthenticated = ref
+                                  .watch(userProvider.notifier)
+                                  .state!
+                                  .isAuthenticated;
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: isAuthenticated
+                                    ? [
+                                        ListTile(
+                                          title: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: TextButton.icon(
+                                              onPressed: () {
+                                                context.pushNamed(
+                                                  RouteConstants.profileScreen,
+                                                  pathParameters: {
+                                                    "id": ref
+                                                        .read(userProvider
+                                                            .notifier)
+                                                        .state!
+                                                        .uid
+                                                  },
+                                                );
+                                              },
+                                              label: Text(
+                                                "Profile Git",
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.indigo.shade400,
+                                                ),
+                                              ),
+                                              icon: CircleAvatar(
+                                                backgroundColor:
+                                                    const Color.fromRGBO(
+                                                        92, 107, 192, 0.5),
+                                                radius: 16,
+                                                child: CircleAvatar(
+                                                  radius: 14,
+                                                  backgroundColor:
+                                                      const Color.fromRGBO(
+                                                          92, 107, 192, 0.5),
+                                                  child: ClipOval(
+                                                    child: Image.network(
+                                                      ref
+                                                          .watch(userProvider
+                                                              .notifier)
+                                                          .state!
+                                                          .profilePic,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        ListTile(
+                                          title: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: TextButton.icon(
+                                              onPressed: () {
+                                                ref
+                                                    .read(authControllerProvider
+                                                        .notifier)
+                                                    .signOut(context);
+                                              },
+                                              label: Text(
+                                                "Çıkış Yap",
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.indigo.shade400,
+                                                ),
+                                              ),
+                                              icon: Icon(
+                                                Icons.logout_rounded,
+                                                color: Colors.indigo.shade400,
+                                                size: 32,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ]
+                                    : [
+                                        ListTile(
+                                          title: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: TextButton.icon(
+                                              onPressed: () {
+                                                context.pop();
+                                                context.pushNamed(
+                                                  RouteConstants.loginScreen,
+                                                );
+                                              },
+                                              label: Text(
+                                                "Giriş Yap ya da Kayıt Ol",
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.indigo.shade400,
+                                                ),
+                                              ),
+                                              icon: Icon(
+                                                Icons.login_rounded,
+                                                color: Colors.indigo.shade400,
+                                                size: 32,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                              );
+                            },
+                          );
                         },
+                        constraints: const BoxConstraints(),
+                        iconSize: 32,
+                        icon: CircleAvatar(
+                          backgroundColor:
+                              const Color.fromRGBO(92, 107, 192, 0.5),
+                          radius: 16,
+                          child: CircleAvatar(
+                            radius: 14,
+                            backgroundColor:
+                                const Color.fromRGBO(92, 107, 192, 0.5),
+                            child: ClipOval(
+                              child: Image.network(
+                                ref
+                                    .watch(userProvider.notifier)
+                                    .state!
+                                    .profilePic,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
                       );
                     },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(92, 107, 192, 0.5),
-                      radius: 15,
-                      child: CircleAvatar(
-                        radius: 15,
-                        backgroundImage: NetworkImage(
-                            ref.watch(userProvider.notifier).state!.profilePic),
-                      ),
-                    ),
                   ),
                   const SizedBox(
-                    width: 10,
+                    width: 5,
                   ),
                 ],
               ),
@@ -305,7 +451,8 @@ class HomeScreen extends ConsumerWidget {
                                                   child: Row(
                                                     children: [
                                                       Text(
-                                                        item.rating.toString(),
+                                                        item.rating
+                                                            .toStringAsFixed(1),
                                                         style:
                                                             GoogleFonts.inter(
                                                           fontSize: 14,
@@ -565,7 +712,7 @@ class HomeScreen extends ConsumerWidget {
                                                     children: [
                                                       Text(
                                                         company.rating
-                                                            .toString(),
+                                                            .toStringAsFixed(1),
                                                         style:
                                                             GoogleFonts.inter(
                                                           fontSize: 14,

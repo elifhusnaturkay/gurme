@@ -65,20 +65,22 @@ class ItemRepository {
     // if text has only whitespace characters
     if (isCommentEmpty) {
       comment = Comment(
-          user: user,
-          id: commentId,
-          itemId: item.id,
-          rating: rating,
-          userRef: user.uid,
-          text: null);
+        user: user,
+        id: commentId,
+        itemId: item.id,
+        rating: rating,
+        userRef: user.uid,
+        text: null,
+      );
     } else {
       comment = Comment(
-          user: user,
-          id: commentId,
-          itemId: item.id,
-          rating: rating,
-          userRef: user.uid,
-          text: text);
+        user: user,
+        id: commentId,
+        itemId: item.id,
+        rating: rating,
+        userRef: user.uid,
+        text: text,
+      );
     }
 
     try {

@@ -61,6 +61,13 @@ class _ItemScreenState extends ConsumerState<ItemScreen>
   }
 
   @override
+  void dispose() {
+    _draggableScrollableController.dispose();
+    scrollPosition.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return NotificationListener<DraggableScrollableNotification>(
       onNotification: animateIcon,
@@ -257,8 +264,18 @@ class ItemScreenItemCard extends StatelessWidget {
                         useSafeArea: true,
                         context: context,
                         builder: (context) {
-                          return CommentFieldScreen(
-                              ref: ref, item: widget._item);
+                          return GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: () {
+                              FocusScope.of(context).unfocus();
+                            },
+                            child: FocusScope(
+                              child: CommentFieldScreen(
+                                ref: ref,
+                                item: widget._item,
+                              ),
+                            ),
+                          );
                         },
                       );
                     },
@@ -490,20 +507,24 @@ class ZeroCommentTile extends StatelessWidget {
   }
 }
 
-class CommentFieldScreen extends StatelessWidget {
+class CommentFieldScreen extends StatefulWidget {
   final WidgetRef ref;
   final Item item;
-  CommentFieldScreen({super.key, required this.ref, required this.item});
+  const CommentFieldScreen({super.key, required this.ref, required this.item});
 
+  @override
+  State<CommentFieldScreen> createState() => _CommentFieldScreenState();
+}
+
+class _CommentFieldScreenState extends State<CommentFieldScreen> {
   final commentController = TextEditingController();
+
+  int ratingCount = 0;
 
   @override
   Widget build(BuildContext context) {
-    int _ratingCount = 0;
-    return Container(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
+    return SizedBox(
+      height: 230 + MediaQuery.of(context).viewInsets.bottom,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -522,7 +543,9 @@ class CommentFieldScreen extends StatelessWidget {
               color: Colors.amber,
             ),
             onRatingUpdate: (rating) {
-              _ratingCount = rating.toInt();
+              setState(() {
+                ratingCount = rating.toInt();
+              });
             },
           ),
           Padding(
@@ -544,16 +567,22 @@ class CommentFieldScreen extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           ElevatedButton(
-            // TODO: Collection Kaydı
-            onPressed: () async {
-              await ref.read(itemControllerProvider.notifier).sendComment(
-                    context,
-                    ref.read(userProvider.notifier).state!,
-                    item,
-                    _ratingCount,
-                    commentController.text.trim(),
-                  );
-            },
+            // TODO: Collection Kaydı // oldu ig
+
+            onPressed: (ratingCount > 0 && ratingCount <= 5)
+                ? () async {
+                    context.pop();
+                    await widget.ref
+                        .read(itemControllerProvider.notifier)
+                        .sendComment(
+                          context,
+                          widget.ref.read(userProvider.notifier).state!,
+                          widget.item,
+                          ratingCount,
+                          commentController.text.trim(),
+                        );
+                  }
+                : null,
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.indigo.shade400,
               shape: const StadiumBorder(),

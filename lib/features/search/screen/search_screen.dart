@@ -81,10 +81,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
               child: Hero(
                 tag: "hometosearch",
                 child: AppBar(
-                  leadingWidth: 20,
-                  iconTheme: const IconThemeData(
-                    color: Colors.black,
-                  ),
+                  automaticallyImplyLeading: false,
                   shape: Border(
                     top: BorderSide(
                       color: Colors.grey.shade300,
@@ -95,83 +92,100 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                       width: 1,
                     ),
                   ),
-                  centerTitle: true,
+                  centerTitle: false,
                   elevation: 0,
-                  title: SizedBox(
-                    width: 200,
-                    child: TextField(
-                      controller: searchController,
-                      cursorColor: Colors.indigo.shade400,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Bugün canın ne çekiyor?',
-                        hintStyle: GoogleFonts.inter(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.grey.shade400,
+                  titleSpacing: 0,
+                  title: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          context.pop();
+                        },
+                        icon: const Icon(
+                          Icons.arrow_back_rounded,
+                          color: Colors.black,
                         ),
                       ),
-                      onChanged: (value) {
-                        ref
-                            .read(queryProvider.notifier)
-                            .update((state) => value);
-                      },
-                    ),
-                  ),
-                  actions: [
-                    Row(
-                      children: [
-                        GestureDetector(
-                          child: Text(
-                            'Ürün',
-                            style: GoogleFonts.inter(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              color: _colorAnimationItem.value,
+                      SizedBox(
+                        width: 200 +
+                            ((MediaQuery.of(context).size.width - 393) * 0.5),
+                        child: TextField(
+                          controller: searchController,
+                          cursorColor: Colors.indigo.shade400,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Bugün canın ne çekiyor?',
+                            hintStyle: GoogleFonts.inter(
+                              fontSize: 15 +
+                                  ((MediaQuery.of(context).size.width - 393) *
+                                      0.05),
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey.shade400,
                             ),
                           ),
-                          onTap: () {
-                            if (!isSearchingItems) {
-                              setState(() {
-                                isSearchingItems = !isSearchingItems;
-                              });
+                          onChanged: (value) {
+                            ref
+                                .read(queryProvider.notifier)
+                                .update((state) => value);
+                          },
+                        ),
+                      ),
+                      const Spacer(),
+                      Row(
+                        children: [
+                          GestureDetector(
+                            child: Text(
+                              'Ürün',
+                              style: GoogleFonts.inter(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: _colorAnimationItem.value,
+                              ),
+                            ),
+                            onTap: () {
+                              if (!isSearchingItems) {
+                                setState(() {
+                                  isSearchingItems = !isSearchingItems;
+                                });
 
-                              _animationController.reverse();
-                            }
-                          },
-                        ),
-                        const SizedBox(width: 5),
-                        Text(
-                          '/',
-                          style: GoogleFonts.inter(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: const Color.fromRGBO(92, 107, 192, 0.5),
+                                _animationController.reverse();
+                              }
+                            },
                           ),
-                        ),
-                        const SizedBox(width: 5),
-                        GestureDetector(
-                          child: Text(
-                            'Restoran',
+                          const SizedBox(width: 5),
+                          Text(
+                            '/',
                             style: GoogleFonts.inter(
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
-                              color: _colorAnimationCompany.value,
+                              color: const Color.fromRGBO(92, 107, 192, 0.5),
                             ),
                           ),
-                          onTap: () {
-                            if (isSearchingItems) {
-                              setState(() {
-                                isSearchingItems = !isSearchingItems;
-                              });
-                              _animationController.forward();
-                            }
-                          },
-                        ),
-                        const SizedBox(width: 10),
-                      ],
-                    ),
-                  ],
+                          const SizedBox(width: 5),
+                          GestureDetector(
+                            child: Text(
+                              'Restoran',
+                              style: GoogleFonts.inter(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: _colorAnimationCompany.value,
+                              ),
+                            ),
+                            onTap: () {
+                              if (isSearchingItems) {
+                                setState(() {
+                                  isSearchingItems = !isSearchingItems;
+                                });
+                                _animationController.forward();
+                              }
+                            },
+                          ),
+                          const SizedBox(width: 10),
+                        ],
+                      ),
+                    ],
+                  ),
                   backgroundColor: Colors.grey.shade200,
                 ),
               ),
@@ -263,7 +277,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                             Row(
                                               children: [
                                                 Text(
-                                                  item.rating.toString(),
+                                                  item.rating
+                                                      .toStringAsFixed(1),
                                                   style: GoogleFonts.inter(
                                                     fontSize: 12,
                                                     fontWeight:
@@ -410,7 +425,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                       Row(
                                         children: [
                                           Text(
-                                            company.rating.toString(),
+                                            company.rating.toStringAsFixed(1),
                                             style: GoogleFonts.inter(
                                               fontSize: 12,
                                               fontWeight: FontWeight.normal,

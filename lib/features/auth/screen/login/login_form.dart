@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gurme/common/constants/route_constants.dart';
 import 'package:gurme/common/widgets/submit_button.dart';
 import 'package:gurme/common/widgets/form_fields.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
@@ -62,7 +63,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    context.push("/forgotpassword");
+                    context.pushNamed(RouteConstants.forgotPasswordScreen);
                   },
                   child: Text(
                     "Şifreni mi unuttun?",
