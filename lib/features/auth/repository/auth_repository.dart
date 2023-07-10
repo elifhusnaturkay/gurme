@@ -64,7 +64,7 @@ class AuthRepository {
               userCredential.user!.photoURL ?? AssetConstants.defaultProfilePic,
           uid: userCredential.user!.uid,
           isAuthenticated: true,
-          comments: [],
+          favoriteCompanyIds: [],
         );
 
         await _users.doc(userCredential.user!.uid).set(userModel.toMap());
@@ -110,7 +110,7 @@ class AuthRepository {
               userCredential.user!.photoURL ?? AssetConstants.defaultProfilePic,
           uid: userCredential.user!.uid,
           isAuthenticated: true,
-          comments: [],
+          favoriteCompanyIds: [],
         );
       } else {
         userModel = await getUserData(userCredential.user!.uid).first;
@@ -138,7 +138,7 @@ class AuthRepository {
             userCredential.user!.photoURL ?? AssetConstants.defaultProfilePic,
         uid: userCredential.user!.uid,
         isAuthenticated: true,
-        comments: [],
+        favoriteCompanyIds: [],
       );
 
       await _users.doc(userCredential.user!.uid).set(userModel.toMap());
@@ -160,7 +160,7 @@ class AuthRepository {
         profilePic: AssetConstants.defaultProfilePic,
         uid: userCredential.user!.uid,
         isAuthenticated: false,
-        comments: [],
+        favoriteCompanyIds: [],
       );
 
       await _users.doc(userCredential.user!.uid).set(userModel.toMap());
