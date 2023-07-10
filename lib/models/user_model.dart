@@ -8,12 +8,14 @@ class UserModel {
   final String profilePic;
   final String uid;
   final bool isAuthenticated;
+  final String bannerPic;
   final List<String> favoriteCompanyIds;
   UserModel({
     required this.name,
     required this.profilePic,
     required this.uid,
     required this.isAuthenticated,
+    required this.bannerPic,
     required this.favoriteCompanyIds,
   });
 
@@ -22,6 +24,7 @@ class UserModel {
     String? profilePic,
     String? uid,
     bool? isAuthenticated,
+    String? bannerPic,
     List<String>? favoriteCompanyIds,
   }) {
     return UserModel(
@@ -29,6 +32,7 @@ class UserModel {
       profilePic: profilePic ?? this.profilePic,
       uid: uid ?? this.uid,
       isAuthenticated: isAuthenticated ?? this.isAuthenticated,
+      bannerPic: bannerPic ?? this.bannerPic,
       favoriteCompanyIds: favoriteCompanyIds ?? this.favoriteCompanyIds,
     );
   }
@@ -39,6 +43,7 @@ class UserModel {
       'profilePic': profilePic,
       'uid': uid,
       'isAuthenticated': isAuthenticated,
+      'bannerPic': bannerPic,
       'favoriteCompanyIds': favoriteCompanyIds,
     };
   }
@@ -49,6 +54,7 @@ class UserModel {
       profilePic: map['profilePic'] ?? '',
       uid: map['uid'] ?? '',
       isAuthenticated: map['isAuthenticated'] ?? false,
+      bannerPic: map['bannerPic'] ?? '',
       favoriteCompanyIds: List<String>.from(map['favoriteCompanyIds']),
     );
   }
@@ -60,7 +66,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(name: $name, profilePic: $profilePic, uid: $uid, isAuthenticated: $isAuthenticated, favoriteCompanyIds: $favoriteCompanyIds)';
+    return 'UserModel(name: $name, profilePic: $profilePic, uid: $uid, isAuthenticated: $isAuthenticated, bannerPic: $bannerPic, favoriteCompanyIds: $favoriteCompanyIds)';
   }
 
   @override
@@ -71,6 +77,7 @@ class UserModel {
         other.profilePic == profilePic &&
         other.uid == uid &&
         other.isAuthenticated == isAuthenticated &&
+        other.bannerPic == bannerPic &&
         listEquals(other.favoriteCompanyIds, favoriteCompanyIds);
   }
 
@@ -80,6 +87,7 @@ class UserModel {
         profilePic.hashCode ^
         uid.hashCode ^
         isAuthenticated.hashCode ^
+        bannerPic.hashCode ^
         favoriteCompanyIds.hashCode;
   }
 }

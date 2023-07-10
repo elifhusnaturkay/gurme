@@ -64,6 +64,7 @@ class AuthRepository {
               userCredential.user!.photoURL ?? AssetConstants.defaultProfilePic,
           uid: userCredential.user!.uid,
           isAuthenticated: true,
+          bannerPic: AssetConstants.defaultBannerPic,
           favoriteCompanyIds: [],
         );
 
@@ -110,6 +111,7 @@ class AuthRepository {
               userCredential.user!.photoURL ?? AssetConstants.defaultProfilePic,
           uid: userCredential.user!.uid,
           isAuthenticated: true,
+          bannerPic: AssetConstants.defaultBannerPic,
           favoriteCompanyIds: [],
         );
       } else {
@@ -138,6 +140,7 @@ class AuthRepository {
             userCredential.user!.photoURL ?? AssetConstants.defaultProfilePic,
         uid: userCredential.user!.uid,
         isAuthenticated: true,
+        bannerPic: AssetConstants.defaultBannerPic,
         favoriteCompanyIds: [],
       );
 
@@ -160,6 +163,7 @@ class AuthRepository {
         profilePic: AssetConstants.defaultProfilePic,
         uid: userCredential.user!.uid,
         isAuthenticated: false,
+        bannerPic: AssetConstants.defaultBannerPic,
         favoriteCompanyIds: [],
       );
 
