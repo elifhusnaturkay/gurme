@@ -74,7 +74,14 @@ class HomeScreen extends ConsumerWidget {
                     width: 10,
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      context.pushNamed(
+                        RouteConstants.profileScreen,
+                        pathParameters: {
+                          "id": ref.read(userProvider.notifier).state!.uid
+                        },
+                      );
+                    },
                     child: CircleAvatar(
                       backgroundColor: const Color.fromRGBO(92, 107, 192, 0.5),
                       radius: 15,
