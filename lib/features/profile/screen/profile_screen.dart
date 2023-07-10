@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gurme/common/constants/asset_constants.dart';
+import 'package:gurme/common/constants/route_constants.dart';
+import 'package:gurme/common/widgets/loading_spinner.dart';
+import 'package:gurme/features/auth/controller/auth_controller.dart';
+import 'package:gurme/features/item/screen/item_screen.dart';
+import 'package:gurme/features/profile/controller/profile_controller.dart';
+import 'package:gurme/models/comment_model.dart';
+import 'package:gurme/models/company_model.dart';
+import 'package:gurme/models/item_model.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class ProfileScreen extends ConsumerStatefulWidget {
+  final String _id;
+  const ProfileScreen({super.key, required String id}) : _id = id;
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen>
+class _ProfileScreenState extends ConsumerState<ProfileScreen>
     with TickerProviderStateMixin {
   final _scrollControllerNestedView = ScrollController();
   final _scrollControllerTabViewComments = ScrollController();
@@ -36,209 +46,258 @@ class _ProfileScreenState extends State<ProfileScreen>
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      body: NestedScrollView(
-        controller: _scrollControllerNestedView,
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          SliverAppBar(
-            elevation: 0,
-            collapsedHeight: 60,
-            toolbarHeight: 60,
-            expandedHeight: 150,
-            pinned: true,
-            automaticallyImplyLeading: true,
-            flexibleSpace: LayoutBuilder(
-              builder: (context, constraints) {
-                // scroll offset to 0.0 - 1.0
-                final double ratio = (_scrollControllerNestedView.offset /
-                        (150 - kToolbarHeight))
-                    .clamp(0, 1);
+    return ref.watch(getUserByIdProvider(widget._id)).when(
+          data: (user) {
+            return Scaffold(
+              body: NestedScrollView(
+                controller: _scrollControllerNestedView,
+                headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                  SliverAppBar(
+                    elevation: 0,
+                    collapsedHeight: 60,
+                    toolbarHeight: 60,
+                    expandedHeight: 150,
+                    pinned: true,
+                    automaticallyImplyLeading: true,
+                    flexibleSpace: LayoutBuilder(
+                      builder: (context, constraints) {
+                        // scroll offset to 0.0 - 1.0
+                        final double ratio =
+                            (_scrollControllerNestedView.offset /
+                                    (150 - kToolbarHeight))
+                                .clamp(0, 1);
 
-                print(screenWidth);
-                print(screenHeight);
+                        print(screenWidth);
+                        print(screenHeight);
 
-                // sliverappbar color animation
-                final backgroundColor = Color.lerp(
-                  const Color(0xFFCFD3ED).withOpacity(0.00),
-                  const Color(0xFFCFD3ED).withOpacity(1),
-                  ratio,
-                );
+                        // sliverappbar color animation
+                        final backgroundColor = Color.lerp(
+                          const Color(0xFFCFD3ED).withOpacity(0.00),
+                          const Color(0xFFCFD3ED).withOpacity(1),
+                          ratio,
+                        );
 
-                // profile pic animation
-                final imageRadius = 80 - (25 * ratio);
-                final imagePositionBottom =
-                    (-55 - ((screenHeight - 760) * 0.1)) - (20 * ratio);
-                final imagePositionLeft = (screenWidth * 0.5 - 80) -
-                    ((screenWidth * 0.5 - 100) * ratio);
+                        // profile pic animation
+                        final imageRadius = 80 - (25 * ratio);
+                        final imagePositionBottom =
+                            (-55 - ((screenHeight - 760) * 0.1)) - (20 * ratio);
+                        final imagePositionLeft = (screenWidth * 0.5 - 80) -
+                            ((screenWidth * 0.5 - 100) * ratio);
 
-                // icon animation
-                final iconPositionBottom = 50 - (50 * ratio);
-                final iconPositionLeft = (screenWidth * 0.5 + 40) +
-                    ((screenWidth * 0.4 - 55) * ratio);
+                        // icon animation
+                        final iconPositionBottom = 50 - (50 * ratio);
+                        final iconPositionLeft = (screenWidth * 0.5 + 40) +
+                            ((screenWidth * 0.4 - 55) * ratio);
 
-                // name animation
-                final namePositionBottom = -110 + (65 * ratio);
-                final namePositionLeft =
-                    (screenWidth * 0.5) + ((screenWidth * 0.1 + 10) * ratio);
+                        // name animation
+                        final namePositionBottom = -110 + (65 * ratio);
+                        final namePositionLeft = (screenWidth * 0.5) +
+                            ((screenWidth * 0.1 + 10) * ratio);
 
-                return Stack(
-                  fit: StackFit.expand,
-                  clipBehavior: Clip.none,
-                  children: [
-                    Positioned.fill(
-                      child: Image.network(
-                        AssetConstants.defaultBannerPic,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Positioned.fill(
-                      child: Container(
-                        color: backgroundColor,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: namePositionBottom,
-                      left: namePositionLeft,
-                      child: FractionalTranslation(
-                        translation: const Offset(-0.45, 0),
-                        child: SizedBox(
-                          width: screenWidth * 0.60,
-                          child: Text(
-                            "Ahmet Özcan",
-                            style: GoogleFonts.inter(
-                              fontSize: 32 + ((screenWidth - 393) * 0.1),
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
+                        return Stack(
+                          fit: StackFit.expand,
+                          clipBehavior: Clip.none,
+                          children: [
+                            Positioned.fill(
+                              child: Image.network(
+                                user.bannerPic,
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: true,
-                            maxLines: 2,
-                          ),
-                        ),
+                            Positioned.fill(
+                              child: Container(
+                                color: backgroundColor,
+                              ),
+                            ),
+                            Positioned(
+                              bottom: namePositionBottom,
+                              left: namePositionLeft,
+                              child: FractionalTranslation(
+                                translation: const Offset(-0.45, 0),
+                                child: SizedBox(
+                                  width: screenWidth * 0.60,
+                                  child: Text(
+                                    user.name,
+                                    style: GoogleFonts.inter(
+                                      fontSize:
+                                          32 + ((screenWidth - 393) * 0.1),
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
+                                    maxLines: 2,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: imagePositionBottom,
+                              left: imagePositionLeft,
+                              child: Container(
+                                height: imageRadius * 2,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: const Color(0xFFCFD3ED),
+                                    width: 3,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 4,
+                                      color: Colors.black.withOpacity(0.25),
+                                      offset: const Offset(0, 4),
+                                      spreadRadius: 0,
+                                    )
+                                  ],
+                                ),
+                                child: ClipOval(
+                                  child: Image.network(
+                                    user.profilePic,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: iconPositionBottom,
+                              left: iconPositionLeft,
+                              child: Container(
+                                width: 50,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(1 - ratio),
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 4,
+                                      color: Colors.black
+                                          .withOpacity(0.25 - 0.25 * ratio),
+                                      offset: const Offset(0, 4),
+                                      spreadRadius: 0,
+                                    )
+                                  ],
+                                ),
+                                child: IconButton(
+                                  iconSize: 30,
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    Icons.edit_outlined,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                  SliverAppBar(
+                    backgroundColor: Theme.of(context).canvasColor,
+                    expandedHeight: 100,
+                    collapsedHeight: 100,
+                    toolbarHeight: 100,
+                    pinned: true,
+                    elevation: 0,
+                    title: const SizedBox(height: 100),
+                  ),
+                  SliverPersistentHeader(
+                    delegate: _SliverAppBarDelegate(
+                      TabBar(
+                        controller: _tabController,
+                        isScrollable: false,
+                        indicatorColor: Colors.indigo.shade400,
+                        labelColor: Colors.black87,
+                        unselectedLabelColor: Colors.grey,
+                        tabs: ["Yorumlar", "Favoriler"]
+                            .map(
+                              (category) => Tab(
+                                text: category,
+                              ),
+                            )
+                            .toList(),
                       ),
                     ),
-                    Positioned(
-                      bottom: imagePositionBottom,
-                      left: imagePositionLeft,
-                      child: Container(
-                        height: imageRadius * 2,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: const Color(0xFFCFD3ED),
-                            width: 3,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 4,
-                              color: Colors.black.withOpacity(0.25),
-                              offset: const Offset(0, 4),
-                              spreadRadius: 0,
-                            )
-                          ],
-                        ),
-                        child: ClipOval(
-                          child: Image.network(
-                            AssetConstants.defaultProfilePic,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: iconPositionBottom,
-                      left: iconPositionLeft,
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(1 - ratio),
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 4,
-                              color:
-                                  Colors.black.withOpacity(0.25 - 0.25 * ratio),
-                              offset: const Offset(0, 4),
-                              spreadRadius: 0,
-                            )
-                          ],
-                        ),
-                        child: IconButton(
-                          iconSize: 30,
-                          onPressed: () {
-                            print("object");
+                    pinned: true,
+                  ),
+                ],
+                body: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    ref.watch(getCommentsOfUserProvider(widget._id)).when(
+                          data: (commentData) {
+                            return ListView.builder(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                              ),
+                              itemCount: commentData.comments.length,
+                              itemBuilder: (context, index) {
+                                final comment = commentData.comments[index];
+                                final item = commentData.items[index];
+                                return CommentTileCompany(
+                                    comment: comment, item: item);
+                              },
+                            );
                           },
-                          icon: const Icon(
-                            Icons.edit_outlined,
+                          error: (error, stackTrace) {
+                            return Text(error.toString());
+                          },
+                          loading: () => const LoadingSpinner(
+                            height: 50,
+                            width: 50,
                           ),
                         ),
-                      ),
-                    ),
+                    ref
+                        .watch(
+                          getFavoriteCompaniesProvider(user.favoriteCompanyIds),
+                        )
+                        .when(
+                          data: (companies) {
+                            return ListView.builder(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                              ),
+                              itemCount: companies.length,
+                              itemBuilder: (context, index) {
+                                final company = companies[index];
+                                return FavoriteTileCompany(
+                                    company: company,
+                                    ref: ref,
+                                    userId: widget._id);
+                              },
+                            );
+                          },
+                          error: (error, stackTrace) {
+                            return Text(error.toString());
+                          },
+                          loading: () => const LoadingSpinner(
+                            height: 50,
+                            width: 50,
+                          ),
+                        )
                   ],
-                );
-              },
-            ),
-          ),
-          SliverAppBar(
-            backgroundColor: Theme.of(context).canvasColor,
-            expandedHeight: 100,
-            collapsedHeight: 100,
-            toolbarHeight: 100,
-            pinned: true,
-            elevation: 0,
-            title: const SizedBox(height: 100),
-          ),
-          SliverPersistentHeader(
-            delegate: _SliverAppBarDelegate(
-              TabBar(
-                controller: _tabController,
-                isScrollable: false,
-                indicatorColor: Colors.indigo.shade400,
-                labelColor: Colors.black87,
-                unselectedLabelColor: Colors.grey,
-                tabs: ["Yorumlar", "Favoriler"]
-                    .map(
-                      (category) => Tab(
-                        text: category,
-                      ),
-                    )
-                    .toList(),
+                ),
+              ),
+            );
+          },
+          error: (error, stackTrace) => Center(child: Text(error.toString())),
+          loading: () => const Scaffold(
+            body: Center(
+              child: LoadingSpinner(
+                width: 75,
+                height: 75,
               ),
             ),
-            pinned: true,
           ),
-        ],
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            ListView.builder(
-              padding: const EdgeInsets.symmetric(
-                vertical: 10,
-              ),
-              itemCount: 50,
-              itemBuilder: (context, index) {
-                return const CommentTileCompany();
-              },
-            ),
-            ListView.builder(
-              padding: const EdgeInsets.symmetric(
-                vertical: 10,
-              ),
-              itemCount: 50,
-              itemBuilder: (context, index) {
-                return const FavoriteTileCompany();
-              },
-            )
-          ],
-        ),
-      ),
-    );
+        );
   }
 }
 
 class CommentTileCompany extends StatelessWidget {
-  const CommentTileCompany({super.key});
+  final Comment comment;
+  final Item item;
+  const CommentTileCompany(
+      {super.key, required this.comment, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -260,15 +319,14 @@ class CommentTileCompany extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                 child: GestureDetector(
                   onTap: () {
-                    // TODO: Commentleri çektikten sonra açılması gerek
-                    /* showPopUpScreen(
+                    showPopUpScreen(
                       context: context,
                       builder: (context) {
                         return CommentBottomSheet(
                           comment: comment,
                         );
                       },
-                    ); */
+                    );
                   },
                   child: ListTile(
                     minVerticalPadding: 0,
@@ -280,7 +338,14 @@ class CommentTileCompany extends StatelessWidget {
                           margin: const EdgeInsets.all(2),
                           child: GestureDetector(
                             onTap: () {
-                              // TODO: User Screen Navigation
+                              showPopUpScreen(
+                                context: context,
+                                builder: (context) {
+                                  return ItemScreen(
+                                    item: item,
+                                  );
+                                },
+                              );
                             },
                             child: Container(
                               width: 50,
@@ -296,7 +361,7 @@ class CommentTileCompany extends StatelessWidget {
                                   Radius.circular(8),
                                 ),
                                 child: Image.network(
-                                  AssetConstants.defaultBannerPic,
+                                  item.picture,
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -308,7 +373,7 @@ class CommentTileCompany extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Company Name - İtem Name",
+                              '${item.companyName} - ${item.name}',
                               style: GoogleFonts.inter(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -318,7 +383,7 @@ class CommentTileCompany extends StatelessWidget {
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: List.generate(
-                                2,
+                                comment.rating,
                                 (index) => const Icon(
                                   Icons.grade_rounded,
                                   color: Colors.amber,
@@ -334,7 +399,7 @@ class CommentTileCompany extends StatelessWidget {
                                 ),
                                 child: SizedBox(
                                   child: Text(
-                                    "comment.text!", // cant be null
+                                    comment.text!,
                                     style: GoogleFonts.inter(
                                       fontSize: 16,
                                       fontWeight: FontWeight.normal,
@@ -362,7 +427,14 @@ class CommentTileCompany extends StatelessWidget {
 }
 
 class FavoriteTileCompany extends StatelessWidget {
-  const FavoriteTileCompany({super.key});
+  final Company company;
+  final WidgetRef ref;
+  final String userId;
+  const FavoriteTileCompany(
+      {super.key,
+      required this.company,
+      required this.ref,
+      required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -384,7 +456,10 @@ class FavoriteTileCompany extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                 child: GestureDetector(
                   onTap: () {
-                    // TODO: Companye navigate
+                    context.pushNamed(
+                      RouteConstants.companyScreen,
+                      pathParameters: {"id": company.id},
+                    );
                   },
                   child: ListTile(
                     minVerticalPadding: 0,
@@ -408,7 +483,7 @@ class FavoriteTileCompany extends StatelessWidget {
                                 Radius.circular(8),
                               ),
                               child: Image.network(
-                                AssetConstants.defaultBannerPic,
+                                company.bannerPic,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -419,7 +494,7 @@ class FavoriteTileCompany extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Company Name",
+                              company.name,
                               style: GoogleFonts.inter(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -441,8 +516,15 @@ class FavoriteTileCompany extends StatelessWidget {
                         ),
                         const Spacer(),
                         IconButton(
-                          //TODO: Favori Takibi Çıkartma blah blah
-                          onPressed: () {},
+                          onPressed: () async {
+                            // if user viewing their own page
+                            if (ref.read(userProvider.notifier).state!.uid ==
+                                userId) {
+                              await ref
+                                  .read(profileControllerProvider.notifier)
+                                  .removeFromFavorites(userId, company.id);
+                            }
+                          },
                           icon: const Icon(Icons.favorite_rounded),
                         ),
                       ],
