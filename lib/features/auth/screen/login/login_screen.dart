@@ -9,14 +9,10 @@ import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/auth/screen/login/login_form.dart';
 
 class LoginScreen extends ConsumerWidget {
-  const LoginScreen({Key? key});
+  const LoginScreen({super.key});
 
   void signInWithGoogle(BuildContext context, WidgetRef ref) {
     ref.read(authControllerProvider.notifier).signInWithGoogle(context);
-  }
-
-  void signInAnonymously(BuildContext context, WidgetRef ref) {
-    ref.read(authControllerProvider.notifier).signInAnonymously(context);
   }
 
   void loseFocus() {
@@ -74,6 +70,7 @@ class LoginScreen extends ConsumerWidget {
             SquareTile(
               imagePath: AssetConstants.googleLogo,
               onTap: () {
+                context.pop();
                 signInWithGoogle(context, ref);
               },
             ),

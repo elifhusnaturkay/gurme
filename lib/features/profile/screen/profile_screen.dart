@@ -159,34 +159,38 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 ),
                               ),
                             ),
-                            Positioned(
-                              bottom: iconPositionBottom,
-                              left: iconPositionLeft,
-                              child: Container(
-                                width: 50,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(1 - ratio),
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: 4,
-                                      color: Colors.black
-                                          .withOpacity(0.25 - 0.25 * ratio),
-                                      offset: const Offset(0, 4),
-                                      spreadRadius: 0,
-                                    )
-                                  ],
-                                ),
-                                child: IconButton(
-                                  iconSize: 30,
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.edit_outlined,
-                                  ),
-                                ),
-                              ),
-                            ),
+                            ref.read(userProvider.notifier).state!.uid ==
+                                    widget._id
+                                ? Positioned(
+                                    bottom: iconPositionBottom,
+                                    left: iconPositionLeft,
+                                    child: Container(
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        color:
+                                            Colors.white.withOpacity(1 - ratio),
+                                        shape: BoxShape.circle,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            blurRadius: 4,
+                                            color: Colors.black.withOpacity(
+                                                0.25 - 0.25 * ratio),
+                                            offset: const Offset(0, 4),
+                                            spreadRadius: 0,
+                                          )
+                                        ],
+                                      ),
+                                      child: IconButton(
+                                        iconSize: 30,
+                                        onPressed: () {},
+                                        icon: const Icon(
+                                          Icons.edit_outlined,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
                           ],
                         );
                       },
@@ -235,7 +239,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 final comment = commentData.comments[index];
                                 final item = commentData.items[index];
                                 return CommentTileCompany(
-                                    comment: comment, item: item);
+                                  comment: comment,
+                                  item: item,
+                                );
                               },
                             );
                           },
@@ -261,9 +267,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               itemBuilder: (context, index) {
                                 final company = companies[index];
                                 return FavoriteTileCompany(
-                                    company: company,
-                                    ref: ref,
-                                    userId: widget._id);
+                                  company: company,
+                                  ref: ref,
+                                  userId: widget._id,
+                                );
                               },
                             );
                           },
@@ -501,23 +508,38 @@ class FavoriteTileCompany extends StatelessWidget {
                               ),
                             ),
                             Row(
-                              // TODO: Yıldızlar Düzeltilicek
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: List.generate(
-                                5,
-                                (index) => const Rating(
-                                  size: 20,
-                                  stopPosition: 0.5,
+                              children: [
+                                const SizedBox(width: 2),
+                                Text(
+                                  company.rating.toStringAsFixed(1),
+                                  style: GoogleFonts.inter(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.grey.shade400,
+                                  ),
                                 ),
-                              ),
+                                const SizedBox(width: 5),
+                                const Icon(
+                                  Icons.grade_rounded,
+                                  size: 18,
+                                  color: Colors.amber,
+                                ),
+                                const SizedBox(width: 5),
+                                Text(
+                                  company.ratingCount.toString(),
+                                  style: GoogleFonts.inter(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.grey.shade400,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
                         const Spacer(),
                         IconButton(
                           onPressed: () async {
-                            // if user viewing their own page
                             if (ref.read(userProvider.notifier).state!.uid ==
                                 userId) {
                               await ref
@@ -535,50 +557,6 @@ class FavoriteTileCompany extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class Rating extends StatelessWidget {
-  const Rating({super.key, required this.size, required this.stopPosition});
-
-  final double size;
-  final double stopPosition;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: ShaderMask(
-          blendMode: BlendMode.srcATop,
-          shaderCallback: (Rect rect) {
-            final gradientWidth = rect.width * stopPosition;
-            return LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              stops: [0, stopPosition, stopPosition],
-              colors: [
-                Colors.amber,
-                Colors.amber,
-                Colors.grey.shade300,
-              ],
-              tileMode: TileMode.clamp,
-            ).createShader(Rect.fromLTRB(
-              rect.left,
-              rect.top,
-              rect.left + gradientWidth + size / 2,
-              rect.bottom,
-            ));
-          },
-          child: SizedBox(
-            width: size,
-            height: size,
-            child:
-                Icon(Icons.grade_rounded, size: size, color: Colors.grey[300]),
-          ),
-        ),
       ),
     );
   }
@@ -602,13 +580,13 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            offset: const Offset(0, -4),
+            offset: const Offset(0, 4),
             color: Colors.black.withOpacity(0.25),
-            blurRadius: 6,
-            spreadRadius: 6,
+            blurRadius: 10,
+            spreadRadius: 2,
           ),
         ],
-        border: Border.all(color: Theme.of(context).canvasColor, width: 1),
+        border: Border.all(color: Theme.of(context).canvasColor),
         color: Theme.of(context).canvasColor,
       ),
       child: _tabBar,

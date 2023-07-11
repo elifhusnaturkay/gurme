@@ -80,163 +80,154 @@ class HomeScreen extends ConsumerWidget {
                       size: 25,
                     ),
                   ),
-                  Builder(
-                    builder: (context) {
-                      return IconButton(
-                        onPressed: () {
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            backgroundColor: Theme.of(context).canvasColor,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.elliptical(20, 17),
-                                topRight: Radius.elliptical(20, 17),
-                              ),
-                            ),
-                            enableDrag: true,
-                            useSafeArea: true,
-                            builder: (context) {
-                              bool isAuthenticated = ref
-                                  .watch(userProvider.notifier)
-                                  .state!
-                                  .isAuthenticated;
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: isAuthenticated
-                                    ? [
-                                        ListTile(
-                                          title: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: TextButton.icon(
-                                              onPressed: () {
-                                                context.pushNamed(
-                                                  RouteConstants.profileScreen,
-                                                  pathParameters: {
-                                                    "id": ref
-                                                        .read(userProvider
-                                                            .notifier)
-                                                        .state!
-                                                        .uid
-                                                  },
-                                                );
-                                              },
-                                              label: Text(
-                                                "Profile Git",
-                                                style: GoogleFonts.inter(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.indigo.shade400,
-                                                ),
-                                              ),
-                                              icon: CircleAvatar(
-                                                backgroundColor:
-                                                    const Color.fromRGBO(
-                                                        92, 107, 192, 0.5),
-                                                radius: 16,
-                                                child: CircleAvatar(
-                                                  radius: 14,
-                                                  backgroundColor:
-                                                      const Color.fromRGBO(
-                                                          92, 107, 192, 0.5),
-                                                  child: ClipOval(
-                                                    child: Image.network(
-                                                      ref
-                                                          .watch(userProvider
-                                                              .notifier)
-                                                          .state!
-                                                          .profilePic,
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        ListTile(
-                                          title: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: TextButton.icon(
-                                              onPressed: () {
-                                                ref
-                                                    .read(authControllerProvider
-                                                        .notifier)
-                                                    .signOut(context);
-                                              },
-                                              label: Text(
-                                                "Çıkış Yap",
-                                                style: GoogleFonts.inter(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.indigo.shade400,
-                                                ),
-                                              ),
-                                              icon: Icon(
-                                                Icons.logout_rounded,
-                                                color: Colors.indigo.shade400,
-                                                size: 32,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ]
-                                    : [
-                                        ListTile(
-                                          title: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: TextButton.icon(
-                                              onPressed: () {
-                                                context.pop();
-                                                context.pushNamed(
-                                                  RouteConstants.loginScreen,
-                                                );
-                                              },
-                                              label: Text(
-                                                "Giriş Yap ya da Kayıt Ol",
-                                                style: GoogleFonts.inter(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.indigo.shade400,
-                                                ),
-                                              ),
-                                              icon: Icon(
-                                                Icons.login_rounded,
-                                                color: Colors.indigo.shade400,
-                                                size: 32,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                              );
-                            },
-                          );
-                        },
-                        constraints: const BoxConstraints(),
-                        iconSize: 32,
-                        icon: CircleAvatar(
-                          backgroundColor:
-                              const Color.fromRGBO(92, 107, 192, 0.5),
-                          radius: 16,
-                          child: CircleAvatar(
-                            radius: 14,
-                            backgroundColor:
-                                const Color.fromRGBO(92, 107, 192, 0.5),
-                            child: ClipOval(
-                              child: Image.network(
-                                ref
-                                    .watch(userProvider.notifier)
-                                    .state!
-                                    .profilePic,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                  IconButton(
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Theme.of(context).canvasColor,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.elliptical(20, 17),
+                            topRight: Radius.elliptical(20, 17),
                           ),
                         ),
+                        enableDrag: true,
+                        useSafeArea: true,
+                        builder: (context) {
+                          bool isAuthenticated = ref
+                              .watch(userProvider.notifier)
+                              .state!
+                              .isAuthenticated;
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: isAuthenticated
+                                ? [
+                                    ListTile(
+                                      title: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: TextButton.icon(
+                                          onPressed: () {
+                                            context.pushNamed(
+                                              RouteConstants.profileScreen,
+                                              pathParameters: {
+                                                "id": ref
+                                                    .read(userProvider.notifier)
+                                                    .state!
+                                                    .uid
+                                              },
+                                            );
+                                          },
+                                          label: Text(
+                                            "Profile Git",
+                                            style: GoogleFonts.inter(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.indigo.shade400,
+                                            ),
+                                          ),
+                                          icon: CircleAvatar(
+                                            backgroundColor:
+                                                const Color.fromRGBO(
+                                                    92, 107, 192, 0.5),
+                                            radius: 16,
+                                            child: CircleAvatar(
+                                              radius: 14,
+                                              backgroundColor:
+                                                  const Color.fromRGBO(
+                                                      92, 107, 192, 0.5),
+                                              child: ClipOval(
+                                                child: Image.network(
+                                                  ref
+                                                      .watch(
+                                                          userProvider.notifier)
+                                                      .state!
+                                                      .profilePic,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    ListTile(
+                                      title: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: TextButton.icon(
+                                          onPressed: () {
+                                            ref
+                                                .read(authControllerProvider
+                                                    .notifier)
+                                                .signOut(context);
+                                          },
+                                          label: Text(
+                                            "Çıkış Yap",
+                                            style: GoogleFonts.inter(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.indigo.shade400,
+                                            ),
+                                          ),
+                                          icon: Icon(
+                                            Icons.logout_rounded,
+                                            color: Colors.indigo.shade400,
+                                            size: 32,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ]
+                                : [
+                                    ListTile(
+                                      title: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: TextButton.icon(
+                                          onPressed: () {
+                                            context.pop();
+                                            context.pushNamed(
+                                              RouteConstants.loginScreen,
+                                            );
+                                          },
+                                          label: Text(
+                                            "Giriş Yap ya da Kayıt Ol",
+                                            style: GoogleFonts.inter(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.indigo.shade400,
+                                            ),
+                                          ),
+                                          icon: Icon(
+                                            Icons.login_rounded,
+                                            color: Colors.indigo.shade400,
+                                            size: 32,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                          );
+                        },
                       );
                     },
+                    constraints: const BoxConstraints(),
+                    iconSize: 32,
+                    icon: CircleAvatar(
+                      backgroundColor: const Color.fromRGBO(92, 107, 192, 0.5),
+                      radius: 16,
+                      child: CircleAvatar(
+                        radius: 14,
+                        backgroundColor:
+                            const Color.fromRGBO(92, 107, 192, 0.5),
+                        child: ClipOval(
+                          child: Image.network(
+                            ref.watch(userProvider.notifier).state!.profilePic,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                   const SizedBox(
                     width: 5,
