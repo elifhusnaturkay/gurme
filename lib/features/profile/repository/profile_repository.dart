@@ -83,4 +83,10 @@ class ProfileRepository {
       'favoriteCompanyIds': FieldValue.arrayRemove([companyId])
     });
   }
+
+  Future<void> addToFavorites(String userId, String companyId) async {
+    await _users.doc(userId).update({
+      'favoriteCompanyIds': FieldValue.arrayUnion([companyId])
+    });
+  }
 }

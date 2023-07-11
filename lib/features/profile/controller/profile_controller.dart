@@ -74,4 +74,8 @@ class ProfileController extends StateNotifier<bool> {
   Future<void> removeFromFavorites(String userId, String companyId) async {
     return await _profileRepository.removeFromFavorites(userId, companyId);
   }
+
+  Future<void> addToFavorites(String userId, String companyId) async {
+    return await _profileRepository.addToFavorites(userId, companyId);
+  }
 }

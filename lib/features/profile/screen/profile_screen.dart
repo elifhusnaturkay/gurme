@@ -433,15 +433,23 @@ class CommentTileCompany extends StatelessWidget {
   }
 }
 
-class FavoriteTileCompany extends StatelessWidget {
+class FavoriteTileCompany extends StatefulWidget {
   final Company company;
   final WidgetRef ref;
   final String userId;
-  const FavoriteTileCompany(
-      {super.key,
-      required this.company,
-      required this.ref,
-      required this.userId});
+  const FavoriteTileCompany({
+    super.key,
+    required this.company,
+    required this.ref,
+    required this.userId,
+  });
+
+  @override
+  State<FavoriteTileCompany> createState() => _FavoriteTileCompanyState();
+}
+
+class _FavoriteTileCompanyState extends State<FavoriteTileCompany> {
+  bool favorite = true;
 
   @override
   Widget build(BuildContext context) {
@@ -465,7 +473,7 @@ class FavoriteTileCompany extends StatelessWidget {
                   onTap: () {
                     context.pushNamed(
                       RouteConstants.companyScreen,
-                      pathParameters: {"id": company.id},
+                      pathParameters: {"id": widget.company.id},
                     );
                   },
                   child: ListTile(
@@ -490,7 +498,7 @@ class FavoriteTileCompany extends StatelessWidget {
                                 Radius.circular(8),
                               ),
                               child: Image.network(
-                                company.bannerPic,
+                                widget.company.bannerPic,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -501,7 +509,7 @@ class FavoriteTileCompany extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              company.name,
+                              widget.company.name,
                               style: GoogleFonts.inter(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -511,7 +519,7 @@ class FavoriteTileCompany extends StatelessWidget {
                               children: [
                                 const SizedBox(width: 2),
                                 Text(
-                                  company.rating.toStringAsFixed(1),
+                                  widget.company.rating.toStringAsFixed(1),
                                   style: GoogleFonts.inter(
                                     fontSize: 12,
                                     fontWeight: FontWeight.normal,
@@ -526,7 +534,7 @@ class FavoriteTileCompany extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 5),
                                 Text(
-                                  company.ratingCount.toString(),
+                                  widget.company.ratingCount.toString(),
                                   style: GoogleFonts.inter(
                                     fontSize: 12,
                                     fontWeight: FontWeight.normal,
@@ -540,14 +548,36 @@ class FavoriteTileCompany extends StatelessWidget {
                         const Spacer(),
                         IconButton(
                           onPressed: () async {
-                            if (ref.read(userProvider.notifier).state!.uid ==
-                                userId) {
-                              await ref
-                                  .read(profileControllerProvider.notifier)
-                                  .removeFromFavorites(userId, company.id);
+                            if (widget.ref
+                                    .read(userProvider.notifier)
+                                    .state!
+                                    .uid ==
+                                widget.userId) {
+                              setState(() {
+                                favorite = !favorite;
+                              });
+                              if (!favorite) {
+                                await widget.ref
+                                    .read(profileControllerProvider.notifier)
+                                    .removeFromFavorites(
+                                        widget.userId, widget.company.id);
+                              } else {
+                                await widget.ref
+                                    .read(profileControllerProvider.notifier)
+                                    .addToFavorites(
+                                        widget.userId, widget.company.id);
+                              }
                             }
                           },
-                          icon: const Icon(Icons.favorite_rounded),
+                          icon: favorite
+                              ? Icon(
+                                  Icons.favorite,
+                                  color: Colors.indigo.shade400,
+                                )
+                              : Icon(
+                                  Icons.favorite_border,
+                                  color: Colors.indigo.shade400,
+                                ),
                         ),
                       ],
                     ),
