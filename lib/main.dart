@@ -74,7 +74,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           home: Container(
-            color: Colors.transparent,
+            color: Theme.of(context).canvasColor,
             child: const Center(
               child: LoadingSpinner(width: 75, height: 75),
             ),
