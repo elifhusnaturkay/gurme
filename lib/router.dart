@@ -39,7 +39,22 @@ final routerProvider = Provider<GoRouter>(
           name: RouteConstants.loginScreen,
           path: '/login',
           pageBuilder: (context, state) {
-            return const MaterialPage(child: LoginScreen());
+            return CustomTransitionPage(
+              key: state.pageKey,
+              child: const LoginScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return SlideTransition(
+                  position: animation.drive(
+                    Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero)
+                        .chain(
+                      CurveTween(curve: Curves.ease),
+                    ),
+                  ),
+                  child: child,
+                );
+              },
+            );
           },
         ),
         GoRoute(
@@ -53,8 +68,11 @@ final routerProvider = Provider<GoRouter>(
                   (context, animation, secondaryAnimation, child) {
                 return SlideTransition(
                   position: animation.drive(
-                      Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero)
-                          .chain(CurveTween(curve: Curves.ease))),
+                    Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero)
+                        .chain(
+                      CurveTween(curve: Curves.ease),
+                    ),
+                  ),
                   child: child,
                 );
               },
@@ -72,8 +90,11 @@ final routerProvider = Provider<GoRouter>(
                   (context, animation, secondaryAnimation, child) {
                 return SlideTransition(
                   position: animation.drive(
-                      Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero)
-                          .chain(CurveTween(curve: Curves.ease))),
+                    Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero)
+                        .chain(
+                      CurveTween(curve: Curves.ease),
+                    ),
+                  ),
                   child: child,
                 );
               },

@@ -46,10 +46,10 @@ class AuthController extends StateNotifier<bool> {
     state = true;
     final response = await _authRepository.signOut();
 
+    state = false;
     response.fold((error) => showToast(context, error), (r) {
       _ref.read(authControllerProvider.notifier).signInAnonymously(context);
     });
-    state = false;
   }
 
   Future<void> signInWithEmail(

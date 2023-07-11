@@ -21,63 +21,64 @@ class LoginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 19),
-            Stack(
-              children: [
-                Positioned(
-                  left: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 5, 0, 5),
-                    child: GestureDetector(
-                      onTap: () {
-                        context.pop();
-                      },
-                      child: const Icon(
-                        Icons.arrow_back_rounded,
-                        color: Color(0xFFBDBDBD),
+    return GestureDetector(
+      onTap: loseFocus,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 19),
+              Stack(
+                children: [
+                  Positioned(
+                    left: 0,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 5, 0, 5),
+                      child: GestureDetector(
+                        onTap: () {
+                          context.pop();
+                        },
+                        child: const Icon(
+                          Icons.arrow_back_rounded,
+                          color: Color(0xFFBDBDBD),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Align(
-                  child: Text(
-                    "Giriş Yap",
-                    style: GoogleFonts.inter(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w700,
+                  Align(
+                    child: Text(
+                      "Giriş Yap",
+                      style: GoogleFonts.inter(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 34),
-            const LoginForm(),
-            const SizedBox(height: 50),
-            Text(
-              "Ya da şununla giriş yap",
-              style: GoogleFonts.inter(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
+                ],
               ),
-            ),
-            const SizedBox(height: 30),
-            SquareTile(
-              imagePath: AssetConstants.googleLogo,
-              onTap: () {
-                context.pop();
-                signInWithGoogle(context, ref);
-              },
-            ),
-            Expanded(
-              flex: 2, // Adjust the flex value to set the desired height
-              child: GestureDetector(
-                onTap: loseFocus,
+              const SizedBox(height: 34),
+              const LoginForm(),
+              const SizedBox(height: 50),
+              Text(
+                "Ya da şununla giriş yap",
+                style: GoogleFonts.inter(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 30),
+              SquareTile(
+                imagePath: AssetConstants.googleLogo,
+                onTap: () {
+                  context.pop();
+                  signInWithGoogle(context, ref);
+                },
+              ),
+              Expanded(
+                flex: 2,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -109,8 +110,8 @@ class LoginScreen extends ConsumerWidget {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

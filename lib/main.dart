@@ -19,9 +19,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  if (FirebaseAuth.instance.currentUser == null) {
-    FirebaseAuth.instance.signInAnonymously();
-  }
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(
     ProviderScope(
@@ -54,6 +51,8 @@ class _MyAppState extends ConsumerState<MyApp> {
       data: (user) {
         if (user != null) {
           getUserData(user);
+        } else {
+          ref.read(authControllerProvider.notifier).signInAnonymously(context);
         }
         return MaterialApp.router(
           debugShowCheckedModeBanner: false,
