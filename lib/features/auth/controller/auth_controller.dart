@@ -65,8 +65,9 @@ class AuthController extends StateNotifier<bool> {
 
   Future<void> signUpWithEmail(
       BuildContext context, String email, String password, String name) async {
+    state = true;
     final user = await _authRepository.signUpWithEmail(email, password, name);
-
+    state = false;
     user.fold((error) {
       showToast(context, error);
     }, (userModel) {
@@ -78,12 +79,11 @@ class AuthController extends StateNotifier<bool> {
   Future<void> signInAnonymously(BuildContext context) async {
     state = true;
     final user = await _authRepository.signInAnonymously();
-
+    state = false;
     user.fold(
         (error) => showToast(context, error),
         (userModel) =>
             _ref.read(userProvider.notifier).update((state) => userModel));
-    state = false;
   }
 
   Future<void> sendResetEmail(BuildContext context, String email) async {
