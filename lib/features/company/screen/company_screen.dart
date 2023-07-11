@@ -101,60 +101,81 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
                 key: rectGetter,
                 body: CustomScrollView(
                   controller: _autoScrollController,
-                  slivers: <Widget>[
+                  slivers: [
                     SliverAppBar(
                       expandedHeight: 150,
                       floating: false,
-                      flexibleSpace: Stack(
-                        children: [
-                          Positioned.fill(
-                            child: Image.network(
-                              companyData.company.bannerPic,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 10,
-                            right: 10,
-                            child: GestureDetector(
-                              onTap: () async {
-                                return await LocationUtils.showOnMap(
-                                    context, companyData.company.location);
-                              },
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFFE9EAFF),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(6),
-                                  ),
-                                ),
-                                padding: const EdgeInsets.fromLTRB(
-                                  4,
-                                  2,
-                                  2,
-                                  2,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Haritada Göster",
-                                      style: GoogleFonts.inter(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 5),
-                                    Icon(
-                                      Icons.near_me_rounded,
-                                      size: 18,
-                                      color: Colors.indigo.shade400,
-                                    ),
-                                  ],
+                      flexibleSpace: LayoutBuilder(
+                        builder: (context, constraints) {
+                          final double ratio = (_autoScrollController.offset /
+                                  (150 - kToolbarHeight))
+                              .clamp(0, 1);
+                          return Stack(
+                            children: [
+                              Positioned.fill(
+                                child: Image.network(
+                                  companyData.company.bannerPic,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                            ),
-                          )
-                        ],
+                              Positioned(
+                                top: 28,
+                                right: 0,
+                                child: IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.favorite,
+                                    color: Colors.indigo.shade400
+                                        .withOpacity(1 - ratio),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                bottom: 10,
+                                right: 10,
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    return await LocationUtils.showOnMap(
+                                        context, companyData.company.location);
+                                  },
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xFFE9EAFF),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(6),
+                                      ),
+                                    ),
+                                    padding: const EdgeInsets.fromLTRB(
+                                      8,
+                                      4,
+                                      4,
+                                      4,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Haritada Göster",
+                                          style: GoogleFonts.inter(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            color:
+                                                Colors.black.withOpacity(0.8),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 5),
+                                        Icon(
+                                          Icons.near_me_rounded,
+                                          size: 20,
+                                          color: Colors.indigo.shade400,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          );
+                        },
                       ),
                     ),
                     SliverAppBar(
