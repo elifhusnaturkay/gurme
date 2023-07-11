@@ -5,7 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gurme/common/constants/asset_constants.dart';
+import 'package:gurme/common/widgets/loading_spinner.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/firebase_options.dart';
 import 'package:gurme/models/user_model.dart';
@@ -19,6 +19,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  if (FirebaseAuth.instance.currentUser == null) {
+    FirebaseAuth.instance.signInAnonymously();
+  }
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(
     ProviderScope(
@@ -52,9 +55,6 @@ class _MyAppState extends ConsumerState<MyApp> {
         if (user != null) {
           getUserData(user);
         }
-        if (userModel == null) {
-          ref.read(authControllerProvider.notifier).signInAnonymously(context);
-        }
         return MaterialApp.router(
           debugShowCheckedModeBanner: false,
           title: 'Gurme',
@@ -73,13 +73,11 @@ class _MyAppState extends ConsumerState<MyApp> {
       },
       loading: () {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           home: Container(
-            color: Colors.indigo.shade400,
-            child: Center(
-              child: Image.asset(
-                AssetConstants.longLogoWhite,
-                width: MediaQuery.of(context).size.width / 1.5,
-              ),
+            color: Colors.transparent,
+            child: const Center(
+              child: LoadingSpinner(width: 75, height: 75),
             ),
           ),
         );

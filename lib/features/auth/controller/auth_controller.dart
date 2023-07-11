@@ -5,7 +5,7 @@ import 'package:gurme/common/utils/show_toast.dart';
 import 'package:gurme/features/auth/repository/auth_repository.dart';
 import 'package:gurme/models/user_model.dart';
 
-final authControllerProvider = StateNotifierProvider(
+final authControllerProvider = StateNotifierProvider<AuthController, bool>(
   (ref) => AuthController(
     authRepository: ref.read(authRepositoryProvider),
     ref: ref,
@@ -16,7 +16,10 @@ final userProvider = StateProvider<UserModel?>((ref) => null);
 
 final authStateChangeProvider = StreamProvider((ref) {
   final authController = ref.watch(authControllerProvider.notifier);
-  return authController.authStateChanged;
+  if (!ref.watch(authControllerProvider)) {
+    return authController.authStateChanged;
+  }
+  return const Stream.empty();
 });
 
 class AuthController extends StateNotifier<bool> {
@@ -30,8 +33,9 @@ class AuthController extends StateNotifier<bool> {
   Stream<User?> get authStateChanged => _authRepository.authStateChanged;
 
   Future<void> signInWithGoogle(BuildContext context) async {
+    state = true;
     final user = await _authRepository.signInWithGoogle();
-
+    state = false;
     user.fold(
         (error) => showToast(context, error),
         (userModel) =>
@@ -39,16 +43,20 @@ class AuthController extends StateNotifier<bool> {
   }
 
   Future<void> signOut(BuildContext context) async {
+    state = true;
     final response = await _authRepository.signOut();
 
-    response.fold((error) => showToast(context, error),
-        (r) => _ref.read(userProvider.notifier).update((state) => null));
+    response.fold((error) => showToast(context, error), (r) {
+      _ref.read(authControllerProvider.notifier).signInAnonymously(context);
+    });
+    state = false;
   }
 
   Future<void> signInWithEmail(
       BuildContext context, String email, String password) async {
+    state = true;
     final user = await _authRepository.signInWithEmail(email, password);
-
+    state = false;
     user.fold(
         (error) => showToast(context, error),
         (userModel) =>
@@ -68,12 +76,14 @@ class AuthController extends StateNotifier<bool> {
   }
 
   Future<void> signInAnonymously(BuildContext context) async {
+    state = true;
     final user = await _authRepository.signInAnonymously();
 
     user.fold(
         (error) => showToast(context, error),
         (userModel) =>
             _ref.read(userProvider.notifier).update((state) => userModel));
+    state = false;
   }
 
   Future<void> sendResetEmail(BuildContext context, String email) async {
