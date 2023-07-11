@@ -81,7 +81,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
               child: Hero(
                 tag: "hometosearch",
                 child: AppBar(
-                  automaticallyImplyLeading: false,
+                  leadingWidth: 40,
+                  titleSpacing: 0,
+                  iconTheme: const IconThemeData(
+                    color: Colors.black,
+                  ),
                   shape: Border(
                     top: BorderSide(
                       color: Colors.grey.shade300,
@@ -94,98 +98,83 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                   ),
                   centerTitle: false,
                   elevation: 0,
-                  titleSpacing: 0,
-                  title: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          context.pop();
-                        },
-                        icon: const Icon(
-                          Icons.arrow_back_rounded,
-                          color: Colors.black,
+                  title: SizedBox(
+                    width:
+                        200 + ((MediaQuery.of(context).size.width - 393) * 0.5),
+                    child: TextField(
+                      controller: searchController,
+                      cursorColor: Colors.indigo.shade400,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Bugün canın ne çekiyor?',
+                        hintStyle: GoogleFonts.inter(
+                          fontSize: 15 +
+                              ((MediaQuery.of(context).size.width - 393) *
+                                  0.05),
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey.shade400,
                         ),
                       ),
-                      SizedBox(
-                        width: 200 +
-                            ((MediaQuery.of(context).size.width - 393) * 0.5),
-                        child: TextField(
-                          controller: searchController,
-                          cursorColor: Colors.indigo.shade400,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Bugün canın ne çekiyor?',
-                            hintStyle: GoogleFonts.inter(
-                              fontSize: 15 +
-                                  ((MediaQuery.of(context).size.width - 393) *
-                                      0.05),
-                              fontWeight: FontWeight.w500,
-                              color: Colors.grey.shade400,
-                            ),
-                          ),
-                          onChanged: (value) {
-                            ref
-                                .read(queryProvider.notifier)
-                                .update((state) => value);
-                          },
-                        ),
-                      ),
-                      const Spacer(),
-                      Row(
-                        children: [
-                          GestureDetector(
-                            child: Text(
-                              'Ürün',
-                              style: GoogleFonts.inter(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: _colorAnimationItem.value,
-                              ),
-                            ),
-                            onTap: () {
-                              if (!isSearchingItems) {
-                                setState(() {
-                                  isSearchingItems = !isSearchingItems;
-                                });
-
-                                _animationController.reverse();
-                              }
-                            },
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            '/',
+                      onChanged: (value) {
+                        ref
+                            .read(queryProvider.notifier)
+                            .update((state) => value);
+                      },
+                    ),
+                  ),
+                  actions: [
+                    Row(
+                      children: [
+                        GestureDetector(
+                          child: Text(
+                            'Ürün',
                             style: GoogleFonts.inter(
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
-                              color: const Color.fromRGBO(92, 107, 192, 0.5),
+                              color: _colorAnimationItem.value,
                             ),
                           ),
-                          const SizedBox(width: 5),
-                          GestureDetector(
-                            child: Text(
-                              'Restoran',
-                              style: GoogleFonts.inter(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: _colorAnimationCompany.value,
-                              ),
-                            ),
-                            onTap: () {
-                              if (isSearchingItems) {
-                                setState(() {
-                                  isSearchingItems = !isSearchingItems;
-                                });
-                                _animationController.forward();
-                              }
-                            },
+                          onTap: () {
+                            if (!isSearchingItems) {
+                              setState(() {
+                                isSearchingItems = !isSearchingItems;
+                              });
+                              _animationController.reverse();
+                            }
+                          },
+                        ),
+                        const SizedBox(width: 5),
+                        Text(
+                          '/',
+                          style: GoogleFonts.inter(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: const Color.fromRGBO(92, 107, 192, 0.5),
                           ),
-                          const SizedBox(width: 10),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                        const SizedBox(width: 5),
+                        GestureDetector(
+                          child: Text(
+                            'Restoran',
+                            style: GoogleFonts.inter(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: _colorAnimationCompany.value,
+                            ),
+                          ),
+                          onTap: () {
+                            if (isSearchingItems) {
+                              setState(() {
+                                isSearchingItems = !isSearchingItems;
+                              });
+                              _animationController.forward();
+                            }
+                          },
+                        ),
+                        const SizedBox(width: 10),
+                      ],
+                    ),
+                  ],
                   backgroundColor: Colors.grey.shade200,
                 ),
               ),
