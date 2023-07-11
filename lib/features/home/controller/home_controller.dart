@@ -9,19 +9,19 @@ final homeControllerProvider =
   return HomeController(homeRepository: ref.watch(homeRepositoryProvider));
 });
 
-final getPopularItemsProvider = StreamProvider.autoDispose((ref) {
+final getPopularItemsProvider = FutureProvider.autoDispose((ref) {
   return ref.watch(homeControllerProvider.notifier).getPopularItems();
 });
 
-final getPopularCompaniesProvider = StreamProvider.autoDispose((ref) {
+final getPopularCompaniesProvider = FutureProvider.autoDispose((ref) {
   return ref.watch(homeControllerProvider.notifier).getPopularCompanies();
 });
 
-final getCategoriesProvider = StreamProvider.autoDispose((ref) {
+final getCategoriesProvider = FutureProvider.autoDispose((ref) {
   return ref.watch(homeControllerProvider.notifier).getCategories();
 });
 
-final getRandomItemsProvider = StreamProvider.autoDispose((ref) {
+final getRandomItemsProvider = FutureProvider.autoDispose((ref) {
   return ref.watch(homeControllerProvider.notifier).getRandomItems();
 });
 
@@ -32,19 +32,19 @@ class HomeController extends StateNotifier<bool> {
       : _homeRepository = homeRepository,
         super(false);
 
-  Stream<List<Item>> getPopularItems() {
-    return _homeRepository.getPopularItems();
+  Future<List<Item>> getPopularItems() async {
+    return await _homeRepository.getPopularItems();
   }
 
-  Stream<List<Company>> getPopularCompanies() {
-    return _homeRepository.getPopularCompanies();
+  Future<List<Company>> getPopularCompanies() async {
+    return await _homeRepository.getPopularCompanies();
   }
 
-  Stream<List<CategoryModel>> getCategories() {
-    return _homeRepository.getCategories();
+  Future<List<CategoryModel>> getCategories() async {
+    return await _homeRepository.getCategories();
   }
 
-  Stream<List<Item>> getRandomItems() {
-    return _homeRepository.getRandomItems();
+  Future<List<Item>> getRandomItems() async {
+    return await _homeRepository.getRandomItems();
   }
 }

@@ -19,65 +19,64 @@ class HomeRepository {
   CollectionReference get _company => _firestore.collection('company');
   CollectionReference get _category => _firestore.collection('category');
 
-  Stream<List<Item>> getPopularItems() {
-    return _items.orderBy('rating', descending: true).snapshots().map((event) {
-      List<Item> items = [];
-      for (var item in event.docs) {
-        items.add(Item.fromMap(item.data() as Map<String, dynamic>));
-      }
+  Future<List<Item>> getPopularItems() async {
+    final querySnapshot =
+        await _items.orderBy('rating', descending: true).get();
 
-      // Items are considered popular if their rating count is at least 20
-      // To prevent display low ratingCount but high rating items
-      List<Item> popularItems = [];
-      for (var item in items) {
-        if (popularItems.length == 5) {
-          break;
-        }
-        if (item.ratingCount >= 20) {
-          popularItems.add(item);
-        }
+    List<Item> items = [];
+    for (var item in querySnapshot.docs) {
+      items.add(Item.fromMap(item.data() as Map<String, dynamic>));
+    }
+
+    // Items are considered popular if their rating count is at least 20
+    // To prevent display low ratingCount but high rating items
+    List<Item> popularItems = [];
+    for (var item in items) {
+      if (popularItems.length == 5) {
+        break;
       }
-      return popularItems;
-    });
+      if (item.ratingCount >= 20) {
+        popularItems.add(item);
+      }
+    }
+    return popularItems;
   }
 
-  Stream<List<Company>> getPopularCompanies() {
-    return _company
-        .orderBy('rating', descending: true)
-        .snapshots()
-        .map((event) {
-      List<Company> companies = [];
-      for (var company in event.docs) {
-        companies.add(Company.fromMap(company.data() as Map<String, dynamic>));
-      }
+  Future<List<Company>> getPopularCompanies() async {
+    final querySnapshot =
+        await _company.orderBy('rating', descending: true).get();
 
-      // Companies are considered popular if their rating count is at least 50
-      // To prevent display low ratingCount but high rating companies
-      List<Company> popularCompanies = [];
-      for (var company in companies) {
-        if (popularCompanies.length == 5) {
-          break;
-        }
-        if (company.ratingCount >= 50) {
-          popularCompanies.add(company);
-        }
+    List<Company> companies = [];
+    for (var company in querySnapshot.docs) {
+      companies.add(Company.fromMap(company.data() as Map<String, dynamic>));
+    }
+
+    // Companies are considered popular if their rating count is at least 50
+    // To prevent display low ratingCount but high rating companies
+    List<Company> popularCompanies = [];
+    for (var company in companies) {
+      if (popularCompanies.length == 5) {
+        break;
       }
-      return popularCompanies;
-    });
+      if (company.ratingCount >= 50) {
+        popularCompanies.add(company);
+      }
+    }
+    return popularCompanies;
   }
 
-  Stream<List<CategoryModel>> getCategories() {
-    return _category.snapshots().map((event) {
-      List<CategoryModel> categories = [];
-      for (var category in event.docs) {
-        categories.add(
-            CategoryModel.fromMap(category.data() as Map<String, dynamic>));
-      }
-      return categories;
-    });
+  Future<List<CategoryModel>> getCategories() async {
+    final querySnapshot = await _category.get();
+
+    List<CategoryModel> categories = [];
+    for (var category in querySnapshot.docs) {
+      categories
+          .add(CategoryModel.fromMap(category.data() as Map<String, dynamic>));
+    }
+    return categories;
   }
 
-  Stream<List<Item>> getRandomItems() async* {
+  Future<List<Item>> getRandomItems() async {
     List<Item> randomItems = [];
     final randomId = RandomIdGenerator.autoId();
 
@@ -102,6 +101,7 @@ class HomeRepository {
         randomItems.add(Item.fromMap(item.data() as Map<String, dynamic>));
       }
     }
-    yield randomItems;
+
+    return randomItems;
   }
 }
