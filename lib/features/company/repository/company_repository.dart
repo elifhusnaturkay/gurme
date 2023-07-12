@@ -17,6 +17,7 @@ class CompanyRepository {
   CollectionReference get _items => _firestore.collection('items');
   CollectionReference get _company => _firestore.collection('company');
   CollectionReference get _category => _firestore.collection('category');
+  CollectionReference get _users => _firestore.collection('users');
 
   Future<Company> getCompanyById(String id) async {
     late Company company;
@@ -86,5 +87,14 @@ class CompanyRepository {
     }
 
     return popularItems;
+  }
+
+  Future<bool> isFavoriteCompany(String userId, String companyId) async {
+    final querySnapshot = await _users
+        .where('uid', isEqualTo: userId)
+        .where('favoriteCompanyIds', arrayContains: companyId)
+        .get();
+
+    return querySnapshot.docs.isNotEmpty;
   }
 }
