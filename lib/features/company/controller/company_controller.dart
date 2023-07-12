@@ -7,7 +7,7 @@ import 'package:gurme/models/item_model.dart';
 final companyControllerProvider =
     StateNotifierProvider<CompanyController, bool>((ref) {
   return CompanyController(
-      comapanyRepository: ref.watch(companyRepositoryProvider));
+      companyRepository: ref.watch(companyRepositoryProvider));
 });
 
 class CompanyData {
@@ -15,7 +15,6 @@ class CompanyData {
   final List<CategoryModel> categories;
   final List<Item> popularItems;
   final List<List<Item>> items;
-
   CompanyData({
     required this.company,
     required this.categories,
@@ -46,27 +45,31 @@ final companyDataProvider = FutureProvider.family
 });
 
 class CompanyController extends StateNotifier<bool> {
-  final CompanyRepository _comapanyRepository;
+  final CompanyRepository _companyRepository;
 
   CompanyController({
-    required CompanyRepository comapanyRepository,
-  })  : _comapanyRepository = comapanyRepository,
+    required CompanyRepository companyRepository,
+  })  : _companyRepository = companyRepository,
         super(false);
 
   Future<List<Item>> getPopularItems(String companyId) async {
-    return await _comapanyRepository.getPopularItems(companyId);
+    return await _companyRepository.getPopularItems(companyId);
   }
 
   Future<Company> getCompanyById(String id) async {
-    return await _comapanyRepository.getCompanyById(id);
+    return await _companyRepository.getCompanyById(id);
   }
 
   Future<List<CategoryModel>> getCategories(List<String> categoryId) async {
-    return await _comapanyRepository.getCategories(categoryId);
+    return await _companyRepository.getCategories(categoryId);
   }
 
   Future<List<List<Item>>> getAllItems(
       String companyId, List<String> categoryIds) async {
-    return await _comapanyRepository.getAllItems(companyId, categoryIds);
+    return await _companyRepository.getAllItems(companyId, categoryIds);
+  }
+
+  Future<bool> isFavoriteCompany(String userId, String companyId) async {
+    return await _companyRepository.isFavoriteCompany(userId, companyId);
   }
 }
