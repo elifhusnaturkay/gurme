@@ -201,7 +201,7 @@ class ItemScreenItemCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Strawberries & Cream Frappucino ® Blended",
+                          widget._item.name,
                           style: GoogleFonts.inter(
                             fontSize: 28 +
                                 ((MediaQuery.of(context).size.width - 393) *
