@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gurme/common/widgets/loading_spinner.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
@@ -58,7 +59,11 @@ class _MyAppState extends ConsumerState<MyApp> {
           debugShowCheckedModeBanner: false,
           title: 'Gurme',
           locale: DevicePreview.locale(context),
-          builder: DevicePreview.appBuilder,
+          builder: (context, myWidget) {
+            myWidget = DevicePreview.appBuilder(context, myWidget);
+            myWidget = EasyLoading.init()(context, myWidget);
+            return myWidget;
+          },
           routeInformationParser:
               ref.watch(routerProvider).routeInformationParser,
           routeInformationProvider:

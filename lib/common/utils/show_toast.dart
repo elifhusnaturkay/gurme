@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-void showToast(BuildContext context, String text) {
-  Fluttertoast.showToast(
-    msg: text,
-    gravity: ToastGravity.BOTTOM,
+void showToast(String text) {
+  EasyLoading.showToast(
+    text,
+    duration: const Duration(seconds: 2),
+    dismissOnTap: false,
+    toastPosition: EasyLoadingToastPosition.bottom,
   );
 }
