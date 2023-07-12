@@ -98,7 +98,7 @@ class SignUpScreen extends ConsumerWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          context.go("/login");
+                          context.pop();
                         },
                         child: Text(
                           "Giriş Yap",
