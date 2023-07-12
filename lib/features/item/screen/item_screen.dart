@@ -165,9 +165,6 @@ class ItemScreenItemCard extends StatelessWidget {
                 },
                 child: Icon(
                   size: 48,
-                  grade: 200,
-                  opticalSize: 48,
-                  weight: 700,
                   currentIcon,
                   key: ValueKey<IconData>(currentIcon),
                 ),
@@ -180,8 +177,10 @@ class ItemScreenItemCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  width: 140,
-                  height: 160,
+                  width:
+                      140 + ((MediaQuery.of(context).size.width - 393) * 0.1),
+                  height:
+                      160 + ((MediaQuery.of(context).size.height - 760) * 0.1),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     color: Colors.indigo.shade400.withOpacity(0.5),
@@ -202,15 +201,18 @@ class ItemScreenItemCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget._item.name,
+                          "Strawberries & Cream Frappucino ® Blended",
                           style: GoogleFonts.inter(
-                            fontSize: 32,
+                            fontSize: 28 +
+                                ((MediaQuery.of(context).size.width - 393) *
+                                    0.1),
                             fontWeight: FontWeight.w600,
                           ),
-                          maxLines: 2,
+                          maxLines: 4,
                           overflow: TextOverflow.ellipsis,
                           softWrap: true,
                         ),
+                        const SizedBox(height: 5),
                         Text(
                           widget._item.companyName,
                           style: GoogleFonts.inter(
@@ -553,46 +555,56 @@ class _CommentFieldScreenState extends State<CommentFieldScreen> {
             child: TextField(
               controller: commentController,
               cursorColor: Colors.indigo.shade400,
-              maxLines: 3,
+              maxLines: FocusScope.of(context).hasFocus ? 3 : 3,
               decoration: InputDecoration(
+                suffixIconConstraints: const BoxConstraints(
+                  maxWidth: 120,
+                  maxHeight: 60,
+                ),
+                suffixIcon: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: ElevatedButton(
+                    onPressed: (ratingCount > 0 && ratingCount <= 5)
+                        ? () async {
+                            context.pop();
+                            await widget.ref
+                                .read(itemControllerProvider.notifier)
+                                .sendComment(
+                                  context,
+                                  widget.ref.read(userProvider.notifier).state!,
+                                  widget.item,
+                                  ratingCount,
+                                  commentController.text.trim(),
+                                );
+                          }
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.indigo.shade400,
+                      shape: const StadiumBorder(),
+                    ),
+                    child: Text(
+                      "Gönder",
+                      style: GoogleFonts.inter(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).canvasColor,
+                      ),
+                    ),
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.indigo.shade400,
+                    width: 2,
+                  ),
+                ),
                 border: const OutlineInputBorder(),
-                hintText: 'Gurmenin yorum zamanı!',
+                hintText: 'Gurmenin yorum zamanı! (İsteğe Bağlı)',
                 hintStyle: GoogleFonts.inter(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
                   color: Colors.grey.shade400,
                 ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            // TODO: Collection Kaydı // oldu ig
-
-            onPressed: (ratingCount > 0 && ratingCount <= 5)
-                ? () async {
-                    context.pop();
-                    await widget.ref
-                        .read(itemControllerProvider.notifier)
-                        .sendComment(
-                          context,
-                          widget.ref.read(userProvider.notifier).state!,
-                          widget.item,
-                          ratingCount,
-                          commentController.text.trim(),
-                        );
-                  }
-                : null,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.indigo.shade400,
-              shape: const StadiumBorder(),
-            ),
-            child: Text(
-              "Gönder",
-              style: GoogleFonts.inter(
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).canvasColor,
               ),
             ),
           ),
