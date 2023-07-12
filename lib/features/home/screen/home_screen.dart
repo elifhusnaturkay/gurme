@@ -9,7 +9,9 @@ import 'package:gurme/common/utils/location_utils.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/home/controller/home_controller.dart';
 import 'package:gurme/features/home/drawers/favorites_drawer.dart';
+import 'package:gurme/features/item/screen/item_screen.dart';
 import 'package:gurme/main.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -105,76 +107,82 @@ class HomeScreen extends ConsumerWidget {
                             children: isAuthenticated
                                 ? [
                                     ListTile(
+                                      onTap: () {
+                                        context.pushNamed(
+                                          RouteConstants.profileScreen,
+                                          pathParameters: {
+                                            "id": ref
+                                                .read(userProvider.notifier)
+                                                .state!
+                                                .uid
+                                          },
+                                        );
+                                      },
                                       title: Align(
                                         alignment: Alignment.centerLeft,
-                                        child: TextButton.icon(
-                                          onPressed: () {
-                                            context.pushNamed(
-                                              RouteConstants.profileScreen,
-                                              pathParameters: {
-                                                "id": ref
-                                                    .read(userProvider.notifier)
-                                                    .state!
-                                                    .uid
-                                              },
-                                            );
-                                          },
-                                          label: Text(
-                                            "Profile Git",
-                                            style: GoogleFonts.inter(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.indigo.shade400,
-                                            ),
-                                          ),
-                                          icon: CircleAvatar(
-                                            backgroundColor:
-                                                const Color.fromRGBO(
-                                                    92, 107, 192, 0.5),
-                                            radius: 16,
-                                            child: CircleAvatar(
-                                              radius: 14,
+                                        child: Row(
+                                          children: [
+                                            CircleAvatar(
                                               backgroundColor:
                                                   const Color.fromRGBO(
                                                       92, 107, 192, 0.5),
-                                              child: ClipOval(
-                                                child: Image.network(
-                                                  ref
-                                                      .watch(
-                                                          userProvider.notifier)
-                                                      .state!
-                                                      .profilePic,
-                                                  fit: BoxFit.cover,
+                                              radius: 16,
+                                              child: CircleAvatar(
+                                                radius: 14,
+                                                backgroundColor:
+                                                    const Color.fromRGBO(
+                                                        92, 107, 192, 0.5),
+                                                child: ClipOval(
+                                                  child: Image.network(
+                                                    ref
+                                                        .watch(userProvider
+                                                            .notifier)
+                                                        .state!
+                                                        .profilePic,
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
+                                            const SizedBox(width: 8),
+                                            Text(
+                                              "Profile Git",
+                                              style: GoogleFonts.inter(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.indigo.shade400,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
                                     ListTile(
+                                      onTap: () {
+                                        ref
+                                            .read(
+                                                authControllerProvider.notifier)
+                                            .signOut(context);
+                                      },
                                       title: Align(
                                         alignment: Alignment.centerLeft,
-                                        child: TextButton.icon(
-                                          onPressed: () {
-                                            ref
-                                                .read(authControllerProvider
-                                                    .notifier)
-                                                .signOut(context);
-                                          },
-                                          label: Text(
-                                            "Çıkış Yap",
-                                            style: GoogleFonts.inter(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600,
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.logout_rounded,
                                               color: Colors.indigo.shade400,
+                                              size: 32,
                                             ),
-                                          ),
-                                          icon: Icon(
-                                            Icons.logout_rounded,
-                                            color: Colors.indigo.shade400,
-                                            size: 32,
-                                          ),
+                                            const SizedBox(width: 8),
+                                            Text(
+                                              "Çıkış Yap",
+                                              style: GoogleFonts.inter(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.indigo.shade400,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
@@ -273,7 +281,16 @@ class HomeScreen extends ConsumerWidget {
                               return Builder(
                                 builder: (BuildContext context) {
                                   return GestureDetector(
-                                    onTap: () {},
+                                    onTap: () {
+                                      showPopUpScreen(
+                                        context: context,
+                                        builder: (context) {
+                                          return ItemScreen(
+                                            item: item,
+                                          );
+                                        },
+                                      );
+                                    },
                                     child: Container(
                                       width: MediaQuery.of(context).size.width,
                                       margin: const EdgeInsets.fromLTRB(
@@ -538,7 +555,14 @@ class HomeScreen extends ConsumerWidget {
                         error: ((error, stackTrace) {
                           return [Text(error.toString())];
                         }),
-                        loading: () => [const CircularProgressIndicator()],
+                        loading: () => [
+                          Center(
+                            child: LoadingAnimationWidget.waveDots(
+                              color: Colors.indigo.shade400,
+                              size: 50,
+                            ),
+                          ),
+                        ],
                       ),
                 ),
                 const SizedBox(
@@ -803,7 +827,12 @@ class HomeScreen extends ConsumerWidget {
                           ];
                         }),
                         loading: () => [
-                          const CircularProgressIndicator(),
+                          Center(
+                            child: LoadingAnimationWidget.waveDots(
+                              color: Colors.indigo.shade400,
+                              size: 50,
+                            ),
+                          ),
                         ],
                       ),
                 ),
@@ -889,7 +918,12 @@ class HomeScreen extends ConsumerWidget {
                               return [Text(error.toString())];
                             },
                             loading: () => [
-                              const CircularProgressIndicator(),
+                              Center(
+                                child: LoadingAnimationWidget.waveDots(
+                                  color: Colors.indigo.shade400,
+                                  size: 50,
+                                ),
+                              ),
                             ],
                           ),
                     ),
@@ -914,54 +948,139 @@ class HomeScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: ref.watch(getRandomItemsProvider).when(
                         data: (randomItems) {
-                          return randomItems.map(
-                            (randomItem) {
-                              return Builder(
-                                builder: (BuildContext context) {
-                                  return Row(
-                                    children: [
-                                      Container(
-                                        width: 50,
-                                        height: 50,
-                                        margin: const EdgeInsets.fromLTRB(
-                                          15,
-                                          5,
-                                          10,
-                                          5,
+                          return [
+                            const SizedBox(height: 5),
+                            ...List.generate(
+                              randomItems.length,
+                              (index) => Column(
+                                children: [
+                                  ListTile(
+                                    onTap: () {
+                                      showPopUpScreen(
+                                        context: context,
+                                        builder: (context) {
+                                          return ItemScreen(
+                                            item: randomItems[index],
+                                          );
+                                        },
+                                      );
+                                    },
+                                    title: Column(
+                                      children: [
+                                        const SizedBox(height: 10),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              width: 50,
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                  Radius.circular(8),
+                                                ),
+                                                color: Colors.grey.shade200,
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                child: Image.network(
+                                                  randomItems[index].picture,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 15),
+                                            Text(
+                                              randomItems[index].name,
+                                              style: GoogleFonts.inter(
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      randomItems[index]
+                                                          .rating
+                                                          .toStringAsFixed(1),
+                                                      style: GoogleFonts.inter(
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        color: Colors
+                                                            .grey.shade400,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 5),
+                                                    const Icon(
+                                                      Icons.grade_rounded,
+                                                      size: 18,
+                                                      color: Colors.amber,
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      randomItems[index]
+                                                          .commentCount
+                                                          .toString(),
+                                                      style: GoogleFonts.inter(
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        color: Colors
+                                                            .grey.shade400,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Icon(
+                                                      Icons.chat_rounded,
+                                                      color: Colors
+                                                          .indigo.shade400,
+                                                      size: 12,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 2,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
-                                        decoration: const BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(92, 107, 192, 0.2),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(8),
-                                          ),
-                                        ),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          child: Image.network(
-                                            randomItem.picture,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        height: 50,
-                                        alignment: Alignment.topLeft,
-                                        child: Text(
-                                          randomItem.name,
-                                          style: GoogleFonts.inter(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            },
-                          ).toList();
+                                        index != randomItems.length - 1
+                                            ? const SizedBox(height: 10)
+                                            : const SizedBox(height: 10),
+                                      ],
+                                    ),
+                                  ),
+                                  index != randomItems.length - 1
+                                      ? Container(
+                                          margin: const EdgeInsets.fromLTRB(
+                                              80, 0, 20, 0),
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          height: 1,
+                                          color: Colors.grey.shade300,
+                                        )
+                                      : const SizedBox(),
+                                ],
+                              ),
+                            ),
+                          ];
                         },
                         error: ((error, stackTrace) {
                           return [
@@ -971,7 +1090,12 @@ class HomeScreen extends ConsumerWidget {
                           ];
                         }),
                         loading: () => [
-                          const CircularProgressIndicator(),
+                          Center(
+                            child: LoadingAnimationWidget.waveDots(
+                              color: Colors.indigo.shade400,
+                              size: 50,
+                            ),
+                          ),
                         ],
                       ),
                 ),
