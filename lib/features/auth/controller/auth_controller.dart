@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:gurme/common/constants/route_constants.dart';
 import 'package:gurme/common/utils/show_toast.dart';
 import 'package:gurme/features/auth/repository/auth_repository.dart';
 import 'package:gurme/models/user_model.dart';
@@ -36,10 +38,12 @@ class AuthController extends StateNotifier<bool> {
     state = true;
     final user = await _authRepository.signInWithGoogle();
     state = false;
-    user.fold(
-        (error) => showToast(context, error),
-        (userModel) =>
-            _ref.read(userProvider.notifier).update((state) => userModel));
+    user.fold((error) => showToast(error), (userModel) {
+      _ref.read(userProvider.notifier).update((state) => userModel);
+      context.replaceNamed(
+        RouteConstants.homeScreen,
+      );
+    });
   }
 
   Future<void> signOut(BuildContext context) async {
@@ -47,7 +51,7 @@ class AuthController extends StateNotifier<bool> {
     final response = await _authRepository.signOut();
 
     state = false;
-    response.fold((error) => showToast(context, error), (r) {
+    response.fold((error) => showToast(error), (r) {
       _ref.read(authControllerProvider.notifier).signInAnonymously(context);
     });
   }
@@ -57,10 +61,10 @@ class AuthController extends StateNotifier<bool> {
     state = true;
     final user = await _authRepository.signInWithEmail(email, password);
     state = false;
-    user.fold(
-        (error) => showToast(context, error),
-        (userModel) =>
-            _ref.read(userProvider.notifier).update((state) => userModel));
+    user.fold((error) => showToast(error), (userModel) {
+      _ref.read(userProvider.notifier).update((state) => userModel);
+      context.pop();
+    });
   }
 
   Future<void> signUpWithEmail(
@@ -69,10 +73,12 @@ class AuthController extends StateNotifier<bool> {
     final user = await _authRepository.signUpWithEmail(email, password, name);
     state = false;
     user.fold((error) {
-      showToast(context, error);
+      showToast(error);
     }, (userModel) {
       _ref.read(userProvider.notifier).update((state) => userModel);
-      showToast(context, 'Kayıt olma işlemi başarılı');
+      context.replaceNamed(
+        RouteConstants.homeScreen,
+      );
     });
   }
 
@@ -81,7 +87,7 @@ class AuthController extends StateNotifier<bool> {
     final user = await _authRepository.signInAnonymously();
     state = false;
     user.fold(
-        (error) => showToast(context, error),
+        (error) => showToast(error),
         (userModel) =>
             _ref.read(userProvider.notifier).update((state) => userModel));
   }
@@ -90,8 +96,8 @@ class AuthController extends StateNotifier<bool> {
     final response = await _authRepository.sendResetEmail(email);
 
     response.fold(
-      (error) => showToast(context, error),
-      (r) => showToast(context, 'Sıfırlama bağlantısı gönderildi'),
+      (error) => showToast(error),
+      (r) => showToast('Sıfırlama bağlantısı gönderildi'),
     );
   }
 

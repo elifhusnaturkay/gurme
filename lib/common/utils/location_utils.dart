@@ -24,8 +24,7 @@ class LocationUtils {
     if (await canLaunchUrl(googleMapUrl)) {
       await launchUrl(googleMapUrl);
     } else {
-      // ignore: use_build_context_synchronously
-      showToast(context, 'Bir şeyler yanlış gitti');
+      showToast('Bir şeyler yanlış gitti');
     }
   }
 }

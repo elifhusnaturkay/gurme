@@ -33,6 +33,6 @@ class ItemController extends StateNotifier<bool> {
     final response =
         await _itemRepository.sendComment(user, item, rating, text);
 
-    response.fold((error) => showToast(context, error), (r) => {});
+    response.fold((error) => showToast(error), (r) => {});
   }
 }

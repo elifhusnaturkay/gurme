@@ -81,7 +81,6 @@ class _LoginFormState extends ConsumerState<LoginForm> {
           SubmitButton(
             onTap: () async {
               if (_formKey.currentState!.validate()) {
-                context.pop();
                 await signInWithEmail(context, ref, emailController.text,
                     passwordController.text);
               }
