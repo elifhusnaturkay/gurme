@@ -67,9 +67,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     (150 - kToolbarHeight))
                                 .clamp(0, 1);
 
-                        print(screenWidth);
-                        print(screenHeight);
-
                         // sliverappbar color animation
                         final backgroundColor = Color.lerp(
                           const Color(0xFFCFD3ED).withOpacity(0.00),
@@ -78,11 +75,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         );
 
                         // profile pic animation
-                        final imageRadius = 80 - (25 * ratio);
+                        final imageRadius =
+                            80 - (25 * ratio) + ((screenWidth - 393) * 0.1);
                         final imagePositionBottom =
-                            (-55 - ((screenHeight - 760) * 0.1)) - (20 * ratio);
+                            (-55) - (25 * ratio) - ((screenWidth - 393) * 0.2);
                         final imagePositionLeft = (screenWidth * 0.5 - 80) -
-                            ((screenWidth * 0.5 - 100) * ratio);
+                            ((screenWidth * 0.5 - 105) * ratio);
 
                         // icon animation
                         final iconPositionBottom = 50 - (50 * ratio);
@@ -90,11 +88,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                             ((screenWidth * 0.4 - 55) * ratio);
 
                         // name animation
-                        final namePositionBottom = -110 + (65 * ratio);
-                        final namePositionLeft = (screenWidth * 0.5) +
-                            ((screenWidth * 0.1 + 10) * ratio);
+                        final namePositionBottom = -110 +
+                            ((65 + ((screenWidth - 393) * 0.25)) * ratio) -
+                            ((screenWidth - 393) * 0.35);
+                        final namePositionLeft =
+                            ((screenWidth * 0.1 + 70) * ratio);
 
                         return Stack(
+                          alignment: AlignmentDirectional.bottomCenter,
                           fit: StackFit.expand,
                           clipBehavior: Clip.none,
                           children: [
@@ -112,23 +113,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                             Positioned(
                               bottom: namePositionBottom,
                               left: namePositionLeft,
-                              child: FractionalTranslation(
-                                translation: const Offset(-0.45, 0),
-                                child: SizedBox(
-                                  width: screenWidth * 0.60,
-                                  child: Text(
-                                    user.name,
-                                    style: GoogleFonts.inter(
-                                      fontSize:
-                                          32 + ((screenWidth - 393) * 0.1),
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                    softWrap: true,
-                                    maxLines: 2,
-                                  ),
+                              right: 0,
+                              child: Text(
+                                user.name,
+                                style: GoogleFonts.inter(
+                                  fontSize: 32 + ((screenWidth - 393) * 0.1),
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
                                 ),
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: true,
+                                maxLines: 2,
                               ),
                             ),
                             Positioned(
@@ -165,8 +161,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     bottom: iconPositionBottom,
                                     left: iconPositionLeft,
                                     child: Container(
-                                      width: 50,
-                                      height: 50,
+                                      width: 50 + ((screenWidth - 393) * 0.1),
+                                      height: 50 + ((screenWidth - 393) * 0.1),
                                       decoration: BoxDecoration(
                                         color:
                                             Colors.white.withOpacity(1 - ratio),
@@ -182,7 +178,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                         ],
                                       ),
                                       child: IconButton(
-                                        iconSize: 30,
+                                        iconSize:
+                                            30 + ((screenWidth - 393) * 0.1),
                                         onPressed: () {},
                                         icon: const Icon(
                                           Icons.edit_outlined,
@@ -197,13 +194,23 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     ),
                   ),
                   SliverAppBar(
+                    automaticallyImplyLeading: false,
                     backgroundColor: Theme.of(context).canvasColor,
-                    expandedHeight: 100,
-                    collapsedHeight: 100,
-                    toolbarHeight: 100,
+                    toolbarHeight: 100 + ((screenWidth - 393) * 0.5),
                     pinned: true,
                     elevation: 0,
-                    title: const SizedBox(height: 100),
+                    flexibleSpace: Container(
+                      height: 200,
+                      width: screenWidth,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          top: BorderSide(
+                            width: 0,
+                            color: Theme.of(context).canvasColor,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                   SliverPersistentHeader(
                     delegate: _SliverAppBarDelegate(
@@ -616,7 +623,12 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
             spreadRadius: 2,
           ),
         ],
-        border: Border.all(color: Theme.of(context).canvasColor),
+        border: Border(
+          top: BorderSide(
+            width: 0,
+            color: Theme.of(context).canvasColor,
+          ),
+        ),
         color: Theme.of(context).canvasColor,
       ),
       child: _tabBar,
