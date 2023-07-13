@@ -52,6 +52,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 controller: _scrollControllerNestedView,
                 headerSliverBuilder: (context, innerBoxIsScrolled) => [
                   SliverAppBar(
+                    backgroundColor: Colors.transparent,
                     elevation: 0,
                     collapsedHeight: 60,
                     toolbarHeight: 60,
@@ -167,10 +168,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     )
                                   ],
                                 ),
-                                child: ClipOval(
-                                  child: Image.network(
+                                child: CircleAvatar(
+                                  radius: imageRadius,
+                                  backgroundImage: NetworkImage(
                                     user.profilePic,
-                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
@@ -198,9 +199,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                         ],
                                       ),
                                       child: IconButton(
+                                        onPressed: () {
+                                          context.pushNamed(
+                                              RouteConstants.editProfileScreen);
+                                        },
                                         iconSize:
                                             30 + ((screenWidth - 393) * 0.1),
-                                        onPressed: () {},
                                         icon: Icon(
                                           Icons.edit_outlined,
                                           color: iconColor,
