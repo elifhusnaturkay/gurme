@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gurme/common/utils/lose_focus.dart';
 import 'package:gurme/common/widgets/submit_button.dart';
 import 'package:gurme/common/widgets/form_fields.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
+import 'package:gurme/features/search/screen/search_screen.dart';
 
 class ForgetPasswordForm extends ConsumerStatefulWidget {
   const ForgetPasswordForm({super.key});
@@ -42,6 +44,7 @@ class _ForgetPasswordFormState extends ConsumerState<ForgetPasswordForm> {
           const SizedBox(height: 30),
           SubmitButton(
             onTap: () async {
+              loseFocus();
               if (_formKey.currentState!.validate()) {
                 await sendResetEmail(context, ref, emailController.text.trim());
               }

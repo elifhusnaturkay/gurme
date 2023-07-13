@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/route_constants.dart';
 import 'package:gurme/common/utils/location_utils.dart';
+import 'package:gurme/common/utils/lose_focus.dart';
 import 'package:gurme/features/item/screen/item_screen.dart';
 import 'package:gurme/features/search/controller/search_controller.dart';
 import 'package:gurme/main.dart';
@@ -15,10 +16,6 @@ class SearchScreen extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SearchScreenState();
-}
-
-void loseFocus() {
-  FocusManager.instance.primaryFocus?.unfocus();
 }
 
 class _SearchScreenState extends ConsumerState<SearchScreen>

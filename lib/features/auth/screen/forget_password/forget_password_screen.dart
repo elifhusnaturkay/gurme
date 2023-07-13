@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gurme/common/utils/lose_focus.dart';
 import 'package:gurme/features/auth/screen/forget_password/forget_password_form.dart';
 
 class ForgetPasswordScreen extends ConsumerWidget {
   const ForgetPasswordScreen({super.key});
-
-  void loseFocus() {
-    FocusManager.instance.primaryFocus?.unfocus();
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

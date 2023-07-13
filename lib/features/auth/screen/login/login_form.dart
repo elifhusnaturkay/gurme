@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/route_constants.dart';
+import 'package:gurme/common/utils/lose_focus.dart';
 import 'package:gurme/common/widgets/submit_button.dart';
 import 'package:gurme/common/widgets/form_fields.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
+import 'package:gurme/features/search/screen/search_screen.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
   const LoginForm({super.key});
@@ -80,6 +82,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
           const SizedBox(height: 10),
           SubmitButton(
             onTap: () async {
+              loseFocus();
               if (_formKey.currentState!.validate()) {
                 context.pop();
                 await signInWithEmail(context, ref, emailController.text,

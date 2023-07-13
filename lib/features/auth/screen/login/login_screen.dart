@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/asset_constants.dart';
 import 'package:gurme/common/constants/route_constants.dart';
+import 'package:gurme/common/utils/lose_focus.dart';
 import 'package:gurme/common/widgets/square_tile.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/auth/screen/login/login_form.dart';
@@ -13,10 +14,6 @@ class LoginScreen extends ConsumerWidget {
 
   void signInWithGoogle(BuildContext context, WidgetRef ref) {
     ref.read(authControllerProvider.notifier).signInWithGoogle(context);
-  }
-
-  void loseFocus() {
-    FocusManager.instance.primaryFocus?.unfocus();
   }
 
   @override

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gurme/common/constants/route_constants.dart';
+import 'package:gurme/common/utils/lose_focus.dart';
 import 'package:gurme/common/widgets/submit_button.dart';
 import 'package:gurme/common/widgets/form_fields.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
+import 'package:gurme/features/search/screen/search_screen.dart';
 
 class SignUpForm extends ConsumerStatefulWidget {
   const SignUpForm({super.key});
@@ -63,6 +65,7 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
           const SizedBox(height: 30),
           SubmitButton(
             onTap: () async {
+              loseFocus();
               if (_formKey.currentState!.validate()) {
                 while (GoRouter.of(context).location !=
                     '/${RouteConstants.homeScreen}') {

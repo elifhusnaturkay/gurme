@@ -112,9 +112,11 @@ class _ItemScreenState extends ConsumerState<ItemScreen>
                     error: (error, stackTrace) {
                       return Text(error.toString());
                     },
-                    loading: () => LoadingAnimationWidget.waveDots(
-                      color: Colors.indigo.shade400,
-                      size: 50,
+                    loading: () => Expanded(
+                      child: LoadingAnimationWidget.waveDots(
+                        color: Colors.indigo.shade400,
+                        size: 50,
+                      ),
                     ),
                   )
             ],
@@ -526,7 +528,9 @@ class _CommentFieldScreenState extends State<CommentFieldScreen> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 230 + MediaQuery.of(context).viewInsets.bottom,
+      height: 180 +
+          ((MediaQuery.of(context).size.height - 760) * 0.1) +
+          MediaQuery.of(context).viewInsets.bottom,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -553,9 +557,11 @@ class _CommentFieldScreenState extends State<CommentFieldScreen> {
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
             child: TextField(
+              onChanged: (text) {},
               controller: commentController,
               cursorColor: Colors.indigo.shade400,
-              maxLines: FocusScope.of(context).hasFocus ? 3 : 3,
+              maxLines: 3,
+              minLines: 1,
               decoration: InputDecoration(
                 suffixIconConstraints: const BoxConstraints(
                   maxWidth: 120,
@@ -563,7 +569,7 @@ class _CommentFieldScreenState extends State<CommentFieldScreen> {
                 ),
                 suffixIcon: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: ElevatedButton(
+                  child: IconButton(
                     onPressed: (ratingCount > 0 && ratingCount <= 5)
                         ? () async {
                             context.pop();
@@ -582,13 +588,11 @@ class _CommentFieldScreenState extends State<CommentFieldScreen> {
                       backgroundColor: Colors.indigo.shade400,
                       shape: const StadiumBorder(),
                     ),
-                    child: Text(
-                      "Gönder",
-                      style: GoogleFonts.inter(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).canvasColor,
-                      ),
+                    icon: Icon(
+                      Icons.send_rounded,
+                      color: (ratingCount > 0 && ratingCount <= 5)
+                          ? Colors.indigo.shade400
+                          : Colors.grey.shade300,
                     ),
                   ),
                 ),

@@ -43,7 +43,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
     return ref.watch(getUserByIdProvider(widget._id)).when(
@@ -74,6 +73,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           ratio,
                         );
 
+                        final textAlignment = AlignmentTween(
+                          begin: Alignment.center,
+                          end: Alignment.centerLeft,
+                        ).transform(ratio);
+
                         // profile pic animation
                         final imageRadius =
                             80 - (25 * ratio) + ((screenWidth - 393) * 0.1);
@@ -81,18 +85,27 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                             (-55) - (25 * ratio) - ((screenWidth - 393) * 0.2);
                         final imagePositionLeft = (screenWidth * 0.5 - 80) -
                             ((screenWidth * 0.5 - 105) * ratio);
+                        final iconColor = Color.lerp(
+                          Colors.black,
+                          Theme.of(context).canvasColor,
+                          ratio,
+                        );
 
                         // icon animation
-                        final iconPositionBottom = 50 - (50 * ratio);
+                        final iconPositionBottom = 50 - (45 * ratio);
                         final iconPositionLeft = (screenWidth * 0.5 + 40) +
-                            ((screenWidth * 0.4 - 55) * ratio);
+                            ((screenWidth * 0.4 - 50) * ratio);
 
                         // name animation
-                        final namePositionBottom = -110 +
-                            ((65 + ((screenWidth - 393) * 0.25)) * ratio) -
-                            ((screenWidth - 393) * 0.35);
                         final namePositionLeft =
-                            ((screenWidth * 0.1 + 70) * ratio);
+                            (((screenWidth - 393) * 0.2 + 147) * ratio);
+                        final namePositionTop = 220 -
+                            ((150 + ((screenWidth - 393) * 0.2)) * ratio) +
+                            ((screenWidth - 393) * 0.2);
+
+                        // font size
+                        final fontSize =
+                            32 + ((screenWidth - 393) * 0.1) - (10 * ratio);
 
                         return Stack(
                           alignment: AlignmentDirectional.bottomCenter,
@@ -111,20 +124,27 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               ),
                             ),
                             Positioned(
-                              bottom: namePositionBottom,
+                              top: namePositionTop,
                               left: namePositionLeft,
                               right: 0,
-                              child: Text(
-                                user.name,
-                                style: GoogleFonts.inter(
-                                  fontSize: 32 + ((screenWidth - 393) * 0.1),
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
+                              child: Align(
+                                alignment: textAlignment,
+                                child: SafeArea(
+                                  child: SizedBox(
+                                    child: Text(
+                                      user.name,
+                                      textWidthBasis:
+                                          TextWidthBasis.longestLine,
+                                      style: GoogleFonts.inter(
+                                        fontSize: fontSize,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                    ),
+                                  ),
                                 ),
-                                textAlign: TextAlign.center,
-                                overflow: TextOverflow.ellipsis,
-                                softWrap: true,
-                                maxLines: 2,
                               ),
                             ),
                             Positioned(
@@ -181,8 +201,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                         iconSize:
                                             30 + ((screenWidth - 393) * 0.1),
                                         onPressed: () {},
-                                        icon: const Icon(
+                                        icon: Icon(
                                           Icons.edit_outlined,
+                                          color: iconColor,
                                         ),
                                       ),
                                     ),
@@ -196,7 +217,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   SliverAppBar(
                     automaticallyImplyLeading: false,
                     backgroundColor: Theme.of(context).canvasColor,
-                    toolbarHeight: 100 + ((screenWidth - 393) * 0.5),
+                    toolbarHeight: 120 + ((screenWidth - 393) * 0.5),
                     pinned: true,
                     elevation: 0,
                     flexibleSpace: Container(
