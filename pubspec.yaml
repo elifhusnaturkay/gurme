@@ -36,6 +36,7 @@ dependencies:
   # utils
   fpdart: ^0.6.0
   flutter_easyloading: ^3.0.5
+  image_picker: ^1.0.1
 
   # url
   url_launcher: ^6.1.12
