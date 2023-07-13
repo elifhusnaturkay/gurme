@@ -6,4 +6,6 @@ class RouteConstants {
   static const searchScreen = "search";
   static const companyScreen = "company";
   static const profileScreen = "profile";
+  static const filteredSearchScreen = "filteredsearch";
+  static const editProfileScreen = "editprofile";
 }
