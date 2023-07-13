@@ -37,7 +37,7 @@ class AuthController extends StateNotifier<bool> {
     final user = await _authRepository.signInWithGoogle();
     state = false;
     user.fold(
-        (error) => showToast(context, error),
+        (error) => showToast(error),
         (userModel) =>
             _ref.read(userProvider.notifier).update((state) => userModel));
   }
@@ -47,7 +47,7 @@ class AuthController extends StateNotifier<bool> {
     final response = await _authRepository.signOut();
 
     state = false;
-    response.fold((error) => showToast(context, error), (r) {
+    response.fold((error) => showToast(error), (r) {
       _ref.read(authControllerProvider.notifier).signInAnonymously(context);
     });
   }
@@ -58,7 +58,7 @@ class AuthController extends StateNotifier<bool> {
     final user = await _authRepository.signInWithEmail(email, password);
     state = false;
     user.fold(
-        (error) => showToast(context, error),
+        (error) => showToast(error),
         (userModel) =>
             _ref.read(userProvider.notifier).update((state) => userModel));
   }
@@ -69,10 +69,10 @@ class AuthController extends StateNotifier<bool> {
     final user = await _authRepository.signUpWithEmail(email, password, name);
     state = false;
     user.fold((error) {
-      showToast(context, error);
+      showToast(error);
     }, (userModel) {
       _ref.read(userProvider.notifier).update((state) => userModel);
-      showToast(context, 'Kayıt olma işlemi başarılı');
+      showToast('Kayıt olma işlemi başarılı');
     });
   }
 
@@ -81,7 +81,7 @@ class AuthController extends StateNotifier<bool> {
     final user = await _authRepository.signInAnonymously();
     state = false;
     user.fold(
-        (error) => showToast(context, error),
+        (error) => showToast(error),
         (userModel) =>
             _ref.read(userProvider.notifier).update((state) => userModel));
   }
@@ -90,8 +90,8 @@ class AuthController extends StateNotifier<bool> {
     final response = await _authRepository.sendResetEmail(email);
 
     response.fold(
-      (error) => showToast(context, error),
-      (r) => showToast(context, 'Sıfırlama bağlantısı gönderildi'),
+      (error) => showToast(error),
+      (r) => showToast('Sıfırlama bağlantısı gönderildi'),
     );
   }
 

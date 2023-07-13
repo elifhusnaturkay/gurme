@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/asset_constants.dart';
+import 'package:gurme/common/constants/route_constants.dart';
 import 'package:gurme/common/widgets/square_tile.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/auth/screen/signup/signup_form.dart';
@@ -80,6 +81,11 @@ class SignUpScreen extends ConsumerWidget {
                 SquareTile(
                   imagePath: AssetConstants.googleLogo,
                   onTap: () {
+                    while (GoRouter.of(context).location !=
+                        '/${RouteConstants.homeScreen}') {
+                      debugPrint(GoRouter.of(context).location.toString());
+                      context.pop();
+                    }
                     signInWithGoogle(context, ref);
                   },
                 ),

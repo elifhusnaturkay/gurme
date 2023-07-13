@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:gurme/common/constants/asset_constants.dart';
 import 'package:gurme/common/constants/route_constants.dart';
+import 'package:gurme/common/widgets/loading_spinner.dart';
 import 'package:gurme/features/splash/controller/splash_controller.dart';
 import 'package:gurme/main.dart';
 
@@ -35,10 +35,10 @@ class SplashScreen extends ConsumerWidget {
   Widget _buildLoadingContainer(BuildContext context) {
     return Container(
       color: Colors.indigo.shade400,
-      child: Center(
-        child: Image.asset(
-          AssetConstants.longLogoWhite,
-          width: MediaQuery.of(context).size.width / 1.5,
+      child: Container(
+        color: Theme.of(context).canvasColor,
+        child: const Center(
+          child: LoadingSpinner(width: 75, height: 75),
         ),
       ),
     );

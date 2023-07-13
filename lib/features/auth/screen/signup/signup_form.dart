@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gurme/common/constants/route_constants.dart';
 import 'package:gurme/common/widgets/submit_button.dart';
 import 'package:gurme/common/widgets/form_fields.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
@@ -63,7 +64,11 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
           SubmitButton(
             onTap: () async {
               if (_formKey.currentState!.validate()) {
-                context.pop();
+                while (GoRouter.of(context).location !=
+                    '/${RouteConstants.homeScreen}') {
+                  debugPrint(GoRouter.of(context).location.toString());
+                  context.pop();
+                }
                 await signUpWithEmail(context, ref, emailController.text,
                     passwordController.text, nameController.text);
               }

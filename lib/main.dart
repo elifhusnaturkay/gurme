@@ -50,11 +50,17 @@ class _MyAppState extends ConsumerState<MyApp> {
   Widget build(BuildContext context) {
     return ref.watch(authStateChangeProvider).when(
       data: (user) {
-        if (user != null) {
-          getUserData(user);
-        } else {
-          ref.read(authControllerProvider.notifier).signInAnonymously(context);
-        }
+        WidgetsBinding.instance.addPostFrameCallback(
+          (_) async {
+            if (user != null) {
+              getUserData(user);
+            } else {
+              await ref
+                  .read(authControllerProvider.notifier)
+                  .signInAnonymously(context);
+            }
+          },
+        );
         return MaterialApp.router(
           debugShowCheckedModeBanner: false,
           title: 'Gurme',
