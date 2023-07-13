@@ -345,45 +345,47 @@ class CommentTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 color: Colors.indigo.shade400.withOpacity(0.06),
               ),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                child: GestureDetector(
-                  onTap: () {
-                    showPopUpScreen(
-                      context: context,
-                      builder: (context) {
-                        return CommentBottomSheet(
-                          comment: comment,
-                        );
-                      },
-                    );
-                  },
-                  child: ListTile(
-                    minVerticalPadding: 0,
-                    title: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.all(2),
-                          child: GestureDetector(
-                            onTap: () {
-                              context.pushNamed(
-                                RouteConstants.profileScreen,
-                                pathParameters: {"id": comment.user.uid},
-                              );
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: Colors.transparent,
-                              radius: 24,
-                              backgroundImage: NetworkImage(
-                                comment.user.profilePic,
-                              ),
+              child: ListTile(
+                onTap: () {
+                  showPopUpScreen(
+                    context: context,
+                    builder: (context) {
+                      return CommentBottomSheet(
+                        comment: comment,
+                      );
+                    },
+                  );
+                },
+                minVerticalPadding: 0,
+                contentPadding: EdgeInsets.zero,
+                title: Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 5, 0, 5),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.all(2),
+                        child: GestureDetector(
+                          onTap: () {
+                            context.pushNamed(
+                              RouteConstants.profileScreen,
+                              pathParameters: {"id": comment.user.uid},
+                            );
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                            radius: 24,
+                            backgroundImage: NetworkImage(
+                              comment.user.profilePic,
                             ),
                           ),
                         ),
-                        const SizedBox(width: 10),
-                        Column(
+                      ),
+                      const SizedBox(width: 10),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.68,
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
@@ -427,23 +429,69 @@ class CommentTile extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const Spacer(),
-                        ref.watch(userProvider.notifier).state!.uid ==
+                      ),
+                      Expanded(
+                        child: ref.watch(userProvider.notifier).state!.uid ==
                                 comment.user.uid
                             ? PopupMenuButton(
-                                iconSize: 5,
-                                offset: const Offset(-0.5, 0),
+                                onSelected: (value) {},
+                                constraints: const BoxConstraints(
+                                  maxWidth: 200,
+                                ),
+                                elevation: 3,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                icon: const Icon(Icons.more_vert_rounded),
+                                iconSize: 21,
                                 itemBuilder: (context) => [
-                                      const PopupMenuItem<int>(
-                                        value: 0,
-                                        child: Text('Yorumu düzenle'),
-                                      ),
-                                      const PopupMenuItem<int>(
-                                          value: 1, child: Text('Yorumu sil')),
-                                    ])
+                                  PopupMenuItem<int>(
+                                    value: 0,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Yorumu Düzenle',
+                                          style: GoogleFonts.inter(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 13,
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                        const Icon(
+                                          Icons.edit_rounded,
+                                          size: 20,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  PopupMenuItem<int>(
+                                    value: 1,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Yorumu Sil',
+                                          style: GoogleFonts.inter(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 13,
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                        const Icon(
+                                          Icons.delete_rounded,
+                                          size: 20,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
                             : Container(),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
