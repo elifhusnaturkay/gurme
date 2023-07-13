@@ -132,15 +132,12 @@ class HomeScreen extends ConsumerWidget {
                                                 backgroundColor:
                                                     const Color.fromRGBO(
                                                         92, 107, 192, 0.5),
-                                                child: ClipOval(
-                                                  child: Image.network(
-                                                    ref
-                                                        .watch(userProvider
-                                                            .notifier)
-                                                        .state!
-                                                        .profilePic,
-                                                    fit: BoxFit.cover,
-                                                  ),
+                                                backgroundImage: NetworkImage(
+                                                  ref
+                                                      .watch(
+                                                          userProvider.notifier)
+                                                      .state!
+                                                      .profilePic,
                                                 ),
                                               ),
                                             ),
@@ -228,11 +225,8 @@ class HomeScreen extends ConsumerWidget {
                         radius: 14,
                         backgroundColor:
                             const Color.fromRGBO(92, 107, 192, 0.5),
-                        child: ClipOval(
-                          child: Image.network(
-                            ref.watch(userProvider.notifier).state!.profilePic,
-                            fit: BoxFit.cover,
-                          ),
+                        backgroundImage: NetworkImage(
+                          ref.watch(userProvider.notifier).state!.profilePic,
                         ),
                       ),
                     ),
@@ -868,26 +862,34 @@ class HomeScreen extends ConsumerWidget {
                                       return Column(
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
-                                          Container(
-                                            height: 75,
-                                            width: 75,
-                                            margin: const EdgeInsets.fromLTRB(
-                                                8, 0, 8, 0),
-                                            decoration: const BoxDecoration(
-                                              color: Color.fromRGBO(
-                                                  92, 107, 192, 0.2),
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(8),
+                                          GestureDetector(
+                                            onTap: () {
+                                              context.pushNamed(
+                                                RouteConstants
+                                                    .filteredSearchScreen,
+                                              );
+                                            },
+                                            child: Container(
+                                              height: 75,
+                                              width: 75,
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  8, 0, 8, 0),
+                                              decoration: const BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    92, 107, 192, 0.2),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(8),
+                                                ),
                                               ),
-                                            ),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                Radius.circular(8),
-                                              ),
-                                              child: Image.network(
-                                                category.picture,
-                                                fit: BoxFit.cover,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                  Radius.circular(8),
+                                                ),
+                                                child: Image.network(
+                                                  category.picture,
+                                                  fit: BoxFit.cover,
+                                                ),
                                               ),
                                             ),
                                           ),
