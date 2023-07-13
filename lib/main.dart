@@ -12,7 +12,6 @@ import 'package:gurme/firebase_options.dart';
 import 'package:gurme/models/user_model.dart';
 import 'package:gurme/router.dart';
 
-final themeProvider = StateProvider<ThemeData>((ref) => ThemeData.light());
 final locationProvider = StateProvider<GeoPoint?>((ref) => null);
 
 void main() async {
@@ -75,7 +74,7 @@ class _MyAppState extends ConsumerState<MyApp> {
           routeInformationProvider:
               ref.watch(routerProvider).routeInformationProvider,
           routerDelegate: ref.watch(routerProvider).routerDelegate,
-          theme: ref.watch(themeProvider),
+          theme: ThemeData.light(),
         );
       },
       error: (error, stackTrace) {
