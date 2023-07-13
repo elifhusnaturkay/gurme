@@ -8,6 +8,8 @@ import 'package:gurme/features/auth/screen/signup/signup_screen.dart';
 import 'package:gurme/features/company/screen/company_screen.dart';
 import 'package:gurme/features/home/screen/home_screen.dart';
 import 'package:gurme/features/profile/screen/edit_profile_screen.dart';
+import 'package:gurme/features/profile/screen/name_edit_screen.dart';
+import 'package:gurme/features/profile/screen/password_reset_screen.dart';
 import 'package:gurme/features/profile/screen/profile_screen.dart';
 import 'package:gurme/features/search/screen/filtered_search_screen.dart';
 import 'package:gurme/features/search/screen/search_screen.dart';
@@ -147,6 +149,13 @@ final routerProvider = Provider<GoRouter>(
           path: "/editprofile",
           pageBuilder: (context, state) {
             return const MaterialPage(child: EditProfileScreen());
+          },
+        ),
+        GoRoute(
+          name: RouteConstants.editNameScreen,
+          path: "/name",
+          pageBuilder: (context, state) {
+            return const MaterialPage(child: EditNameScreen());
           },
         ),
       ],

@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/asset_constants.dart';
+import 'package:gurme/common/constants/route_constants.dart';
 import 'package:gurme/common/utils/show_toast.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -174,129 +176,135 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          ListTile(
-            title: Text(
-              "Bilgilerin",
-              style: GoogleFonts.inter(
-                fontWeight: FontWeight.w500,
-                fontSize: 15,
+      body: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            ListTile(
+              title: Text(
+                "Bilgilerin",
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                  color: Colors.grey.shade600,
+                ),
+              ),
+            ),
+            ListTile(
+              onTap: () {
+                context.pushNamed(RouteConstants.editNameScreen);
+              },
+              title: Text(
+                "Ad Soyad",
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                  color: Colors.black,
+                ),
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    "Kullanıcın Ad Soyadı",
+                    style: GoogleFonts.inter(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(width: 5),
+                  const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 15,
+                  )
+                ],
+              ),
+            ),
+            ListTile(
+              onTap: () {
+                // TODO : Sıfırlama Mail
+              },
+              title: Text(
+                "Şifre",
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                  color: Colors.black,
+                ),
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Sıfırlama Bağlantısını Gönder",
+                    style: GoogleFonts.inter(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(width: 5),
+                  const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 15,
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              height: 1.2,
+              margin: const EdgeInsets.symmetric(horizontal: 15),
+              decoration: BoxDecoration(
                 color: Colors.grey.shade600,
+                borderRadius: BorderRadius.circular(16),
               ),
             ),
-          ),
-          ListTile(
-            onTap: () {},
-            title: Text(
-              "Ad Soyad",
-              style: GoogleFonts.inter(
-                fontWeight: FontWeight.w500,
-                fontSize: 15,
-                color: Colors.black,
-              ),
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  "Kullanıcın Ad Soyadı",
-                  style: GoogleFonts.inter(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15,
-                    color: Colors.black,
-                  ),
+            ListTile(
+              title: Text(
+                "Hesaplarını Bağla",
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                  color: Colors.grey.shade600,
                 ),
-                const SizedBox(width: 5),
-                const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 15,
-                )
-              ],
-            ),
-          ),
-          ListTile(
-            onTap: () {},
-            title: Text(
-              "Şifre",
-              style: GoogleFonts.inter(
-                fontWeight: FontWeight.w500,
-                fontSize: 15,
-                color: Colors.black,
               ),
             ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.ideographic,
-              children: [
-                Text(
-                  "************",
-                  style: GoogleFonts.inter(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15,
-                    color: Colors.black,
-                  ),
+            ListTile(
+              onTap: () {}, // TODO : Google Link
+              title: Text(
+                "Google",
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                  color: Colors.black,
                 ),
-                const SizedBox(width: 5),
-                const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 15,
-                )
-              ],
-            ),
-          ),
-          const SizedBox(height: 10),
-          Container(
-            height: 1.2,
-            margin: const EdgeInsets.symmetric(horizontal: 15),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade600,
-              borderRadius: BorderRadius.circular(16),
-            ),
-          ),
-          ListTile(
-            title: Text(
-              "Hesaplarını Bağla",
-              style: GoogleFonts.inter(
-                fontWeight: FontWeight.w500,
-                fontSize: 15,
-                color: Colors.grey.shade600,
               ),
-            ),
-          ),
-          ListTile(
-            onTap: () {}, // TODO : Google Link
-            title: Text(
-              "Google",
-              style: GoogleFonts.inter(
-                fontWeight: FontWeight.w500,
-                fontSize: 15,
-                color: Colors.black,
-              ),
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  "Google Hesabını Bağla",
-                  style: GoogleFonts.inter(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15,
-                    color: Colors.grey.shade600,
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    "Google Hesabını Bağla",
+                    style: GoogleFonts.inter(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      color: Colors.grey.shade600,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 5),
-                const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 15,
-                )
-              ],
+                  const SizedBox(width: 5),
+                  const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 15,
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

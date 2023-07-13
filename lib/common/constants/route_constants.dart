@@ -8,4 +8,5 @@ class RouteConstants {
   static const profileScreen = "profile";
   static const filteredSearchScreen = "filteredsearch";
   static const editProfileScreen = "editprofile";
+  static const editNameScreen = "editname";
 }

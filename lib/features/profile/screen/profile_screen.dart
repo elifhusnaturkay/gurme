@@ -221,11 +221,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   SliverAppBar(
                     automaticallyImplyLeading: false,
                     backgroundColor: Theme.of(context).canvasColor,
-                    toolbarHeight: 120 + ((screenWidth - 393) * 0.5),
+                    expandedHeight: 120 + ((screenWidth - 393) * 0.3),
+                    collapsedHeight: 60 + ((screenWidth - 393) * 0.3),
+                    toolbarHeight: 60 + ((screenWidth - 393) * 0.3),
                     pinned: true,
                     elevation: 0,
                     flexibleSpace: Container(
-                      height: 200,
+                      height: 120 + ((screenWidth - 393) * 0.3),
                       width: screenWidth,
                       decoration: BoxDecoration(
                         border: Border(
