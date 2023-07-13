@@ -12,19 +12,11 @@ class SubmitButton extends StatefulWidget {
 }
 
 class _BigButtonState extends State<SubmitButton> {
-  bool isLoading = false;
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        setState(() {
-          isLoading = true;
-        });
         await widget.onTap!();
-        setState(() {
-          isLoading = false;
-        });
       },
       child: Container(
         height: 51,
@@ -34,18 +26,14 @@ class _BigButtonState extends State<SubmitButton> {
           borderRadius: BorderRadius.circular(100),
         ),
         child: Center(
-          child: isLoading
-              ? const CircularProgressIndicator(
-                  backgroundColor: Colors.white,
-                )
-              : Text(
-                  widget.text,
-                  style: GoogleFonts.inter(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
-                  ),
-                ),
+          child: Text(
+            widget.text,
+            style: GoogleFonts.inter(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
+          ),
         ),
       ),
     );
