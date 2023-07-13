@@ -6,7 +6,6 @@ import 'package:gurme/common/utils/lose_focus.dart';
 import 'package:gurme/common/widgets/submit_button.dart';
 import 'package:gurme/common/widgets/form_fields.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
-import 'package:gurme/features/search/screen/search_screen.dart';
 
 class SignUpForm extends ConsumerStatefulWidget {
   const SignUpForm({super.key});

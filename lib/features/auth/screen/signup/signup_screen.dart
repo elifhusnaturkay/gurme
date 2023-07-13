@@ -21,6 +21,7 @@ class SignUpScreen extends ConsumerWidget {
     return GestureDetector(
       onTap: loseFocus,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
