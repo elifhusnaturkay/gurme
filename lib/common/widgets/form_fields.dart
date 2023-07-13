@@ -76,15 +76,22 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
         hintStyle: const TextStyle(
           color: Color(0xFFBDBDBD),
         ),
-        suffixIcon: GestureDetector(
+        suffixIcon: InkWell(
           onTap: () {
             setState(() {
               _obscureText = !_obscureText;
             });
           },
+          splashFactory: NoSplash.splashFactory,
           child: _obscureText
-              ? const Icon(Icons.visibility)
-              : const Icon(Icons.visibility_off),
+              ? Icon(
+                  Icons.visibility,
+                  color: Colors.indigo.shade400,
+                )
+              : Icon(
+                  Icons.visibility_off,
+                  color: Colors.indigo.shade400,
+                ),
         ),
       ),
       validator: widget.validator,
