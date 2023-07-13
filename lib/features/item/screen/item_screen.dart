@@ -230,15 +230,21 @@ class ItemScreenItemCard extends StatelessWidget {
                           softWrap: true,
                         ),
                         const SizedBox(height: 5),
-                        Text(
-                          widget._item.companyName,
-                          style: GoogleFonts.inter(
-                            fontSize: 20,
-                            fontWeight: FontWeight.normal,
+                        InkWell(
+                          onTap: () => context.pushNamed(
+                            RouteConstants.companyScreen,
+                            pathParameters: {"id": widget._item.companyId},
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          softWrap: true,
+                          child: Text(
+                            widget._item.companyName,
+                            style: GoogleFonts.inter(
+                              fontSize: 20,
+                              fontWeight: FontWeight.normal,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                          ),
                         ),
                       ],
                     ),
