@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -76,19 +75,9 @@ class AuthRepository {
 
       return right(userModel);
     } on FirebaseException catch (e) {
-      if (e.code == 'network-request-failed') {
-        return left('İnternet bağlantısında bir problem oluştu');
-      }
-      return left('Bilinmeyen bir hata oluştu');
-    } on PlatformException catch (e) {
-      if (e.code == 'network_error') {
-        return left('İnternet bağlantısında bir problem oluştu');
-      } else if (e.code == 'sign_in_failed') {
-        return left('Giriş yapılırken bir hata oldu');
-      }
-      return left('Bilinmeyen bir hata oluştu');
+      return left(e.toString());
     } catch (e) {
-      return left('Bilinmeyen bir hata oluştu');
+      return left(e.toString());
     }
   }
 
@@ -97,12 +86,9 @@ class AuthRepository {
       await _auth.signOut();
       await _googleSignIn.signOut();
     } on FirebaseException catch (e) {
-      if (e.code == 'network-request-failed') {
-        return left('İnternet bağlantısında bir problem oluştu');
-      }
-      return left('Bilinmeyen bir hata oluştu');
+      return left(e.toString());
     } catch (e) {
-      return left('Bilinmeyen bir hata oluştu');
+      return left(e.toString());
     }
     return right(null);
   }
@@ -134,22 +120,9 @@ class AuthRepository {
 
       return right(userModel);
     } on FirebaseException catch (e) {
-      if (e.code == 'user-not-found') {
-        return left('Bu e-posta adresi ile bir kullanıcı bulunamadı');
-      } else if (e.code == 'invalid-email') {
-        return left('Lütfen geçerli bir email adresi giriniz');
-      } else if (e.code == 'wrong-password') {
-        return left('Şifre yanlış, lütfen tekrar deneyiniz');
-      } else if (e.code == 'operation-not-allowed') {
-        return left('Kullanıcı bulunamadı tekrar deneyiniz');
-      } else if (e.code == 'user-disabled') {
-        return left('Kullanıcı bulunamadı tekrar deneyiniz');
-      } else if (e.code == 'network-request-failed') {
-        return left('İnternet bağlantısında bir problem oluştu');
-      }
-      return left('Bilinmeyen bir hata oluştu');
+      return left(e.toString());
     } catch (e) {
-      return left('Bilinmeyen bir hata oluştu');
+      return left(e.toString());
     }
   }
 
@@ -175,19 +148,9 @@ class AuthRepository {
 
       return right(userModel);
     } on FirebaseException catch (e) {
-      if (e.code == 'email-already-in-use') {
-        return left(
-            'Bu e-posta ile bir kullanıcı zaten kayıtlı.\nLütfen giriş yapınız ya da farklı bir e-posta deneyiniz');
-      } else if (e.code == 'invalid-email') {
-        return left('Lütfen geçerli bir email adresi giriniz');
-      } else if (e.code == 'weak-password') {
-        return left('Şifre çok zayıf tekrar deneyiniz');
-      } else if (e.code == 'network-request-failed') {
-        return left('İnternet bağlantısında bir problem oluştu');
-      }
-      return left('Bilinmeyen bir hata oluştu');
+      return left(e.toString());
     } catch (e) {
-      return left('Bilinmeyen bir hata oluştu');
+      return left(e.toString());
     }
   }
 
@@ -208,12 +171,9 @@ class AuthRepository {
 
       return right(userModel);
     } on FirebaseException catch (e) {
-      if (e.code == 'network-request-failed') {
-        return left('İnternet bağlantısında bir problem oluştu');
-      }
-      return left('Bilinmeyen bir hata oluştu');
+      return left(e.toString());
     } catch (e) {
-      return left('Bilinmeyen bir hata oluştu');
+      return left(e.toString());
     }
   }
 
@@ -221,16 +181,9 @@ class AuthRepository {
     try {
       await _auth.sendPasswordResetEmail(email: email);
     } on FirebaseException catch (e) {
-      if (e.code == 'invalid-email') {
-        return left('Lütfen geçerli bir email adresi giriniz');
-      } else if (e.code == 'user-not-found') {
-        return left('Bu e-posta adresi ile bir kullanıcı bulunamadı');
-      } else if (e.code == 'network-request-failed') {
-        return left('İnternet bağlantısında bir problem oluştu');
-      }
-      return left('Bilinmeyen bir hata oluştu');
+      return left(e.toString());
     } catch (e) {
-      return left('Bilinmeyen bir hata oluştu');
+      return left(e.toString());
     }
 
     return right(null);

@@ -73,6 +73,7 @@ class LoginScreen extends ConsumerWidget {
               SquareTile(
                 imagePath: AssetConstants.googleLogo,
                 onTap: () {
+                  context.pop();
                   signInWithGoogle(context, ref);
                 },
               ),
