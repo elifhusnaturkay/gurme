@@ -162,7 +162,7 @@ class AuthRepository {
       await _auth.currentUser!.sendEmailVerification();
 
       UserModel userModel = UserModel(
-        name: userCredential.user!.displayName ?? name,
+        name: name,
         profilePic:
             userCredential.user!.photoURL ?? AssetConstants.defaultProfilePic,
         uid: userCredential.user!.uid,
