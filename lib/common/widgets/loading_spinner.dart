@@ -17,7 +17,7 @@ class LoadingSpinner extends StatelessWidget {
           size: width + 25,
         ),
         Image.asset(
-          AssetConstants.shortLogoPurple,
+          AssetConstants.shortLogoPurpleLoading,
           width: width,
           height: height,
         ),
