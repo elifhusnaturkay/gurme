@@ -40,12 +40,7 @@ class ItemRepository {
             UserModel.fromMap(querySnapshot.data() as Map<String, dynamic>);
         if (comment.user != userData) {
           comment = comment.copyWith(
-            id: comment.id,
             user: userData,
-            itemId: comment.itemId,
-            rating: comment.rating,
-            text: comment.text,
-            userRef: comment.userRef,
           );
           await _comments.doc(comment.id).update(comment.toMap());
         }
@@ -92,6 +87,27 @@ class ItemRepository {
     }
   }
 
+  FutureEither<void> updateComment(
+      Comment comment, Item item, int rating, String text) async {
+    late Comment updatedComment;
+    final bool isCommentEmpty = !RegExp(r'\S').hasMatch(text);
+
+    // if text has only whitespace characters
+    if (isCommentEmpty) {
+      updatedComment = comment.copyWith(rating: rating, text: null);
+    } else {
+      updatedComment = comment.copyWith(rating: rating, text: text);
+    }
+
+    try {
+      await updateItem(item, rating, isCommentEmpty);
+      await updateCompany(item.companyId, rating, isCommentEmpty);
+      return right(_comments.doc(comment.id).update(updatedComment.toMap()));
+    } catch (e) {
+      return left('Yorum gönderilirken bir şeyler ters gitti');
+    }
+  }
+
   Future<void> updateCompany(
       String companyId, int rating, bool isCommentEmpty) async {
     late Company company;
@@ -107,26 +123,15 @@ class ItemRepository {
     late Company updatedCompany;
     if (isCommentEmpty) {
       updatedCompany = company.copyWith(
-          id: company.id,
-          bannerPic: company.bannerPic,
-          categoryIds: company.categoryIds,
-          commentCount: company.commentCount,
-          lowercaseName: company.lowercaseName,
-          name: company.name,
-          location: company.location,
-          rating: newCompanyRating,
-          ratingCount: company.ratingCount + 1);
+        rating: newCompanyRating,
+        ratingCount: company.ratingCount + 1,
+      );
     } else {
       updatedCompany = company.copyWith(
-          id: company.id,
-          bannerPic: company.bannerPic,
-          categoryIds: company.categoryIds,
-          commentCount: company.commentCount + 1,
-          lowercaseName: company.lowercaseName,
-          name: company.name,
-          location: company.location,
-          rating: newCompanyRating,
-          ratingCount: company.ratingCount + 1);
+        commentCount: company.commentCount + 1,
+        rating: newCompanyRating,
+        ratingCount: company.ratingCount + 1,
+      );
     }
 
     await _company.doc(companyId).update(updatedCompany.toMap());
@@ -138,32 +143,15 @@ class ItemRepository {
     late Item updatedItem;
     if (isCommentEmpty) {
       updatedItem = item.copyWith(
-          id: item.id,
-          categoryId: item.categoryId,
-          categoryName: item.categoryName,
-          companyId: item.companyId,
-          companyName: item.companyName,
-          picture: item.picture,
-          commentCount: item.commentCount,
-          lowercaseName: item.lowercaseName,
-          name: item.name,
-          location: item.location,
-          rating: newItemRating,
-          ratingCount: item.ratingCount + 1);
+        rating: newItemRating,
+        ratingCount: item.ratingCount + 1,
+      );
     } else {
       updatedItem = item.copyWith(
-          id: item.id,
-          categoryId: item.categoryId,
-          categoryName: item.categoryName,
-          companyId: item.companyId,
-          companyName: item.companyName,
-          picture: item.picture,
-          commentCount: item.commentCount + 1,
-          lowercaseName: item.lowercaseName,
-          name: item.name,
-          location: item.location,
-          rating: newItemRating,
-          ratingCount: item.ratingCount + 1);
+        commentCount: item.commentCount + 1,
+        rating: newItemRating,
+        ratingCount: item.ratingCount + 1,
+      );
     }
 
     await _items.doc(item.id).update(updatedItem.toMap());

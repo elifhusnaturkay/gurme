@@ -78,17 +78,29 @@ class _ItemScreenState extends ConsumerState<ItemScreen>
         expand: false,
         controller: _draggableScrollableController,
         builder: (BuildContext context, ScrollController scrollController) {
-          return Column(
-            children: [
-              ItemScreenItemCard(
-                scrollPosition: scrollPosition,
-                widget: widget,
-                scrollController: scrollController,
-                ref: ref,
-              ),
-              ref.watch(getCommentsProvider(widget._item.id)).when(
-                    data: (comments) {
-                      return comments.isEmpty
+          return ref.watch(getCommentsProvider(widget._item.id)).when(
+                data: (comments) {
+                  String userId = ref.watch(userProvider.notifier).state!.uid;
+                  int currentUserCommentIndex = comments
+                      .indexWhere((comment) => comment.user.uid == userId);
+
+                  Comment? currentUserComment;
+                  // if current user have a comment it swaps the comment to beginning of list
+                  if (currentUserCommentIndex != -1) {
+                    currentUserComment =
+                        comments.removeAt(currentUserCommentIndex);
+                    comments.insert(0, currentUserComment);
+                  }
+                  return Column(
+                    children: [
+                      ItemScreenItemCard(
+                        scrollPosition: scrollPosition,
+                        widget: widget,
+                        scrollController: scrollController,
+                        ref: ref,
+                        currentUserComment: currentUserComment,
+                      ),
+                      comments.isEmpty
                           ? Expanded(
                               child: ListView(
                                 children: const [
@@ -104,23 +116,24 @@ class _ItemScreenState extends ConsumerState<ItemScreen>
                                 itemBuilder: (context, index) {
                                   return CommentTile(
                                     comment: comments[index],
+                                    ref: ref,
                                   );
                                 },
                               ),
-                            );
-                    },
-                    error: (error, stackTrace) {
-                      return Text(error.toString());
-                    },
-                    loading: () => Expanded(
-                      child: LoadingAnimationWidget.waveDots(
-                        color: Colors.indigo.shade400,
-                        size: 50,
-                      ),
-                    ),
-                  )
-            ],
-          );
+                            )
+                    ],
+                  );
+                },
+                error: (error, stackTrace) {
+                  return Text(error.toString());
+                },
+                loading: () => Center(
+                  child: LoadingAnimationWidget.waveDots(
+                    color: Colors.indigo.shade400,
+                    size: 50,
+                  ),
+                ),
+              );
         },
       ),
     );
@@ -128,18 +141,20 @@ class _ItemScreenState extends ConsumerState<ItemScreen>
 }
 
 class ItemScreenItemCard extends StatelessWidget {
-  final WidgetRef ref;
   const ItemScreenItemCard({
     super.key,
     required this.scrollPosition,
     required this.widget,
     required this.scrollController,
     required this.ref,
+    required this.currentUserComment,
   });
 
+  final WidgetRef ref;
   final ValueNotifier<double> scrollPosition;
   final ItemScreen widget;
   final ScrollController scrollController;
+  final Comment? currentUserComment;
 
   @override
   Widget build(BuildContext context) {
@@ -277,20 +292,27 @@ class ItemScreenItemCard extends StatelessWidget {
                               child: CommentFieldScreen(
                                 ref: ref,
                                 item: widget._item,
+                                currentUserComment: currentUserComment,
                               ),
                             ),
                           );
                         },
                       );
                     },
-                    child: Text(
-                      "Kendi Yorumunu Bırak",
-                      style: GoogleFonts.inter(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.indigo.shade400,
-                      ),
-                    ),
+                    child: currentUserComment == null &&
+                            ref
+                                .watch(userProvider.notifier)
+                                .state!
+                                .isAuthenticated
+                        ? Text(
+                            "Kendi Yorumunu Bırak",
+                            style: GoogleFonts.inter(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.indigo.shade400,
+                            ),
+                          )
+                        : Container(),
                   ),
                 ),
               ),
@@ -303,8 +325,9 @@ class ItemScreenItemCard extends StatelessWidget {
 }
 
 class CommentTile extends StatelessWidget {
-  const CommentTile({super.key, required this.comment});
+  const CommentTile({super.key, required this.comment, required this.ref});
 
+  final WidgetRef ref;
   final Comment comment;
   @override
   Widget build(BuildContext context) {
@@ -371,7 +394,7 @@ class CommentTile extends StatelessWidget {
                               ),
                             ),
                             Row(
-                              mainAxisSize: MainAxisSize.max,
+                              mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: List.generate(
                                 comment.rating,
@@ -404,6 +427,21 @@ class CommentTile extends StatelessWidget {
                             ),
                           ],
                         ),
+                        const Spacer(),
+                        ref.watch(userProvider.notifier).state!.uid ==
+                                comment.user.uid
+                            ? PopupMenuButton(
+                                iconSize: 5,
+                                offset: const Offset(-0.5, 0),
+                                itemBuilder: (context) => [
+                                      const PopupMenuItem<int>(
+                                        value: 0,
+                                        child: Text('Yorumu düzenle'),
+                                      ),
+                                      const PopupMenuItem<int>(
+                                          value: 1, child: Text('Yorumu sil')),
+                                    ])
+                            : Container(),
                       ],
                     ),
                   ),
@@ -514,16 +552,39 @@ class ZeroCommentTile extends StatelessWidget {
 class CommentFieldScreen extends StatefulWidget {
   final WidgetRef ref;
   final Item item;
-  const CommentFieldScreen({super.key, required this.ref, required this.item});
+  final Comment? currentUserComment;
+  const CommentFieldScreen({
+    super.key,
+    required this.ref,
+    required this.item,
+    required this.currentUserComment,
+  });
 
   @override
   State<CommentFieldScreen> createState() => _CommentFieldScreenState();
 }
 
 class _CommentFieldScreenState extends State<CommentFieldScreen> {
-  final commentController = TextEditingController();
-
+  late TextEditingController commentController;
   int ratingCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.currentUserComment != null) {
+      commentController =
+          TextEditingController(text: widget.currentUserComment!.text);
+      ratingCount = widget.currentUserComment!.rating;
+    } else {
+      commentController = TextEditingController();
+    }
+  }
+
+  @override
+  void dispose() {
+    commentController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -537,7 +598,7 @@ class _CommentFieldScreenState extends State<CommentFieldScreen> {
           const SizedBox(height: 10),
           RatingBar.builder(
             glow: false,
-            initialRating: 0,
+            initialRating: ratingCount.toDouble(),
             minRating: 1,
             direction: Axis.horizontal,
             allowHalfRating: false,
@@ -573,15 +634,30 @@ class _CommentFieldScreenState extends State<CommentFieldScreen> {
                     onPressed: (ratingCount > 0 && ratingCount <= 5)
                         ? () async {
                             context.pop();
-                            await widget.ref
-                                .read(itemControllerProvider.notifier)
-                                .sendComment(
-                                  context,
-                                  widget.ref.read(userProvider.notifier).state!,
-                                  widget.item,
-                                  ratingCount,
-                                  commentController.text.trim(),
-                                );
+                            if (widget.currentUserComment == null) {
+                              await widget.ref
+                                  .read(itemControllerProvider.notifier)
+                                  .sendComment(
+                                    widget.ref
+                                        .read(userProvider.notifier)
+                                        .state!,
+                                    widget.item,
+                                    ratingCount,
+                                    commentController.text.trim(),
+                                  );
+                            } else {
+                              await widget.ref
+                                  .read(itemControllerProvider.notifier)
+                                  .updateComment(
+                                    widget.currentUserComment!,
+                                    widget.ref
+                                        .read(userProvider.notifier)
+                                        .state!,
+                                    widget.item,
+                                    ratingCount,
+                                    commentController.text.trim(),
+                                  );
+                            }
                           }
                         : null,
                     style: ElevatedButton.styleFrom(

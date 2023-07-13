@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gurme/common/utils/show_toast.dart';
 import 'package:gurme/features/item/repository/item_repository.dart';
@@ -28,10 +27,18 @@ class ItemController extends StateNotifier<bool> {
     return _itemRepository.getComments(itemId);
   }
 
-  Future<void> sendComment(BuildContext context, UserModel user, Item item,
-      int rating, String text) async {
+  Future<void> sendComment(
+      UserModel user, Item item, int rating, String text) async {
     final response =
         await _itemRepository.sendComment(user, item, rating, text);
+
+    response.fold((error) => showToast(error), (r) => {});
+  }
+
+  Future<void> updateComment(Comment comment, UserModel user, Item item,
+      int rating, String text) async {
+    final response =
+        await _itemRepository.updateComment(comment, item, rating, text);
 
     response.fold((error) => showToast(error), (r) => {});
   }
