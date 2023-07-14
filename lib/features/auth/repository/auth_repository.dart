@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
@@ -10,12 +11,14 @@ import 'package:gurme/common/constants/firebase_constants.dart';
 import 'package:gurme/core/providers/firebase_providers.dart';
 import 'package:gurme/common/utils/type_defs.dart';
 import 'package:gurme/models/user_model.dart';
+import 'package:http/http.dart';
 
 final authRepositoryProvider = Provider(
   (ref) => AuthRepository(
     auth: ref.read(authProvider),
     firestore: ref.read(firestoreProvider),
     googleSignIn: ref.read(googleSignInProvider),
+    storage: ref.read(storageProvider),
   ),
 );
 
@@ -23,14 +26,17 @@ class AuthRepository {
   final FirebaseAuth _auth;
   final FirebaseFirestore _firestore;
   final GoogleSignIn _googleSignIn;
+  final FirebaseStorage _storage;
 
-  AuthRepository(
-      {required FirebaseAuth auth,
-      required FirebaseFirestore firestore,
-      required GoogleSignIn googleSignIn})
-      : _auth = auth,
+  AuthRepository({
+    required FirebaseAuth auth,
+    required FirebaseFirestore firestore,
+    required GoogleSignIn googleSignIn,
+    required FirebaseStorage storage,
+  })  : _auth = auth,
         _firestore = firestore,
-        _googleSignIn = googleSignIn;
+        _googleSignIn = googleSignIn,
+        _storage = storage;
 
   CollectionReference get _users =>
       _firestore.collection(FirebaseConstants.usersCollection);
@@ -59,10 +65,14 @@ class AuthRepository {
       late UserModel userModel;
 
       if (userCredential.additionalUserInfo!.isNewUser) {
+        String? profilePictureUrl;
+        if (userCredential.user!.photoURL != null) {
+          profilePictureUrl = await storeProfilePicture(
+              userCredential.user!.photoURL!, userCredential.user!.uid);
+        }
         userModel = UserModel(
           name: userCredential.user!.displayName ?? 'No Name',
-          profilePic:
-              userCredential.user!.photoURL ?? AssetConstants.defaultProfilePic,
+          profilePic: profilePictureUrl ?? AssetConstants.defaultProfilePic,
           uid: userCredential.user!.uid,
           isAuthenticated: true,
           bannerPic: AssetConstants.defaultBannerPic,
@@ -90,6 +100,31 @@ class AuthRepository {
     } catch (e) {
       return left('Bilinmeyen bir hata oluştu');
     }
+  }
+
+  Future<String> storeProfilePicture(String photoUrl, String userId) async {
+    final userProfilePic = 'user/${userId}_profilePicture';
+
+    try {
+      final userProfileRef = _storage.ref().child(userProfilePic);
+
+      final Response response = await get(Uri.parse(photoUrl));
+      final Uint8List imageData = response.bodyBytes;
+
+      final uploadTask = await userProfileRef.putData(imageData);
+
+      if (uploadTask.state == TaskState.success) {
+        String pictureUrl = await uploadTask.ref.getDownloadURL();
+        return pictureUrl;
+      } else if (uploadTask.state == TaskState.error) {
+        print(uploadTask.state.name);
+        throw Exception('Bilinmeyen bir hata oluştu');
+      }
+    } catch (e) {
+      throw Exception('Bilinmeyen bir hata oluştu');
+    }
+
+    throw Exception('Bilinmeyen bir hata oluştu');
   }
 
   FutureEither<void> signOut() async {
