@@ -152,9 +152,10 @@ final routerProvider = Provider<GoRouter>(
         ),
         GoRoute(
           name: RouteConstants.editNameScreen,
-          path: "/name",
+          path: "/edit/:name",
           pageBuilder: (context, state) {
-            return const MaterialPage(child: EditNameScreen());
+            return MaterialPage(
+                child: EditNameScreen(name: state.pathParameters['name']!));
           },
         ),
       ],
