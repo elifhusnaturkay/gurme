@@ -26,8 +26,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   File? selectedBanner;
   File? selectedProfile;
   late bool isMailUser;
-  bool isProfileChanged = false;
-  bool isBannerChanged = false;
   Future selectFile(ImageName imageName, ImageSource imageSource) async {
     late XFile? result;
     try {
@@ -86,20 +84,13 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   height: 175,
                   child: InkWell(
                     onTap: () async {
-                      setState(() {
-                        isBannerChanged = false;
-                      });
                       await cameraOrGallery(
                         context: context,
                         imageName: ImageName.banner,
                         selectFile: selectFile,
                       );
                       if (selectedBanner != null) {
-                        bool _isBannerChanged =
-                            await uploadBannerPicture(user, selectedBanner!);
-                        setState(() {
-                          isBannerChanged = _isBannerChanged;
-                        });
+                        await uploadBannerPicture(user, selectedBanner!);
                       }
                     },
                     splashFactory: NoSplash.splashFactory,
@@ -123,7 +114,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                 )
                               ],
                             ),
-                            child: isBannerChanged
+                            child: selectedBanner != null
                                 ? Image.file(
                                     selectedBanner!,
                                     fit: BoxFit.cover,
@@ -149,15 +140,13 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     alignment: Alignment.center,
                     child: InkWell(
                       onTap: () async {
-                        isProfileChanged = false;
                         await cameraOrGallery(
                           context: context,
                           imageName: ImageName.profile,
                           selectFile: selectFile,
                         );
                         if (selectedProfile != null) {
-                          isProfileChanged = await uploadProfilePicture(
-                              user, selectedProfile!);
+                          await uploadProfilePicture(user, selectedProfile!);
                         }
                       },
                       splashFactory: NoSplash.splashFactory,
