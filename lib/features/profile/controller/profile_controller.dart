@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gurme/common/utils/show_toast.dart';
+import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/profile/repository/profile_repository.dart';
 import 'package:gurme/models/comment_model.dart';
 import 'package:gurme/models/company_model.dart';
@@ -10,7 +11,9 @@ import 'package:gurme/models/user_model.dart';
 final profileControllerProvider =
     StateNotifierProvider<ProfileController, bool>((ref) {
   return ProfileController(
-      profileRepository: ref.watch(profileRepositoryProvider));
+    ref: ref,
+    profileRepository: ref.watch(profileRepositoryProvider),
+  );
 });
 
 final getUserByIdProvider =
@@ -50,10 +53,12 @@ final getCommentsOfUserProvider = FutureProvider.family
 
 class ProfileController extends StateNotifier<bool> {
   final ProfileRepository _profileRepository;
-
+  final Ref _ref;
   ProfileController({
     required ProfileRepository profileRepository,
-  })  : _profileRepository = profileRepository,
+    required Ref ref,
+  })  : _ref = ref,
+        _profileRepository = profileRepository,
         super(false);
 
   Future<UserModel> getUserById(String userId) async {
@@ -73,12 +78,31 @@ class ProfileController extends StateNotifier<bool> {
     return await _profileRepository.getItemsByIds(itemIds);
   }
 
-  Future<void> removeFromFavorites(String userId, String companyId) async {
-    return await _profileRepository.removeFromFavorites(userId, companyId);
+  Future<void> removeFromFavorites(UserModel user, String companyId) async {
+    final response =
+        await _profileRepository.removeFromFavorites(user, companyId);
+
+    response.fold((error) => showToast(error), (r) {
+      final List<String> updatedCompanyIds = user.favoriteCompanyIds;
+      updatedCompanyIds.remove(companyId);
+
+      _ref.read(userProvider.notifier).update(
+          (state) => state!.copyWith(favoriteCompanyIds: updatedCompanyIds));
+    });
   }
 
-  Future<void> addToFavorites(String userId, String companyId) async {
-    return await _profileRepository.addToFavorites(userId, companyId);
+  Future<void> addToFavorites(UserModel user, String companyId) async {
+    final response = await _profileRepository.addToFavorites(user, companyId);
+
+    response.fold((error) => showToast(error), (r) {
+      final List<String> updatedCompanyIds = user.favoriteCompanyIds;
+      if (!updatedCompanyIds.contains(companyId)) {
+        updatedCompanyIds.add(companyId);
+      }
+
+      _ref.read(userProvider.notifier).update(
+          (state) => state!.copyWith(favoriteCompanyIds: updatedCompanyIds));
+    });
   }
 
   Future<bool> uploadProfilePicture(
@@ -89,7 +113,12 @@ class ProfileController extends StateNotifier<bool> {
     response.fold((error) {
       showToast(error);
       return false;
-    }, (r) => true);
+    }, (newUrl) {
+      _ref
+          .read(userProvider.notifier)
+          .update((state) => state!.copyWith(profilePic: newUrl));
+      return true;
+    });
 
     return false;
   }
@@ -102,7 +131,12 @@ class ProfileController extends StateNotifier<bool> {
     response.fold((error) {
       showToast(error);
       return false;
-    }, (r) => true);
+    }, (newUrl) {
+      _ref
+          .read(userProvider.notifier)
+          .update((state) => state!.copyWith(bannerPic: newUrl));
+      return true;
+    });
 
     return false;
   }
@@ -110,7 +144,12 @@ class ProfileController extends StateNotifier<bool> {
   Future<void> updateUserName(UserModel user, String newName) async {
     final response = await _profileRepository.updateUserName(user, newName);
 
-    response.fold((error) => showToast(error), (r) => null);
+    response.fold(
+      (error) => showToast(error),
+      (r) => _ref.read(userProvider.notifier).update(
+            (state) => state!.copyWith(name: newName),
+          ),
+    );
   }
 
   bool isUserSignedInWithMail() {

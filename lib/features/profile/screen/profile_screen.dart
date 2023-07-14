@@ -10,6 +10,7 @@ import 'package:gurme/features/profile/controller/profile_controller.dart';
 import 'package:gurme/models/comment_model.dart';
 import 'package:gurme/models/company_model.dart';
 import 'package:gurme/models/item_model.dart';
+import 'package:gurme/models/user_model.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   final String _id;
@@ -181,7 +182,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 ),
                               ),
                             ),
-                            ref.read(userProvider.notifier).state!.uid ==
+                            ref.watch(userProvider.notifier).state!.uid ==
                                     widget._id
                                 ? Positioned(
                                     bottom: iconPositionBottom,
@@ -308,7 +309,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 return FavoriteTileCompany(
                                   company: company,
                                   ref: ref,
-                                  userId: widget._id,
+                                  user: user,
                                 );
                               },
                             );
@@ -475,12 +476,12 @@ class CommentTileCompany extends StatelessWidget {
 class FavoriteTileCompany extends StatefulWidget {
   final Company company;
   final WidgetRef ref;
-  final String userId;
+  final UserModel user;
   const FavoriteTileCompany({
     super.key,
     required this.company,
     required this.ref,
-    required this.userId,
+    required this.user,
   });
 
   @override
@@ -596,7 +597,7 @@ class _FavoriteTileCompanyState extends State<FavoriteTileCompany>
                                     .read(userProvider.notifier)
                                     .state!
                                     .uid ==
-                                widget.userId) {
+                                widget.user.uid) {
                               setState(() {
                                 favorite = !favorite;
                               });
@@ -604,24 +605,30 @@ class _FavoriteTileCompanyState extends State<FavoriteTileCompany>
                                 await widget.ref
                                     .read(profileControllerProvider.notifier)
                                     .removeFromFavorites(
-                                        widget.userId, widget.company.id);
+                                        widget.user, widget.company.id);
                               } else {
                                 await widget.ref
                                     .read(profileControllerProvider.notifier)
                                     .addToFavorites(
-                                        widget.userId, widget.company.id);
+                                        widget.user, widget.company.id);
                               }
                             }
                           },
-                          icon: favorite
-                              ? Icon(
-                                  Icons.favorite,
-                                  color: Colors.indigo.shade400,
-                                )
-                              : Icon(
-                                  Icons.favorite_border,
-                                  color: Colors.indigo.shade400,
-                                ),
+                          icon: widget.ref
+                                      .watch(userProvider.notifier)
+                                      .state!
+                                      .uid ==
+                                  widget.user.uid
+                              ? favorite
+                                  ? Icon(
+                                      Icons.favorite,
+                                      color: Colors.indigo.shade400,
+                                    )
+                                  : Icon(
+                                      Icons.favorite_border,
+                                      color: Colors.indigo.shade400,
+                                    )
+                              : Container(),
                         ),
                       ],
                     ),

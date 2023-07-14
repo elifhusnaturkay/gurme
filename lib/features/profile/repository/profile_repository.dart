@@ -97,19 +97,32 @@ class ProfileRepository {
     return item;
   }
 
-  Future<void> removeFromFavorites(String userId, String companyId) async {
-    await _users.doc(userId).update({
-      'favoriteCompanyIds': FieldValue.arrayRemove([companyId])
-    });
+  FutureEither<void> removeFromFavorites(
+      UserModel user, String companyId) async {
+    String userId = user.uid;
+    try {
+      await _users.doc(userId).update({
+        'favoriteCompanyIds': FieldValue.arrayRemove([companyId])
+      });
+      return right(null);
+    } catch (e) {
+      return left("Bir hata oldu.");
+    }
   }
 
-  Future<void> addToFavorites(String userId, String companyId) async {
-    await _users.doc(userId).update({
-      'favoriteCompanyIds': FieldValue.arrayUnion([companyId])
-    });
+  FutureEither<void> addToFavorites(UserModel user, String companyId) async {
+    String userId = user.uid;
+    try {
+      await _users.doc(userId).update({
+        'favoriteCompanyIds': FieldValue.arrayUnion([companyId])
+      });
+      return right(null);
+    } catch (e) {
+      return left("Bir hata oldu.");
+    }
   }
 
-  FutureEither<bool> uploadProfilePicture(
+  FutureEither<String> uploadProfilePicture(
       UserModel user, File newProfilePicture) async {
     String oldProfilePictureUrl = user.profilePic;
     String userId = user.uid;
@@ -135,7 +148,7 @@ class ProfileRepository {
     if (uploadTask.state == TaskState.success) {
       final newUrl = await uploadTask.ref.getDownloadURL();
       await updateProfilePictureOfUser(user, newUrl);
-      return right(true);
+      return right(newUrl);
     } else if (uploadTask.state == TaskState.error) {
       return left('Fotoğraf değiştirilirken bir hata oluştu');
     }
@@ -153,7 +166,7 @@ class ProfileRepository {
     }
   }
 
-  FutureEither<bool> uploadBannerPicture(
+  FutureEither<String> uploadBannerPicture(
       UserModel user, File newBannerPicture) async {
     String oldBannerPictureUrl = user.bannerPic;
     String userId = user.uid;
@@ -179,7 +192,7 @@ class ProfileRepository {
     if (uploadTask.state == TaskState.success) {
       final newUrl = await uploadTask.ref.getDownloadURL();
       await updateBannerPictureOfUser(user, newUrl);
-      return right(true);
+      return right(newUrl);
     } else if (uploadTask.state == TaskState.error) {
       return left('Fotoğraf değiştirilirken bir hata oluştu');
     }
