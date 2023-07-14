@@ -117,7 +117,6 @@ class AuthRepository {
         String pictureUrl = await uploadTask.ref.getDownloadURL();
         return pictureUrl;
       } else if (uploadTask.state == TaskState.error) {
-        print(uploadTask.state.name);
         throw Exception('Bilinmeyen bir hata oluştu');
       }
     } catch (e) {
