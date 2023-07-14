@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/route_constants.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
-import 'package:gurme/features/profile/controller/profile_controller.dart';
+import 'package:gurme/features/home/controller/home_controller.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class FavoritesDrawer extends ConsumerStatefulWidget {

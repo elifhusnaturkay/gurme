@@ -25,6 +25,13 @@ final getRandomItemsProvider = FutureProvider.autoDispose((ref) {
   return ref.watch(homeControllerProvider.notifier).getRandomItems();
 });
 
+final getFavoriteCompaniesProvider =
+    StreamProvider.autoDispose.family((ref, List<String> favoriteCompanyIds) {
+  return ref
+      .watch(homeControllerProvider.notifier)
+      .getFavoriteCompanies(favoriteCompanyIds);
+});
+
 class HomeController extends StateNotifier<bool> {
   final HomeRepository _homeRepository;
 
@@ -46,5 +53,9 @@ class HomeController extends StateNotifier<bool> {
 
   Future<List<Item>> getRandomItems() async {
     return await _homeRepository.getRandomItems();
+  }
+
+  Stream<List<Company>> getFavoriteCompanies(List<String> favoriteCompanyIds) {
+    return _homeRepository.getFavoriteCompanies(favoriteCompanyIds);
   }
 }

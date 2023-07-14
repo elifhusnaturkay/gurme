@@ -104,4 +104,21 @@ class HomeRepository {
 
     return randomItems;
   }
+
+  Stream<List<Company>> getFavoriteCompanies(List<String> favoriteCompanyIds) {
+    if (favoriteCompanyIds.isEmpty) {
+      return Stream.value([]);
+    }
+
+    return _company
+        .where('id', whereIn: favoriteCompanyIds)
+        .snapshots()
+        .map((event) {
+      List<Company> companies = [];
+      for (var company in event.docs) {
+        companies.add(Company.fromMap(company.data() as Map<String, dynamic>));
+      }
+      return companies;
+    });
+  }
 }
