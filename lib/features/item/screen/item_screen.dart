@@ -380,7 +380,8 @@ class CommentTile extends StatelessWidget {
                             );
                           },
                           child: CircleAvatar(
-                            backgroundColor: Colors.transparent,
+                            backgroundColor:
+                                Colors.indigo.shade400.withOpacity(0.2),
                             radius: 24,
                             backgroundImage: NetworkImage(
                               comment.user.profilePic,
@@ -539,7 +540,8 @@ class ZeroCommentTile extends StatelessWidget {
                       Container(
                         margin: const EdgeInsets.all(2),
                         child: CircleAvatar(
-                          backgroundColor: Colors.transparent,
+                          backgroundColor:
+                              Colors.indigo.shade400.withOpacity(0.2),
                           radius: 24,
                           child: Image.asset(
                             AssetConstants.shortLogoPurple,
@@ -772,7 +774,8 @@ class CommentBottomSheet extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.all(5),
                       child: CircleAvatar(
-                        backgroundColor: Colors.transparent,
+                        backgroundColor:
+                            Colors.indigo.shade400.withOpacity(0.2),
                         radius: 28,
                         backgroundImage: NetworkImage(
                           comment.user.profilePic,

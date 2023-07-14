@@ -189,156 +189,178 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                     return Column(
                       children: [
                         Expanded(
-                          child: ListView.builder(
-                            itemCount: items.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final item = items[index];
-                              return ListTile(
-                                onTap: () {
-                                  showPopUpScreen(
-                                    context: context,
-                                    builder: (context) {
-                                      return ItemScreen(
-                                        item: item,
-                                      );
-                                    },
-                                  );
-                                },
-                                title: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: 50,
-                                          height: 50,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              Radius.circular(8),
-                                            ),
-                                            color: Colors.grey.shade200,
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            child: Image.network(
-                                              item.picture,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 10),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                          child: ListView(
+                            children: [
+                              const SizedBox(height: 5),
+                              ...List.generate(
+                                items.length,
+                                (index) {
+                                  final item = items[index];
+                                  return Column(
+                                    children: [
+                                      ListTile(
+                                        onTap: () {
+                                          showPopUpScreen(
+                                            context: context,
+                                            builder: (context) {
+                                              return ItemScreen(
+                                                item: item,
+                                              );
+                                            },
+                                          );
+                                        },
+                                        title: Column(
                                           children: [
-                                            Text(
-                                              item.name,
-                                              style: GoogleFonts.inter(
-                                                fontSize: 16.0,
-                                                fontWeight: FontWeight.w600,
-                                              ),
+                                            const SizedBox(height: 5),
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  width: 50,
+                                                  height: 50,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                      Radius.circular(8),
+                                                    ),
+                                                    color: Colors.grey.shade200,
+                                                  ),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    child: Image.network(
+                                                      item.picture,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 15),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      item.name,
+                                                      style: GoogleFonts.inter(
+                                                        fontSize: 16.0,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 5),
+                                                    Text(
+                                                      item.companyName,
+                                                      style: GoogleFonts.inter(
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const Spacer(),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          item.rating
+                                                              .toStringAsFixed(
+                                                                  1),
+                                                          style:
+                                                              GoogleFonts.inter(
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            color: Colors
+                                                                .grey.shade400,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                            width: 5),
+                                                        const Icon(
+                                                          Icons.grade_rounded,
+                                                          size: 18,
+                                                          color: Colors.amber,
+                                                        ),
+                                                        const SizedBox(
+                                                            width: 5),
+                                                        Text(
+                                                          item.ratingCount
+                                                              .toString(),
+                                                          style:
+                                                              GoogleFonts.inter(
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            color: Colors
+                                                                .grey.shade400,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          item.commentCount
+                                                              .toString(),
+                                                          style:
+                                                              GoogleFonts.inter(
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            color: Colors
+                                                                .grey.shade400,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Icon(
+                                                          Icons.chat_rounded,
+                                                          color: Colors
+                                                              .indigo.shade400,
+                                                          size: 12,
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 2,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                             const SizedBox(height: 5),
-                                            Text(
-                                              item.companyName,
-                                              style: GoogleFonts.inter(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
                                           ],
                                         ),
-                                        const Spacer(),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  item.rating
-                                                      .toStringAsFixed(1),
-                                                  style: GoogleFonts.inter(
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    color: Colors.grey.shade400,
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 5),
-                                                const Icon(
-                                                  Icons.grade_rounded,
-                                                  size: 18,
-                                                  color: Colors.amber,
-                                                ),
-                                                const SizedBox(width: 5),
-                                                Text(
-                                                  item.ratingCount.toString(),
-                                                  style: GoogleFonts.inter(
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    color: Colors.grey.shade400,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  item.commentCount.toString(),
-                                                  style: GoogleFonts.inter(
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    color: Colors.grey.shade400,
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Icon(
-                                                  Icons.chat_rounded,
-                                                  color: Colors.indigo.shade400,
-                                                  size: 12,
-                                                ),
-                                                const SizedBox(
-                                                  width: 2,
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    index != items.length - 1
-                                        ? const SizedBox(height: 5)
-                                        : const SizedBox(),
-                                    index != items.length - 1
-                                        ? Container(
-                                            margin: const EdgeInsets.fromLTRB(
-                                                80, 0, 20, 0),
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            height: 1,
-                                            color: Colors.grey.shade300,
-                                          )
-                                        : const SizedBox(height: 5),
-                                  ],
-                                ),
-                              );
-                            },
+                                      ),
+                                      index != items.length - 1
+                                          ? Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  80, 0, 20, 0),
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              height: 1,
+                                              color: Colors.grey.shade300,
+                                            )
+                                          : const SizedBox(),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -359,127 +381,164 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                         child: Text('Maalesef aradığınız restoran bulunamadı'),
                       );
                     }
-                    return ListView.builder(
-                      itemCount: companies.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final company = companies[index];
-                        return ListTile(
-                          onTap: () => context.pushNamed(
-                            RouteConstants.companyScreen,
-                            pathParameters: {"id": company.id},
-                          ),
-                          title: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                    return Column(
+                      children: [
+                        Expanded(
+                          child: ListView(
                             children: [
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(8),
-                                      ),
-                                      color: Colors.grey.shade200,
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(8),
-                                      ),
-                                      child: Image.network(
-                                        company.bannerPic,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Text(
-                                    company.name,
-                                    style: GoogleFonts.inter(
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
+                              const SizedBox(height: 5),
+                              ...List.generate(
+                                companies.length,
+                                (index) {
+                                  final company = companies[index];
+                                  return Column(
                                     children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            company.rating.toStringAsFixed(1),
-                                            style: GoogleFonts.inter(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                              color: Colors.grey.shade400,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 5),
-                                          const Icon(
-                                            Icons.grade_rounded,
-                                            size: 18,
-                                            color: Colors.amber,
-                                          ),
-                                          const SizedBox(width: 5),
-                                          Text(
-                                            company.ratingCount.toString(),
-                                            style: GoogleFonts.inter(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                              color: Colors.grey.shade400,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      if (userLocation != null)
-                                        Row(
+                                      ListTile(
+                                        onTap: () => context.pushNamed(
+                                          RouteConstants.companyScreen,
+                                          pathParameters: {"id": company.id},
+                                        ),
+                                        title: Column(
                                           children: [
-                                            Text(
-                                              LocationUtils.calculateDistance(
-                                                  userLocation.latitude,
-                                                  userLocation.longitude,
-                                                  company.location.latitude,
-                                                  company.location.longitude),
-                                              style: GoogleFonts.inter(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.normal,
-                                                color: Colors.grey.shade400,
-                                              ),
+                                            const SizedBox(height: 5),
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  width: 50,
+                                                  height: 50,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                      Radius.circular(8),
+                                                    ),
+                                                    color: Colors.grey.shade200,
+                                                  ),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    child: Image.network(
+                                                      company.bannerPic,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 15),
+                                                Text(
+                                                  company.name,
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: 16.0,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                                const Spacer(),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          company.rating
+                                                              .toStringAsFixed(
+                                                                  1),
+                                                          style:
+                                                              GoogleFonts.inter(
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            color: Colors
+                                                                .grey.shade400,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                            width: 5),
+                                                        const Icon(
+                                                          Icons.grade_rounded,
+                                                          size: 18,
+                                                          color: Colors.amber,
+                                                        ),
+                                                        const SizedBox(
+                                                            width: 5),
+                                                        Text(
+                                                          company.ratingCount
+                                                              .toString(),
+                                                          style:
+                                                              GoogleFonts.inter(
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            color: Colors
+                                                                .grey.shade400,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    if (userLocation != null)
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            LocationUtils.calculateDistance(
+                                                                userLocation
+                                                                    .latitude,
+                                                                userLocation
+                                                                    .longitude,
+                                                                company.location
+                                                                    .latitude,
+                                                                company.location
+                                                                    .longitude),
+                                                            style: GoogleFonts
+                                                                .inter(
+                                                              fontSize: 12,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              color: Colors.grey
+                                                                  .shade400,
+                                                            ),
+                                                          ),
+                                                          Icon(
+                                                            Icons.location_pin,
+                                                            size: 16,
+                                                            color: Colors.indigo
+                                                                .shade400,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
-                                            Icon(
-                                              Icons.location_pin,
-                                              size: 16,
-                                              color: Colors.indigo.shade400,
-                                            ),
+                                            const SizedBox(height: 5),
                                           ],
                                         ),
+                                      ),
+                                      index != companies.length - 1
+                                          ? Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  80, 0, 20, 0),
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              height: 1,
+                                              color: Colors.grey.shade300,
+                                            )
+                                          : const SizedBox(),
                                     ],
-                                  ),
-                                ],
+                                  );
+                                },
                               ),
-                              index != companies.length - 1
-                                  ? const SizedBox(height: 5)
-                                  : const SizedBox(),
-                              index != companies.length - 1
-                                  ? Container(
-                                      margin: const EdgeInsets.fromLTRB(
-                                          80, 0, 20, 0),
-                                      width: MediaQuery.of(context).size.width,
-                                      height: 1,
-                                      color: Colors.grey.shade300,
-                                    )
-                                  : const SizedBox(height: 5),
                             ],
                           ),
-                        );
-                      },
+                        ),
+                      ],
                     );
                   },
                   error: (error, stackTrace) => const Text("error"),

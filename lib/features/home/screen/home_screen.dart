@@ -219,7 +219,7 @@ class HomeScreen extends ConsumerWidget {
                     constraints: const BoxConstraints(),
                     iconSize: 32,
                     icon: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(92, 107, 192, 0.5),
+                      backgroundColor: Colors.indigo.shade400.withOpacity(0.5),
                       radius: 16,
                       child: CircleAvatar(
                         radius: 14,
@@ -994,12 +994,27 @@ class HomeScreen extends ConsumerWidget {
                                               ),
                                             ),
                                             const SizedBox(width: 15),
-                                            Text(
-                                              randomItems[index].name,
-                                              style: GoogleFonts.inter(
-                                                fontSize: 16.0,
-                                                fontWeight: FontWeight.w600,
-                                              ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  randomItems[index].name,
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: 16.0,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 5),
+                                                Text(
+                                                  randomItems[index]
+                                                      .companyName,
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                             const Spacer(),
                                             Column(
