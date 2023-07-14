@@ -18,19 +18,61 @@ class _FavoritesDrawerState extends ConsumerState<FavoritesDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Theme.of(context).canvasColor,
       child: Column(
         children: [
           SafeArea(
             bottom: false,
-            child: ListTile(
-              title: Text(
-                "Favoriler",
-                style: GoogleFonts.inter(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+            child: ref.watch(userProvider.notifier).state!.isAuthenticated
+                ? ListTile(
+                    title: Text(
+                      "Favoriler",
+                      style: GoogleFonts.inter(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                : Column(
+                    children: [
+                      ListTile(
+                        contentPadding: const EdgeInsets.only(left: 10),
+                        title: Text(
+                          "Favori restoran ve kafelerine daha hızlı ulaşabilmek için giriş yap!",
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: Align(
+                          alignment: Alignment.centerLeft,
+                          child: TextButton.icon(
+                            onPressed: () {
+                              context.pop();
+                              context.pushNamed(
+                                RouteConstants.loginScreen,
+                              );
+                            },
+                            label: Text(
+                              "Giriş Yap ya da Kayıt Ol",
+                              style: GoogleFonts.inter(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.indigo.shade400,
+                              ),
+                            ),
+                            icon: Icon(
+                              Icons.login_rounded,
+                              color: Colors.indigo.shade400,
+                              size: 32,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
           ),
           Expanded(
             child: ListView(
@@ -66,8 +108,8 @@ class _FavoritesDrawerState extends ConsumerState<FavoritesDrawer> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Container(
-                                        width: 50,
-                                        height: 50,
+                                        width: 40,
+                                        height: 40,
                                         decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.all(
                                             Radius.circular(8),
