@@ -119,6 +119,7 @@ class _ItemScreenState extends ConsumerState<ItemScreen>
                                   return CommentTile(
                                     comment: comments[index],
                                     ref: ref,
+                                    item: widget._item,
                                   );
                                 },
                               ),
@@ -333,8 +334,13 @@ class ItemScreenItemCard extends StatelessWidget {
 }
 
 class CommentTile extends StatelessWidget {
-  const CommentTile({super.key, required this.comment, required this.ref});
+  const CommentTile(
+      {super.key,
+      required this.comment,
+      required this.ref,
+      required this.item});
 
+  final Item item;
   final WidgetRef ref;
   final Comment comment;
   @override
@@ -443,7 +449,20 @@ class CommentTile extends StatelessWidget {
                         child: ref.watch(userProvider.notifier).state!.uid ==
                                 comment.user.uid
                             ? PopupMenuButton(
-                                onSelected: (value) {},
+                                onSelected: (value) {
+                                  if (value == "Edit") {
+                                    showPopUpScreen(
+                                      context: context,
+                                      builder: (context) {
+                                        return CommentFieldScreen(
+                                          ref: ref,
+                                          item: item,
+                                          currentUserComment: comment,
+                                        );
+                                      },
+                                    );
+                                  } else if (value == "Delete") {}
+                                },
                                 constraints: const BoxConstraints(
                                   maxWidth: 200,
                                 ),
@@ -454,8 +473,8 @@ class CommentTile extends StatelessWidget {
                                 icon: const Icon(Icons.more_vert_rounded),
                                 iconSize: 21,
                                 itemBuilder: (context) => [
-                                  PopupMenuItem<int>(
-                                    value: 0,
+                                  PopupMenuItem<String>(
+                                    value: "Edit",
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -475,8 +494,8 @@ class CommentTile extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  PopupMenuItem<int>(
-                                    value: 1,
+                                  PopupMenuItem<String>(
+                                    value: "Delete",
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
