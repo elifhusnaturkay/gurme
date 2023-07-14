@@ -10,6 +10,7 @@ import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/home/controller/home_controller.dart';
 import 'package:gurme/features/home/drawers/favorites_drawer.dart';
 import 'package:gurme/features/item/screen/item_screen.dart';
+import 'package:gurme/features/search/controller/search_controller.dart';
 import 'package:gurme/main.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -864,6 +865,11 @@ class HomeScreen extends ConsumerWidget {
                                         children: [
                                           GestureDetector(
                                             onTap: () {
+                                              ref
+                                                  .read(selectedCategoryProvider
+                                                      .notifier)
+                                                  .update(
+                                                      (state) => category.id);
                                               context.pushNamed(
                                                 RouteConstants
                                                     .filteredSearchScreen,
