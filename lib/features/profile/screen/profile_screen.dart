@@ -482,11 +482,16 @@ class FavoriteTileCompany extends StatefulWidget {
   State<FavoriteTileCompany> createState() => _FavoriteTileCompanyState();
 }
 
-class _FavoriteTileCompanyState extends State<FavoriteTileCompany> {
+class _FavoriteTileCompanyState extends State<FavoriteTileCompany>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   bool favorite = true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 4,
