@@ -1,11 +1,13 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gurme/common/constants/asset_constants.dart';
 import 'package:gurme/common/constants/route_constants.dart';
 import 'package:gurme/common/utils/show_toast.dart';
+import 'package:gurme/features/auth/controller/auth_controller.dart';
+import 'package:gurme/features/profile/controller/profile_controller.dart';
+import 'package:gurme/models/user_model.dart';
 import 'package:image_picker/image_picker.dart';
 
 enum ImageName {
@@ -13,17 +15,19 @@ enum ImageName {
   banner;
 }
 
-class EditProfileScreen extends StatefulWidget {
+class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
 
   @override
-  State<EditProfileScreen> createState() => _EditProfileScreenState();
+  ConsumerState<EditProfileScreen> createState() => _EditProfileScreenState();
 }
 
-class _EditProfileScreenState extends State<EditProfileScreen> {
+class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   File? selectedBanner;
   File? selectedProfile;
-
+  late bool isMailUser;
+  bool isProfileChanged = false;
+  bool isBannerChanged = false;
   Future selectFile(ImageName imageName, ImageSource imageSource) async {
     late XFile? result;
     try {
@@ -42,12 +46,31 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     });
   }
 
-  Future uploadFile() async {
-    // TODO
+  @override
+  void initState() {
+    super.initState();
+    isMailUser =
+        ref.read(profileControllerProvider.notifier).isUserSignedInWithMail();
+  }
+
+  Future<bool> uploadProfilePicture(
+      UserModel user, File newProfilePicture) async {
+    return await ref
+        .read(profileControllerProvider.notifier)
+        .uploadProfilePicture(user, newProfilePicture);
+  }
+
+  Future<bool> uploadBannerPicture(
+      UserModel user, File newBannerPicture) async {
+    return await ref
+        .read(profileControllerProvider.notifier)
+        .uploadBannerPicture(user, newBannerPicture);
   }
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userProvider.notifier).state!;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(225),
@@ -62,12 +85,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 SizedBox(
                   height: 175,
                   child: InkWell(
-                    onTap: () {
-                      cameraOrGallery(
+                    onTap: () async {
+                      setState(() {
+                        isBannerChanged = false;
+                      });
+                      await cameraOrGallery(
                         context: context,
                         imageName: ImageName.banner,
                         selectFile: selectFile,
                       );
+                      if (selectedBanner != null) {
+                        bool _isBannerChanged =
+                            await uploadBannerPicture(user, selectedBanner!);
+                        setState(() {
+                          isBannerChanged = _isBannerChanged;
+                        });
+                      }
                     },
                     splashFactory: NoSplash.splashFactory,
                     child: Stack(
@@ -90,13 +123,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 )
                               ],
                             ),
-                            child: selectedBanner != null
+                            child: isBannerChanged
                                 ? Image.file(
                                     selectedBanner!,
                                     fit: BoxFit.cover,
                                   )
                                 : Image.network(
-                                    AssetConstants.defaultBannerPic,
+                                    user.bannerPic,
                                     fit: BoxFit.cover,
                                   ),
                           ),
@@ -115,12 +148,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   child: Align(
                     alignment: Alignment.center,
                     child: InkWell(
-                      onTap: () {
-                        cameraOrGallery(
+                      onTap: () async {
+                        isProfileChanged = false;
+                        await cameraOrGallery(
                           context: context,
                           imageName: ImageName.profile,
                           selectFile: selectFile,
                         );
+                        if (selectedProfile != null) {
+                          isProfileChanged = await uploadProfilePicture(
+                              user, selectedProfile!);
+                        }
                       },
                       splashFactory: NoSplash.splashFactory,
                       customBorder: const CircleBorder(),
@@ -158,7 +196,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 : CircleAvatar(
                                     radius: 50,
                                     backgroundImage: NetworkImage(
-                                      AssetConstants.defaultProfilePic,
+                                      user.profilePic,
                                     ),
                                   ),
                           ),
@@ -192,7 +230,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
             ListTile(
               onTap: () {
-                context.pushNamed(RouteConstants.editNameScreen);
+                context.pushNamed(RouteConstants.editNameScreen,
+                    pathParameters: {"name": user.name});
               },
               title: Text(
                 "Ad Soyad",
@@ -207,7 +246,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    "Kullanıcın Ad Soyadı",
+                    user.name,
                     style: GoogleFonts.inter(
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
@@ -222,87 +261,47 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ],
               ),
             ),
-            ListTile(
-              onTap: () {
-                // TODO : Sıfırlama Mail
-              },
-              title: Text(
-                "Şifre",
-                style: GoogleFonts.inter(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15,
-                  color: Colors.black,
-                ),
-              ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Sıfırlama Bağlantısını Gönder",
-                    style: GoogleFonts.inter(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15,
-                      color: Colors.black,
+            isMailUser
+                ? ListTile(
+                    onTap: () {
+                      String? email = ref
+                          .read(profileControllerProvider.notifier)
+                          .getCurrentUserEmail();
+                      if (email != null) {
+                        ref
+                            .read(authControllerProvider.notifier)
+                            .sendResetEmail(context, email);
+                      }
+                    },
+                    title: Text(
+                      "Şifre",
+                      style: GoogleFonts.inter(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 5),
-                  const Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    size: 15,
-                  )
-                ],
-              ),
-            ),
-            const SizedBox(height: 10),
-            Container(
-              height: 1.2,
-              margin: const EdgeInsets.symmetric(horizontal: 15),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade600,
-                borderRadius: BorderRadius.circular(16),
-              ),
-            ),
-            ListTile(
-              title: Text(
-                "Hesaplarını Bağla",
-                style: GoogleFonts.inter(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15,
-                  color: Colors.grey.shade600,
-                ),
-              ),
-            ),
-            ListTile(
-              onTap: () {}, // TODO : Google Link
-              title: Text(
-                "Google",
-                style: GoogleFonts.inter(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15,
-                  color: Colors.black,
-                ),
-              ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    "Google Hesabını Bağla",
-                    style: GoogleFonts.inter(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15,
-                      color: Colors.grey.shade600,
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Sıfırlama Bağlantısını Gönder",
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        const Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 15,
+                        )
+                      ],
                     ),
-                  ),
-                  const SizedBox(width: 5),
-                  const Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    size: 15,
                   )
-                ],
-              ),
-            ),
+                : Container(),
           ],
         ),
       ),

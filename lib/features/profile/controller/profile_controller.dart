@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gurme/common/utils/show_toast.dart';
 import 'package:gurme/features/profile/repository/profile_repository.dart';
 import 'package:gurme/models/comment_model.dart';
 import 'package:gurme/models/company_model.dart';
@@ -77,5 +79,45 @@ class ProfileController extends StateNotifier<bool> {
 
   Future<void> addToFavorites(String userId, String companyId) async {
     return await _profileRepository.addToFavorites(userId, companyId);
+  }
+
+  Future<bool> uploadProfilePicture(
+      UserModel user, File newProfilePicture) async {
+    final response =
+        await _profileRepository.uploadProfilePicture(user, newProfilePicture);
+
+    response.fold((error) {
+      showToast(error);
+      return false;
+    }, (r) => true);
+
+    return false;
+  }
+
+  Future<bool> uploadBannerPicture(
+      UserModel user, File newBannerPicture) async {
+    final response =
+        await _profileRepository.uploadBannerPicture(user, newBannerPicture);
+
+    response.fold((error) {
+      showToast(error);
+      return false;
+    }, (r) => true);
+
+    return false;
+  }
+
+  Future<void> updateUserName(UserModel user, String newName) async {
+    final response = await _profileRepository.updateUserName(user, newName);
+
+    response.fold((error) => showToast(error), (r) => null);
+  }
+
+  bool isUserSignedInWithMail() {
+    return _profileRepository.isUserSignedInWithMail();
+  }
+
+  String? getCurrentUserEmail() {
+    return _profileRepository.getCurrentUserEmail();
   }
 }
