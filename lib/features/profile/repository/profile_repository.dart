@@ -160,7 +160,8 @@ class ProfileRepository {
     UserModel updatedUser = user.copyWith(profilePic: pictureUrl);
 
     try {
-      return right(_users.doc(user.uid).update(updatedUser.toMap()));
+      await _users.doc(user.uid).update(updatedUser.toMap());
+      return right(null);
     } catch (e) {
       return left('Fotoğraf değiştirilirken bir hata oluştu');
     }
@@ -204,7 +205,8 @@ class ProfileRepository {
     UserModel updatedUser = user.copyWith(bannerPic: pictureUrl);
 
     try {
-      return right(_users.doc(user.uid).update(updatedUser.toMap()));
+      await _users.doc(user.uid).update(updatedUser.toMap());
+      return right(null);
     } catch (e) {
       return left('Fotoğraf değiştirilirken bir hata oluştu');
     }
@@ -213,7 +215,8 @@ class ProfileRepository {
   FutureEither<void> updateUserName(UserModel user, String newName) async {
     final updatedUser = user.copyWith(name: newName);
     try {
-      return right(_users.doc(user.uid).update(updatedUser.toMap()));
+      await _users.doc(user.uid).update(updatedUser.toMap());
+      return right(null);
     } catch (e) {
       return left('İsim değişikliği sırasında bir hata oluşu');
     }
