@@ -165,40 +165,47 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
-                          Container(
-                            height: 100,
-                            foregroundDecoration: BoxDecoration(
-                              border: Border.all(
-                                color: const Color(0xFFCFD3ED),
-                                width: 3,
+                          Hero(
+                            tag: "profiletoedit",
+                            child: Container(
+                              height: 100,
+                              foregroundDecoration: BoxDecoration(
+                                border: Border.all(
+                                  color: const Color(0xFFCFD3ED),
+                                  width: 3,
+                                ),
+                                shape: BoxShape.circle,
+                                color: Colors.black.withOpacity(0.5),
                               ),
-                              shape: BoxShape.circle,
-                              color: Colors.black.withOpacity(0.5),
-                            ),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 4,
-                                  color: Colors.black.withOpacity(0.25),
-                                  offset: const Offset(0, 2),
-                                  spreadRadius: 4,
-                                )
-                              ],
-                            ),
-                            child: selectedProfile != null
-                                ? CircleAvatar(
-                                    radius: 50,
-                                    backgroundImage: FileImage(
-                                      selectedProfile!,
-                                    ),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 4,
+                                    color: Colors.black.withOpacity(0.25),
+                                    offset: const Offset(0, 2),
+                                    spreadRadius: 4,
                                   )
-                                : CircleAvatar(
-                                    radius: 50,
-                                    backgroundImage: NetworkImage(
-                                      user.profilePic,
+                                ],
+                              ),
+                              child: selectedProfile != null
+                                  ? CircleAvatar(
+                                      backgroundColor: Colors.indigo.shade400
+                                          .withOpacity(0.2),
+                                      radius: 50,
+                                      backgroundImage: FileImage(
+                                        selectedProfile!,
+                                      ),
+                                    )
+                                  : CircleAvatar(
+                                      backgroundColor: Colors.indigo.shade400
+                                          .withOpacity(0.2),
+                                      radius: 50,
+                                      backgroundImage: NetworkImage(
+                                        user.profilePic,
+                                      ),
                                     ),
-                                  ),
+                            ),
                           ),
                           const Icon(
                             Icons.add_a_photo_rounded,

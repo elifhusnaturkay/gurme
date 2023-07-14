@@ -151,27 +151,32 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                             Positioned(
                               bottom: imagePositionBottom,
                               left: imagePositionLeft,
-                              child: Container(
-                                height: imageRadius * 2,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: const Color(0xFFCFD3ED),
-                                    width: 3,
+                              child: Hero(
+                                tag: "profiletoedit",
+                                child: Container(
+                                  height: imageRadius * 2,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: const Color(0xFFCFD3ED),
+                                      width: 3,
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 4,
+                                        color: Colors.black.withOpacity(0.25),
+                                        offset: const Offset(0, 4),
+                                        spreadRadius: 0,
+                                      )
+                                    ],
                                   ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: 4,
-                                      color: Colors.black.withOpacity(0.25),
-                                      offset: const Offset(0, 4),
-                                      spreadRadius: 0,
-                                    )
-                                  ],
-                                ),
-                                child: CircleAvatar(
-                                  radius: imageRadius,
-                                  backgroundImage: NetworkImage(
-                                    user.profilePic,
+                                  child: CircleAvatar(
+                                    radius: imageRadius,
+                                    backgroundColor:
+                                        Colors.indigo.shade400.withOpacity(0.2),
+                                    backgroundImage: NetworkImage(
+                                      user.profilePic,
+                                    ),
                                   ),
                                 ),
                               ),
