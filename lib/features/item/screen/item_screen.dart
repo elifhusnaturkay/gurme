@@ -103,6 +103,8 @@ class _ItemScreenState extends ConsumerState<ItemScreen>
                       comments.isEmpty
                           ? Expanded(
                               child: ListView(
+                                controller: scrollController,
+                                shrinkWrap: true,
                                 children: const [
                                   ZeroCommentTile(),
                                 ],
