@@ -17,11 +17,8 @@ class _ForgetPasswordFormState extends ConsumerState<ForgetPasswordForm> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
 
-  Future<void> sendResetEmail(
-      BuildContext context, WidgetRef ref, String email) async {
-    await ref
-        .read(authControllerProvider.notifier)
-        .sendResetEmail(context, email);
+  Future<void> sendResetEmail(WidgetRef ref, String email) async {
+    await ref.read(authControllerProvider.notifier).sendResetEmail(email);
   }
 
   @override
@@ -45,7 +42,7 @@ class _ForgetPasswordFormState extends ConsumerState<ForgetPasswordForm> {
             onTap: () async {
               loseFocus();
               if (_formKey.currentState!.validate()) {
-                await sendResetEmail(context, ref, emailController.text.trim());
+                await sendResetEmail(ref, emailController.text.trim());
               }
             },
             text: 'Sıfırlama Bağlantısını Gönder',

@@ -266,7 +266,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       if (email != null) {
                         ref
                             .read(authControllerProvider.notifier)
-                            .sendResetEmail(context, email);
+                            .sendResetEmail(email);
                       }
                     },
                     title: Text(

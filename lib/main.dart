@@ -56,7 +56,7 @@ class _MyAppState extends ConsumerState<MyApp> {
             } else {
               await ref
                   .read(authControllerProvider.notifier)
-                  .signInAnonymously(context);
+                  .signInAnonymously();
             }
           },
         );
