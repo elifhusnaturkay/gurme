@@ -164,33 +164,23 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
                                 top: 28,
                                 right: 0,
                                 child: user.isAuthenticated
-                                    ? isFavorite
-                                        ? IconButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                isFavorite = !isFavorite;
-                                              });
-                                              removeFromFavorites(user);
-                                            },
-                                            icon: Icon(
-                                              Icons.favorite,
-                                              color: Colors.indigo.shade400
-                                                  .withOpacity(1 - ratio),
-                                            ),
-                                          )
-                                        : IconButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                isFavorite = !isFavorite;
-                                              });
-                                              addToFavorites(user);
-                                            },
-                                            icon: Icon(
-                                              Icons.favorite_border,
-                                              color: Colors.indigo.shade400
-                                                  .withOpacity(1 - ratio),
-                                            ),
-                                          )
+                                    ? IconButton(
+                                        onPressed: () {
+                                          isFavorite
+                                              ? removeFromFavorites(user)
+                                              : addToFavorites(user);
+                                          setState(() {
+                                            isFavorite = !isFavorite;
+                                          });
+                                        },
+                                        icon: Icon(
+                                          isFavorite
+                                              ? Icons.favorite
+                                              : Icons.favorite_border,
+                                          color: Colors.indigo.shade400
+                                              .withOpacity(1 - ratio),
+                                        ),
+                                      )
                                     : Container(),
                               ),
                               Positioned(

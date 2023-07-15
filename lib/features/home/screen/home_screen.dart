@@ -471,19 +471,6 @@ class HomeScreen extends ConsumerWidget {
                                                         size: 18,
                                                         color: Colors.amber,
                                                       ),
-                                                      const SizedBox(width: 5),
-                                                      Text(
-                                                        item.ratingCount
-                                                            .toString(),
-                                                        style:
-                                                            GoogleFonts.inter(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          color: Colors.black
-                                                              .withOpacity(0.8),
-                                                        ),
-                                                      ),
                                                     ],
                                                   ),
                                                 ),
@@ -737,19 +724,6 @@ class HomeScreen extends ConsumerWidget {
                                                         Icons.grade_rounded,
                                                         size: 18,
                                                         color: Colors.amber,
-                                                      ),
-                                                      const SizedBox(width: 5),
-                                                      Text(
-                                                        company.ratingCount
-                                                            .toString(),
-                                                        style:
-                                                            GoogleFonts.inter(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          color: Colors.black
-                                                              .withOpacity(0.8),
-                                                        ),
                                                       ),
                                                     ],
                                                   ),

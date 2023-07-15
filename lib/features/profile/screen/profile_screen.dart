@@ -310,7 +310,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         )
                         .when(
                           data: (companies) {
-                            return companies.isEmpty
+                            return ref
+                                    .watch(userProvider.notifier)
+                                    .state!
+                                    .isAuthenticated
                                 ? ListView(
                                     padding: const EdgeInsets.symmetric(
                                       vertical: 10,
@@ -329,20 +332,39 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                       ),
                                     ],
                                   )
-                                : ListView.builder(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 10,
-                                    ),
-                                    itemCount: companies.length,
-                                    itemBuilder: (context, index) {
-                                      final company = companies[index];
-                                      return FavoriteTileCompany(
-                                        company: company,
-                                        ref: ref,
-                                        user: user,
+                                : companies.isEmpty
+                                    ? ListView(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 10,
+                                        ),
+                                        children: [
+                                          ListTile(
+                                            contentPadding:
+                                                const EdgeInsets.only(left: 10),
+                                            title: Text(
+                                              "En sevdiğin restoran ve kafelerini favorilemeyi unutma!",
+                                              style: GoogleFonts.inter(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : ListView.builder(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 10,
+                                        ),
+                                        itemCount: companies.length,
+                                        itemBuilder: (context, index) {
+                                          final company = companies[index];
+                                          return FavoriteTileCompany(
+                                            company: company,
+                                            ref: ref,
+                                            user: user,
+                                          );
+                                        },
                                       );
-                                    },
-                                  );
                           },
                           error: (error, stackTrace) {
                             return Text(error.toString());
