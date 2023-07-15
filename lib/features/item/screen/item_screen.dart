@@ -334,11 +334,16 @@ class ItemScreenItemCard extends StatelessWidget {
 }
 
 class CommentTile extends StatelessWidget {
-  const CommentTile(
-      {super.key,
-      required this.comment,
-      required this.ref,
-      required this.item});
+  const CommentTile({
+    super.key,
+    required this.comment,
+    required this.ref,
+    required this.item,
+  });
+
+  deleteComment(String commentId) {
+    ref.read(itemControllerProvider.notifier).deleteComment(commentId);
+  }
 
   final Item item;
   final WidgetRef ref;
@@ -461,7 +466,9 @@ class CommentTile extends StatelessWidget {
                                         );
                                       },
                                     );
-                                  } else if (value == "Delete") {}
+                                  } else if (value == "Delete") {
+                                    deleteComment(comment.id);
+                                  }
                                 },
                                 constraints: const BoxConstraints(
                                   maxWidth: 200,
@@ -663,6 +670,25 @@ class _CommentFieldScreenState extends State<CommentFieldScreen> {
     super.dispose();
   }
 
+  Future<void> sendComment() async {
+    await widget.ref.read(itemControllerProvider.notifier).sendComment(
+          widget.ref.read(userProvider.notifier).state!,
+          widget.item,
+          ratingCount,
+          commentController.text.trim(),
+        );
+  }
+
+  Future<void> updateComment() async {
+    await widget.ref.read(itemControllerProvider.notifier).updateComment(
+          widget.currentUserComment!,
+          widget.ref.read(userProvider.notifier).state!,
+          widget.item,
+          ratingCount,
+          commentController.text.trim(),
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -712,28 +738,9 @@ class _CommentFieldScreenState extends State<CommentFieldScreen> {
                         ? () async {
                             context.pop();
                             if (widget.currentUserComment == null) {
-                              await widget.ref
-                                  .read(itemControllerProvider.notifier)
-                                  .sendComment(
-                                    widget.ref
-                                        .read(userProvider.notifier)
-                                        .state!,
-                                    widget.item,
-                                    ratingCount,
-                                    commentController.text.trim(),
-                                  );
+                              sendComment();
                             } else {
-                              await widget.ref
-                                  .read(itemControllerProvider.notifier)
-                                  .updateComment(
-                                    widget.currentUserComment!,
-                                    widget.ref
-                                        .read(userProvider.notifier)
-                                        .state!,
-                                    widget.item,
-                                    ratingCount,
-                                    commentController.text.trim(),
-                                  );
+                              updateComment();
                             }
                           }
                         : null,
