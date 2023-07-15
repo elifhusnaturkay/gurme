@@ -42,34 +42,58 @@ class _EditNameScreenState extends ConsumerState<EditNameScreen> {
     return GestureDetector(
       onTap: loseFocus,
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.indigo.shade400,
-          centerTitle: true,
-          title: Text(
-            "Ad Soyad",
-            style: GoogleFonts.inter(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              fontSize: 20,
+        appBar: PreferredSize(
+          preferredSize: const Size(double.infinity, 60),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+              child: AppBar(
+                automaticallyImplyLeading: true,
+                titleSpacing: 0,
+                iconTheme: const IconThemeData().copyWith(
+                  color: Colors.black,
+                ),
+                backgroundColor: Theme.of(context).canvasColor,
+                foregroundColor: const Color.fromRGBO(246, 246, 246, 0.5),
+                elevation: 2,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8),
+                  ),
+                  side: BorderSide(
+                    color: Color(0xFFE8E8E8),
+                  ),
+                ),
+                centerTitle: true,
+                title: Text(
+                  "Ad Soyad",
+                  style: GoogleFonts.inter(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: 20,
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () async {
+                      final newName = controller.text.trim();
+                      await updateName(user, newName)
+                          .then((value) => context.pop());
+                    },
+                    child: Text(
+                      "Kaydet",
+                      style: GoogleFonts.inter(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 7),
+                ],
+              ),
             ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () async {
-                final newName = controller.text.trim();
-                await updateName(user, newName).then((value) => context.pop());
-              },
-              child: Text(
-                "Kaydet",
-                style: GoogleFonts.inter(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 14,
-                ),
-              ),
-            )
-          ],
         ),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
