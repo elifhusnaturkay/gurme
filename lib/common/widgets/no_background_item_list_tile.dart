@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gurme/common/utils/show_pop_up.dart';
 import 'package:gurme/features/item/screen/item_screen.dart';
 import 'package:gurme/models/item_model.dart';
 
-class NoBackgroundListTile extends StatelessWidget {
-  const NoBackgroundListTile({
+class NoBackgroundItemListTile extends StatelessWidget {
+  const NoBackgroundItemListTile({
     super.key,
     required this.item,
     required this.length,

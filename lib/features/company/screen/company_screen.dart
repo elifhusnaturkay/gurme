@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/utils/location_utils.dart';
+import 'package:gurme/common/utils/show_pop_up.dart';
 import 'package:gurme/common/widgets/loading_spinner.dart';
-import 'package:gurme/common/widgets/no_background_listtile.dart';
 import 'package:gurme/core/providers/global_keys.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/company/controller/company_controller.dart';
+import 'package:gurme/features/company/widgets/company_list_field.dart';
+import 'package:gurme/features/company/widgets/company_sliver_tab_bar.dart';
 import 'package:gurme/features/item/screen/item_screen.dart';
 import 'package:gurme/features/profile/controller/profile_controller.dart';
 import 'package:gurme/main.dart';
@@ -519,7 +521,7 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
                       child: SizedBox(height: 15),
                     ),
                     SliverPersistentHeader(
-                      delegate: _SliverAppBarDelegate(
+                      delegate: CompanySliverTabBar(
                         TabBar(
                           onTap: (index) => _scrollToCategory(index),
                           controller: _tabController,
@@ -538,60 +540,10 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
                       ),
                       pinned: true,
                     ),
-                    SliverList(
-                      delegate: SliverChildListDelegate(
-                        List.generate(
-                          companyData.categories.length,
-                          (categoryIndex) {
-                            itemsKeys[categoryIndex] =
-                                RectGetter.createGlobalKey();
-                            return RectGetter(
-                              key: itemsKeys[categoryIndex],
-                              child: AutoScrollTag(
-                                key: ValueKey(categoryIndex),
-                                index: categoryIndex,
-                                controller: _autoScrollController,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          8, 8, 8, 20),
-                                      child: Text(
-                                        companyData
-                                            .categories[categoryIndex].name,
-                                        style: GoogleFonts.inter(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    Column(
-                                      children: [
-                                        ...List.generate(
-                                          companyData
-                                              .items[categoryIndex].length,
-                                          (index) {
-                                            final item = companyData
-                                                .items[categoryIndex][index];
-                                            return NoBackgroundListTile(
-                                              item: item,
-                                              length: companyData
-                                                  .items[categoryIndex].length,
-                                              index: index,
-                                              isCompanyScreen: true,
-                                            );
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+                    CompanyListField(
+                      itemsKeys: itemsKeys,
+                      autoScrollController: _autoScrollController,
+                      companyData: companyData,
                     ),
                   ],
                 ),
@@ -608,34 +560,5 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
             ),
           ),
         );
-  }
-}
-
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarDelegate(this._tabBar);
-
-  final TabBar _tabBar;
-
-  @override
-  double get minExtent => _tabBar.preferredSize.height;
-
-  @override
-  double get maxExtent => _tabBar.preferredSize.height;
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Theme.of(context).canvasColor),
-        color: Theme.of(context).canvasColor,
-      ),
-      child: _tabBar,
-    );
-  }
-
-  @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return false;
   }
 }

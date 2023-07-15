@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/widgets/loading_spinner.dart';
-import 'package:gurme/common/widgets/no_background_listtile.dart';
+import 'package:gurme/common/widgets/no_background_item_list_tile.dart';
 import 'package:gurme/features/home/controller/home_controller.dart';
 import 'package:gurme/features/search/controller/search_controller.dart';
 import 'package:gurme/models/category_model.dart';
@@ -301,7 +301,7 @@ class _FilteredSearchScreenState extends ConsumerState<FilteredSearchScreen> {
                                   items.length,
                                   (index) {
                                     final item = items[index];
-                                    return NoBackgroundListTile(
+                                    return NoBackgroundItemListTile(
                                       item: item,
                                       length: items.length,
                                       index: index,

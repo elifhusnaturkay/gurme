@@ -5,6 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/route_constants.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/home/controller/home_controller.dart';
+import 'package:gurme/features/home/drawers/widgets/anon_favorite_drawer_warning.dart';
+import 'package:gurme/features/home/drawers/widgets/favorites_text.dart';
+import 'package:gurme/features/home/drawers/widgets/user_favorite_drawer_warning.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class FavoritesDrawer extends ConsumerStatefulWidget {
@@ -24,55 +27,8 @@ class _FavoritesDrawerState extends ConsumerState<FavoritesDrawer> {
           SafeArea(
             bottom: false,
             child: ref.watch(userProvider.notifier).state!.isAuthenticated
-                ? ListTile(
-                    title: Text(
-                      "Favoriler",
-                      style: GoogleFonts.inter(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  )
-                : Column(
-                    children: [
-                      ListTile(
-                        contentPadding: const EdgeInsets.only(left: 10),
-                        title: Text(
-                          "Favori restoran ve kafelerine daha hızlı ulaşabilmek için giriş yap!",
-                          style: GoogleFonts.inter(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        title: Align(
-                          alignment: Alignment.centerLeft,
-                          child: TextButton.icon(
-                            onPressed: () {
-                              context.pop();
-                              context.pushNamed(
-                                RouteConstants.loginScreen,
-                              );
-                            },
-                            label: Text(
-                              "Giriş Yap ya da Kayıt Ol",
-                              style: GoogleFonts.inter(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.indigo.shade400,
-                              ),
-                            ),
-                            icon: Icon(
-                              Icons.login_rounded,
-                              color: Colors.indigo.shade400,
-                              size: 32,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                ? const FavoritesText()
+                : const AnonFavoriteDrawerWarning(),
           ),
           Expanded(
             child: ListView(
@@ -91,20 +47,11 @@ class _FavoritesDrawerState extends ConsumerState<FavoritesDrawer> {
                                     .watch(userProvider.notifier)
                                     .state!
                                     .isAuthenticated
-                            ? [
-                                ListTile(
-                                  title: Text(
-                                    "En sevdiğin restoran ve kafelerini favorilemeyi unutma!",
-                                    style: GoogleFonts.inter(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                )
-                              ]
+                            ? [const UserFavoritesDrawerWarning()]
                             : List.generate(
                                 companies.length,
                                 (index) {
+                                  // TODO : No background company listtile taşınacak ama userlocation yok
                                   final company = companies[index];
                                   return ListTile(
                                     onTap: () {

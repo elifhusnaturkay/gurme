@@ -6,7 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/route_constants.dart';
 import 'package:gurme/common/utils/location_utils.dart';
-import 'package:gurme/common/widgets/no_background_listtile.dart';
+import 'package:gurme/common/utils/show_pop_up.dart';
+import 'package:gurme/common/widgets/no_background_item_list_tile.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/home/controller/home_controller.dart';
 import 'package:gurme/features/home/drawers/favorites_drawer.dart';
@@ -935,7 +936,7 @@ class HomeScreen extends ConsumerWidget {
                             const SizedBox(height: 5),
                             ...List.generate(
                               randomItems.length,
-                              (index) => NoBackgroundListTile(
+                              (index) => NoBackgroundItemListTile(
                                 item: randomItems[index],
                                 length: randomItems.length,
                                 index: index,
