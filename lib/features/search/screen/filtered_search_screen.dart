@@ -175,6 +175,7 @@ class _FilteredSearchScreenState extends ConsumerState<FilteredSearchScreen> {
                                                       mainAxisSize:
                                                           MainAxisSize.min,
                                                       children: [
+                                                        // TODO: icon
                                                         const Icon(
                                                             Icons.food_bank),
                                                         const SizedBox(
