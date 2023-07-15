@@ -706,7 +706,7 @@ class _CommentFieldScreenState extends State<CommentFieldScreen> {
     super.initState();
     if (widget.currentUserComment != null) {
       commentController =
-          TextEditingController(text: widget.currentUserComment!.text);
+          TextEditingController(text: widget.currentUserComment!.text ?? '');
       ratingCount = widget.currentUserComment!.rating;
     } else {
       commentController = TextEditingController();
