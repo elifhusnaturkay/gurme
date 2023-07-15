@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/route_constants.dart';
 import 'package:gurme/common/utils/location_utils.dart';
+import 'package:gurme/common/widgets/no_background_listtile.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/home/controller/home_controller.dart';
 import 'package:gurme/features/home/drawers/favorites_drawer.dart';
@@ -934,147 +935,11 @@ class HomeScreen extends ConsumerWidget {
                             const SizedBox(height: 5),
                             ...List.generate(
                               randomItems.length,
-                              (index) => Column(
-                                children: [
-                                  ListTile(
-                                    onTap: () {
-                                      showPopUpScreen(
-                                        context: context,
-                                        builder: (context) {
-                                          return ItemScreen(
-                                            item: randomItems[index],
-                                          );
-                                        },
-                                      );
-                                    },
-                                    title: Column(
-                                      children: [
-                                        const SizedBox(height: 10),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              width: 50,
-                                              height: 50,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                  Radius.circular(8),
-                                                ),
-                                                color: Colors.grey.shade200,
-                                              ),
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                child: Image.network(
-                                                  randomItems[index].picture,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 15),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  randomItems[index].name,
-                                                  style: GoogleFonts.inter(
-                                                    fontSize: 16.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 5),
-                                                Text(
-                                                  randomItems[index]
-                                                      .companyName,
-                                                  style: GoogleFonts.inter(
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            const Spacer(),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      randomItems[index]
-                                                          .rating
-                                                          .toStringAsFixed(1),
-                                                      style: GoogleFonts.inter(
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        color: Colors
-                                                            .grey.shade400,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(width: 5),
-                                                    const Icon(
-                                                      Icons.grade_rounded,
-                                                      size: 18,
-                                                      color: Colors.amber,
-                                                    ),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      randomItems[index]
-                                                          .commentCount
-                                                          .toString(),
-                                                      style: GoogleFonts.inter(
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        color: Colors
-                                                            .grey.shade400,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Icon(
-                                                      Icons.chat_rounded,
-                                                      color: Colors
-                                                          .indigo.shade400,
-                                                      size: 12,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 2,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        index != randomItems.length - 1
-                                            ? const SizedBox(height: 10)
-                                            : const SizedBox(height: 10),
-                                      ],
-                                    ),
-                                  ),
-                                  index != randomItems.length - 1
-                                      ? Container(
-                                          margin: const EdgeInsets.fromLTRB(
-                                              80, 0, 20, 0),
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          height: 1,
-                                          color: Colors.grey.shade300,
-                                        )
-                                      : const SizedBox(),
-                                ],
+                              (index) => NoBackgroundListTile(
+                                item: randomItems[index],
+                                length: randomItems.length,
+                                index: index,
+                                isCompanyScreen: false,
                               ),
                             ),
                           ];
