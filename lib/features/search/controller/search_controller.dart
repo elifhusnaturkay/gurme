@@ -11,7 +11,10 @@ final searchControllerProvider = StateNotifierProvider<SearchController, bool>(
 );
 
 final queryProvider = StateProvider.autoDispose<String?>((ref) => null);
-final isSearchingItemsProvider = StateProvider<bool>((ref) => false);
+final selectedCategoryProvider = StateProvider<String?>((ref) => null);
+final selectedCategoryIndexProvider = StateProvider<int>((ref) {
+  return 0;
+});
 
 final searchItemProvider = StreamProvider.autoDispose((ref) {
   final searchText = ref.watch(queryProvider);
@@ -25,6 +28,13 @@ final searchCompanyProvider = StreamProvider.autoDispose((ref) {
   return ref
       .watch(searchControllerProvider.notifier)
       .searchCompanies(searchText);
+});
+
+final getItemsByCategoryProvider =
+    FutureProvider.autoDispose.family((ref, String categoryId) {
+  return ref
+      .watch(searchControllerProvider.notifier)
+      .getItemsByCategory(categoryId);
 });
 
 class SearchController extends StateNotifier<bool> {
@@ -42,5 +52,9 @@ class SearchController extends StateNotifier<bool> {
 
   Stream<List<Company>> searchCompanies(String? query) {
     return _searchRepository.searchCompanies(query);
+  }
+
+  Future<List<Item>> getItemsByCategory(String categoryId) async {
+    return await _searchRepository.getItemsByCategory(categoryId);
   }
 }

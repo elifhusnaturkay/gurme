@@ -55,4 +55,16 @@ class SearchRepository {
       return companies;
     });
   }
+
+  Future<List<Item>> getItemsByCategory(String categoryId) async {
+    List<Item> items = [];
+    final querySnapshot =
+        await _items.where('categoryId', isEqualTo: categoryId).get();
+
+    for (var item in querySnapshot.docs) {
+      items.add(Item.fromMap(item.data() as Map<String, dynamic>));
+    }
+
+    return items;
+  }
 }
