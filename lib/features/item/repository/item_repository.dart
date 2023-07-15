@@ -81,7 +81,8 @@ class ItemRepository {
     try {
       await updateItem(item, rating, isCommentEmpty);
       await updateCompany(item.companyId, rating, isCommentEmpty);
-      return right(_comments.doc(commentId).set(comment.toMap()));
+      await _comments.doc(commentId).set(comment.toMap());
+      return right(null);
     } catch (e) {
       return left('Yorum gönderilirken bir şeyler ters gitti');
     }
@@ -102,7 +103,8 @@ class ItemRepository {
     try {
       await updateItem(item, rating, isCommentEmpty);
       await updateCompany(item.companyId, rating, isCommentEmpty);
-      return right(_comments.doc(comment.id).update(updatedComment.toMap()));
+      await _comments.doc(comment.id).update(updatedComment.toMap());
+      return right(null);
     } catch (e) {
       return left('Yorum gönderilirken bir şeyler ters gitti');
     }
@@ -155,5 +157,14 @@ class ItemRepository {
     }
 
     await _items.doc(item.id).update(updatedItem.toMap());
+  }
+
+  FutureEither<void> deleteComment(String commentId) async {
+    try {
+      await _comments.doc(commentId).delete();
+      return right(null);
+    } catch (e) {
+      return left('Yorum silinirken bir hata oluştu');
+    }
   }
 }

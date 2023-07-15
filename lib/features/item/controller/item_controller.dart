@@ -42,4 +42,11 @@ class ItemController extends StateNotifier<bool> {
 
     response.fold((error) => showToast(error), (r) => {});
   }
+
+  Future<void> deleteComment(String commentId) async {
+    final response = await _itemRepository.deleteComment(commentId);
+
+    response.fold(
+        (error) => showToast(error), (r) => showToast('Başarıyla silindi'));
+  }
 }
