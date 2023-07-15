@@ -7,6 +7,7 @@ import 'package:gurme/common/utils/location_utils.dart';
 import 'package:gurme/common/widgets/loading_spinner.dart';
 import 'package:gurme/core/providers/global_keys.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
+import 'package:gurme/features/company/constants/company_constants.dart';
 import 'package:gurme/features/company/controller/company_controller.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
@@ -135,7 +136,7 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
                                 child: Row(
                                   children: [
                                     Text(
-                                      "Haritada Göster",
+                                      CompanyConstants.HaritadaGoster,
                                       style: GoogleFonts.inter(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600,

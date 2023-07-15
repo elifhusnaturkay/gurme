@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/route_constants.dart';
 import 'package:gurme/common/utils/location_utils.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
+import 'package:gurme/features/home/constants/home_constants.dart';
 import 'package:gurme/features/home/controller/home_controller.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -28,7 +29,7 @@ class HomeScreen extends ConsumerWidget {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
             child: Hero(
-              tag: "hometosearch",
+              tag: HomeConstants.HomeToSearch,
               child: AppBar(
                 backgroundColor: Theme.of(context).canvasColor,
                 foregroundColor: const Color.fromRGBO(246, 246, 246, 0.5),
@@ -43,7 +44,7 @@ class HomeScreen extends ConsumerWidget {
                 ),
                 centerTitle: true,
                 title: Text(
-                  "Gurme",
+                  HomeConstants.Gurme,
                   style: GoogleFonts.poppins(
                     fontSize: 35,
                     fontWeight: FontWeight.w500,
@@ -108,7 +109,7 @@ class HomeScreen extends ConsumerWidget {
                       left: (MediaQuery.of(context).size.width / 100) * 5),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "En Popüler Ürünler",
+                    HomeConstants.EnPopulerUrunler,
                     style: GoogleFonts.inter(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -403,7 +404,7 @@ class HomeScreen extends ConsumerWidget {
                       left: (MediaQuery.of(context).size.width / 100) * 5),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "En Popüler Restoranlar",
+                    HomeConstants.EnPopulerRestoranlar,
                     style: GoogleFonts.inter(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -669,7 +670,7 @@ class HomeScreen extends ConsumerWidget {
                       left: (MediaQuery.of(context).size.width / 100) * 5),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Kategoriler",
+                    HomeConstants.Kategoriler,
                     style: GoogleFonts.inter(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -757,7 +758,7 @@ class HomeScreen extends ConsumerWidget {
                       left: (MediaQuery.of(context).size.width / 100) * 5),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Ürünler",
+                    HomeConstants.Urunler,
                     style: GoogleFonts.inter(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,

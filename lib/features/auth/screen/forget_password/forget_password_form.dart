@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gurme/common/widgets/submit_button.dart';
 import 'package:gurme/common/widgets/form_fields.dart';
+import 'package:gurme/features/auth/constants/auth_constants.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 
 class ForgetPasswordForm extends ConsumerStatefulWidget {
@@ -35,7 +36,7 @@ class _ForgetPasswordFormState extends ConsumerState<ForgetPasswordForm> {
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: DefaultTextFormField(
               controller: emailController,
-              hintText: "Email",
+              hintText: AuthConstants.Email,
               validator: emailValidator,
             ),
           ),
@@ -46,7 +47,7 @@ class _ForgetPasswordFormState extends ConsumerState<ForgetPasswordForm> {
                 await sendResetEmail(context, ref, emailController.text.trim());
               }
             },
-            text: 'Sıfırlama Bağlantısını Gönder',
+            text: AuthConstants.SifirlamaBaglantisiGonder,
           ),
         ],
       ),
@@ -56,10 +57,10 @@ class _ForgetPasswordFormState extends ConsumerState<ForgetPasswordForm> {
 
 String? emailValidator(String? value) {
   if (value == null || value.isEmpty) {
-    return 'Lütfen gerekli alanları doldurun';
+    return AuthConstants.GerekliAlanDoldur;
   }
   if (!RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$').hasMatch(value)) {
-    return 'Lütfen geçerli bir email adresi giriniz';
+    return AuthConstants.GecerliEmailGir;
   }
   return null;
 }

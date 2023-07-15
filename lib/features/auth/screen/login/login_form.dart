@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/widgets/submit_button.dart';
 import 'package:gurme/common/widgets/form_fields.dart';
+import 'package:gurme/features/auth/constants/auth_constants.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
@@ -37,7 +38,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: DefaultTextFormField(
               controller: emailController,
-              hintText: "Email",
+              hintText: AuthConstants.Email,
               validator: emailValidator,
             ),
           ),
@@ -48,7 +49,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: PasswordFormField(
               controller: passwordController,
-              hintText: "Şifre",
+              hintText: AuthConstants.Sifre,
               validator: passwordValidator,
             ),
           ),
@@ -65,7 +66,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
                     context.push("/forgotpassword");
                   },
                   child: Text(
-                    "Şifreni mi unuttun?",
+                    AuthConstants.SifreniMiUnuttun,
                     style: GoogleFonts.inter(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -84,7 +85,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
                     passwordController.text);
               }
             },
-            text: 'Giriş Yap',
+            text: AuthConstants.GirisYap,
           ),
         ],
       ),
@@ -94,20 +95,20 @@ class _LoginFormState extends ConsumerState<LoginForm> {
 
 String? emailValidator(String? value) {
   if (value == null || value.isEmpty) {
-    return 'Lütfen gerekli alanları doldurun';
+    return AuthConstants.GerekliAlanDoldur;
   }
   if (!RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$').hasMatch(value)) {
-    return 'Lütfen geçerli bir email adresi giriniz';
+    return AuthConstants.GecerliEmailGir;
   }
   return null;
 }
 
 String? passwordValidator(String? value) {
   if (value == null || value.isEmpty) {
-    return 'Lütfen gerekli alanları doldurun';
+    return AuthConstants.GerekliAlanDoldur;
   }
   if (!RegExp(r'^.{8,}$').hasMatch(value)) {
-    return 'Şifre en az 8 karakter uzunluğunda olmalı';
+    return AuthConstants.SifreEnAz8Karakter;
   }
   return null;
 }

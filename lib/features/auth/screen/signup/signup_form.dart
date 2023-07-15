@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gurme/common/widgets/submit_button.dart';
 import 'package:gurme/common/widgets/form_fields.dart';
+import 'package:gurme/features/auth/constants/auth_constants.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 
 class SignUpForm extends ConsumerStatefulWidget {
@@ -36,7 +37,7 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: DefaultTextFormField(
               controller: nameController,
-              hintText: 'Ad Soyad',
+              hintText: AuthConstants.AdSoyad,
               validator: nameValidator,
             ),
           ),
@@ -45,7 +46,7 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: DefaultTextFormField(
               controller: emailController,
-              hintText: 'Email',
+              hintText: AuthConstants.Email,
               validator: emailValidator,
             ),
           ),
@@ -54,7 +55,7 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: PasswordFormField(
               controller: passwordController,
-              hintText: 'Şifre',
+              hintText: AuthConstants.Sifre,
               validator: passwordValidator,
             ),
           ),
@@ -66,7 +67,7 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
                     passwordController.text, nameController.text);
               }
             },
-            text: 'Kayıt Ol',
+            text: AuthConstants.KayitOl,
           ),
         ],
       ),
@@ -76,27 +77,27 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
 
 String? nameValidator(String? value) {
   if (value == null || value.isEmpty) {
-    return 'Lütfen gerekli alanları doldurun';
+    return AuthConstants.GerekliAlanDoldur;
   }
   return null;
 }
 
 String? emailValidator(String? value) {
   if (value == null || value.isEmpty) {
-    return 'Lütfen gerekli alanları doldurun';
+    return AuthConstants.GerekliAlanDoldur;
   }
   if (!RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$').hasMatch(value)) {
-    return 'Lütfen geçerli bir email adresi giriniz';
+    return AuthConstants.GecerliEmailGir;
   }
   return null;
 }
 
 String? passwordValidator(String? value) {
   if (value == null || value.isEmpty) {
-    return 'Lütfen gerekli alanları doldurun';
+    return AuthConstants.GerekliAlanDoldur;
   }
   if (!RegExp(r'^.{8,}$').hasMatch(value)) {
-    return 'Password must be at least 8 character';
+    return AuthConstants.SifreEnAz8Karakter;
   }
   return null;
 }

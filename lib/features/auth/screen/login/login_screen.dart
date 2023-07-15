@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:gurme/common/constants/asset_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/widgets/square_tile.dart';
+import 'package:gurme/features/auth/constants/auth_constants.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/auth/screen/login/login_form.dart';
 
@@ -36,7 +37,7 @@ class LoginScreen extends ConsumerWidget {
                 const SizedBox(height: 19),
                 Center(
                   child: Text(
-                    "Giriş Yap",
+                    AuthConstants.GirisYap,
                     style: GoogleFonts.inter(
                       fontSize: 30,
                       fontWeight: FontWeight.w700,
@@ -47,7 +48,7 @@ class LoginScreen extends ConsumerWidget {
                 const LoginForm(),
                 const SizedBox(height: 50),
                 Text(
-                  "Ya da şununla giriş yap",
+                  AuthConstants.YadaSununlaGirisYap,
                   style: GoogleFonts.inter(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
@@ -80,7 +81,7 @@ class LoginScreen extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Henüz bir hesabın yok mu? ",
+                        AuthConstants.HenuzHesapYokMu,
                         style: GoogleFonts.inter(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -91,7 +92,7 @@ class LoginScreen extends ConsumerWidget {
                           context.push("/signup");
                         },
                         child: Text(
-                          "Kayıt ol",
+                          AuthConstants.KayitOl,
                           style: GoogleFonts.inter(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,

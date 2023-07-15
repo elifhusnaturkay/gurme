@@ -7,6 +7,7 @@ import 'package:gurme/common/constants/route_constants.dart';
 import 'package:gurme/common/utils/location_utils.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/item/screen/item_screen.dart';
+import 'package:gurme/features/search/constants/search_constants.dart';
 import 'package:gurme/features/search/controller/search_controller.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -79,7 +80,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
             child: Padding(
               padding: const EdgeInsets.only(top: 1),
               child: Hero(
-                tag: "hometosearch",
+                tag: SearchConstants.HomeToSearch,
                 child: AppBar(
                   leadingWidth: 20,
                   iconTheme: const IconThemeData(
@@ -343,7 +344,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                       ],
                     );
                   },
-                  error: (error, stackTrace) => const Text("error"),
+                  error: (error, stackTrace) =>
+                      const Text(SearchConstants.Error),
                   loading: () => Center(
                     child: LoadingAnimationWidget.waveDots(
                       color: Colors.indigo.shade400,
@@ -355,7 +357,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                   data: (companies) {
                     if (companies.isEmpty && searchController.text.length > 3) {
                       return const Center(
-                        child: Text('Maalesef aradığınız restoran bulunamadı'),
+                        child: Text(SearchConstants
+                            .MaalesefAradiginizRestoranBulunamadi),
                       );
                     }
                     return ListView.builder(
@@ -481,7 +484,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                       },
                     );
                   },
-                  error: (error, stackTrace) => const Text("error"),
+                  error: (error, stackTrace) =>
+                      const Text(SearchConstants.Error),
                   loading: () => Center(
                     child: LoadingAnimationWidget.waveDots(
                       color: Colors.indigo.shade400,

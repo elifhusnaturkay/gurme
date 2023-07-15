@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/asset_constants.dart';
 import 'package:gurme/common/widgets/square_tile.dart';
+import 'package:gurme/features/auth/constants/auth_constants.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/auth/screen/signup/signup_form.dart';
 
@@ -51,7 +52,7 @@ class SignUpScreen extends ConsumerWidget {
                     ),
                     Align(
                       child: Text(
-                        "Kayıt Ol",
+                        AuthConstants.KayitOl,
                         style: GoogleFonts.inter(
                           fontSize: 30,
                           fontWeight: FontWeight.w700,
@@ -68,7 +69,7 @@ class SignUpScreen extends ConsumerWidget {
                   height: 25,
                 ),
                 Text(
-                  "Ya da şununla kayıt ol",
+                  AuthConstants.YadaSunulaKayitOl,
                   style: GoogleFonts.inter(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
@@ -90,7 +91,7 @@ class SignUpScreen extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Hesabın var mı? ",
+                        AuthConstants.HesabinVarMi,
                         style: GoogleFonts.inter(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -101,7 +102,7 @@ class SignUpScreen extends ConsumerWidget {
                           context.go("/login");
                         },
                         child: Text(
-                          "Giriş Yap",
+                          AuthConstants.GirisYap,
                           style: GoogleFonts.inter(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
