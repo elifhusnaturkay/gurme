@@ -49,10 +49,8 @@ class ProfileRepository {
   }
 
   Future<List<Comment>> getCommentsOfUser(String userId) async {
-    final querySnapshot = await _comments
-        .where('userRef', isEqualTo: userId)
-        .where('text', isNull: false)
-        .get();
+    final querySnapshot =
+        await _comments.where('userRef', isEqualTo: userId).get();
 
     List<Comment> comments = [];
     for (var comment in querySnapshot.docs) {
