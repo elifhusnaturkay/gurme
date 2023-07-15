@@ -310,10 +310,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         )
                         .when(
                           data: (companies) {
-                            return ref
-                                    .watch(userProvider.notifier)
-                                    .state!
-                                    .isAuthenticated
+                            return companies.isEmpty
                                 ? ListView(
                                     padding: const EdgeInsets.symmetric(
                                       vertical: 10,
@@ -323,7 +320,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                         contentPadding:
                                             const EdgeInsets.only(left: 10),
                                         title: Text(
-                                          "Favori restoran ve kafelerine daha hızlı ulaşabilmek için giriş yap!",
+                                          "En sevdiğin restoran ve kafelerini favorilemeyi unutma!",
                                           style: GoogleFonts.inter(
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -332,39 +329,20 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                       ),
                                     ],
                                   )
-                                : companies.isEmpty
-                                    ? ListView(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 10,
-                                        ),
-                                        children: [
-                                          ListTile(
-                                            contentPadding:
-                                                const EdgeInsets.only(left: 10),
-                                            title: Text(
-                                              "En sevdiğin restoran ve kafelerini favorilemeyi unutma!",
-                                              style: GoogleFonts.inter(
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    : ListView.builder(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 10,
-                                        ),
-                                        itemCount: companies.length,
-                                        itemBuilder: (context, index) {
-                                          final company = companies[index];
-                                          return FavoriteTileCompany(
-                                            company: company,
-                                            ref: ref,
-                                            user: user,
-                                          );
-                                        },
+                                : ListView.builder(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 10,
+                                    ),
+                                    itemCount: companies.length,
+                                    itemBuilder: (context, index) {
+                                      final company = companies[index];
+                                      return FavoriteTileCompany(
+                                        company: company,
+                                        ref: ref,
+                                        user: user,
                                       );
+                                    },
+                                  );
                           },
                           error: (error, stackTrace) {
                             return Text(error.toString());
@@ -608,7 +586,7 @@ class CommentTileCompany extends StatelessWidget {
                                 ),
                                 child: SizedBox(
                                   child: Text(
-                                    comment.text!,
+                                    comment.text ?? "",
                                     style: GoogleFonts.inter(
                                       fontSize: 16,
                                       fontWeight: FontWeight.normal,
@@ -741,7 +719,7 @@ class _FavoriteTileCompanyState extends State<FavoriteTileCompany>
                                 ),
                                 const SizedBox(width: 5),
                                 Text(
-                                  widget.company.ratingCount.toString(),
+                                  "(${widget.company.ratingCount})",
                                   style: GoogleFonts.inter(
                                     fontSize: 12,
                                     fontWeight: FontWeight.normal,
