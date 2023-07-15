@@ -20,11 +20,11 @@ class _LoginFormState extends ConsumerState<LoginForm> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  Future<void> signInWithEmail(BuildContext context, WidgetRef ref,
-      String email, String password) async {
+  Future<void> signInWithEmail(
+      WidgetRef ref, String email, String password) async {
     await ref
         .read(authControllerProvider.notifier)
-        .signInWithEmail(context, email, password);
+        .signInWithEmail(email, password);
   }
 
   @override
@@ -84,8 +84,11 @@ class _LoginFormState extends ConsumerState<LoginForm> {
               loseFocus();
               if (_formKey.currentState!.validate()) {
                 context.pop();
-                await signInWithEmail(context, ref, emailController.text,
-                    passwordController.text);
+                await signInWithEmail(
+                  ref,
+                  emailController.text,
+                  passwordController.text,
+                );
               }
             },
             text: 'Giriş Yap',

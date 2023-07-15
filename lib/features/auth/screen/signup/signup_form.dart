@@ -20,11 +20,11 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  Future<void> signUpWithEmail(BuildContext context, WidgetRef ref,
-      String email, String password, String name) async {
+  Future<void> signUpWithEmail(
+      WidgetRef ref, String email, String password, String name) async {
     await ref
         .read(authControllerProvider.notifier)
-        .signUpWithEmail(context, email, password, name);
+        .signUpWithEmail(email, password, name);
   }
 
   @override
@@ -68,10 +68,9 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
               if (_formKey.currentState!.validate()) {
                 while (GoRouter.of(context).location !=
                     '/${RouteConstants.homeScreen}') {
-                  debugPrint(GoRouter.of(context).location.toString());
                   context.pop();
                 }
-                await signUpWithEmail(context, ref, emailController.text,
+                await signUpWithEmail(ref, emailController.text,
                     passwordController.text, nameController.text);
               }
             },

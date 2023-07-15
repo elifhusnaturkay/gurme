@@ -12,8 +12,8 @@ import 'package:gurme/features/auth/screen/login/login_form.dart';
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
 
-  void signInWithGoogle(BuildContext context, WidgetRef ref) {
-    ref.read(authControllerProvider.notifier).signInWithGoogle(context);
+  void signInWithGoogle(WidgetRef ref) {
+    ref.read(authControllerProvider.notifier).signInWithGoogle();
   }
 
   @override
@@ -71,7 +71,7 @@ class LoginScreen extends ConsumerWidget {
                 imagePath: AssetConstants.googleLogo,
                 onTap: () {
                   context.pop();
-                  signInWithGoogle(context, ref);
+                  signInWithGoogle(ref);
                 },
               ),
               Expanded(

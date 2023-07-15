@@ -160,7 +160,7 @@ class HomeScreen extends ConsumerWidget {
                                         ref
                                             .read(
                                                 authControllerProvider.notifier)
-                                            .signOut(context);
+                                            .signOut();
                                       },
                                       title: Align(
                                         alignment: Alignment.centerLeft,

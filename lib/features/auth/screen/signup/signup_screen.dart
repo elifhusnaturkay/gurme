@@ -12,8 +12,8 @@ import 'package:gurme/features/auth/screen/signup/signup_form.dart';
 class SignUpScreen extends ConsumerWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
-  void signInWithGoogle(BuildContext context, WidgetRef ref) {
-    ref.read(authControllerProvider.notifier).signInWithGoogle(context);
+  void signInWithGoogle(WidgetRef ref) {
+    ref.read(authControllerProvider.notifier).signInWithGoogle();
   }
 
   @override
@@ -83,7 +83,7 @@ class SignUpScreen extends ConsumerWidget {
                     debugPrint(GoRouter.of(context).location.toString());
                     context.pop();
                   }
-                  signInWithGoogle(context, ref);
+                  signInWithGoogle(ref);
                 },
               ),
               Expanded(

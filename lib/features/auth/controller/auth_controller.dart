@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gurme/common/utils/show_toast.dart';
 import 'package:gurme/features/auth/repository/auth_repository.dart';
@@ -32,7 +31,7 @@ class AuthController extends StateNotifier<bool> {
 
   Stream<User?> get authStateChanged => _authRepository.authStateChanged;
 
-  Future<void> signInWithGoogle(BuildContext context) async {
+  Future<void> signInWithGoogle() async {
     state = true;
     final user = await _authRepository.signInWithGoogle();
     state = false;
@@ -42,18 +41,17 @@ class AuthController extends StateNotifier<bool> {
             _ref.read(userProvider.notifier).update((state) => userModel));
   }
 
-  Future<void> signOut(BuildContext context) async {
+  Future<void> signOut() async {
     state = true;
     final response = await _authRepository.signOut();
 
     state = false;
     response.fold((error) => showToast(error), (r) {
-      _ref.read(authControllerProvider.notifier).signInAnonymously(context);
+      _ref.read(authControllerProvider.notifier).signInAnonymously();
     });
   }
 
-  Future<void> signInWithEmail(
-      BuildContext context, String email, String password) async {
+  Future<void> signInWithEmail(String email, String password) async {
     state = true;
     final user = await _authRepository.signInWithEmail(email, password);
     state = false;
@@ -64,7 +62,7 @@ class AuthController extends StateNotifier<bool> {
   }
 
   Future<void> signUpWithEmail(
-      BuildContext context, String email, String password, String name) async {
+      String email, String password, String name) async {
     state = true;
     final user = await _authRepository.signUpWithEmail(email, password, name);
     state = false;
@@ -76,7 +74,7 @@ class AuthController extends StateNotifier<bool> {
     });
   }
 
-  Future<void> signInAnonymously(BuildContext context) async {
+  Future<void> signInAnonymously() async {
     state = true;
     final user = await _authRepository.signInAnonymously();
     state = false;
@@ -86,7 +84,7 @@ class AuthController extends StateNotifier<bool> {
             _ref.read(userProvider.notifier).update((state) => userModel));
   }
 
-  Future<void> sendResetEmail(BuildContext context, String email) async {
+  Future<void> sendResetEmail(String email) async {
     final response = await _authRepository.sendResetEmail(email);
 
     response.fold(
