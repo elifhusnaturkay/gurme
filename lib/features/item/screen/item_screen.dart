@@ -95,10 +95,11 @@ class _ItemScreenState extends ConsumerState<ItemScreen>
                     children: [
                       ItemScreenItemCard(
                         scrollPosition: scrollPosition,
-                        widget: widget,
+                        item: widget._item,
                         scrollController: scrollController,
                         ref: ref,
                         currentUserComment: currentUserComment,
+                        commentCount: comments.length,
                       ),
                       comments.isEmpty
                           ? Expanded(
@@ -147,17 +148,19 @@ class ItemScreenItemCard extends StatelessWidget {
   const ItemScreenItemCard({
     super.key,
     required this.scrollPosition,
-    required this.widget,
+    required this.item,
     required this.scrollController,
     required this.ref,
     required this.currentUserComment,
+    required this.commentCount,
   });
 
   final WidgetRef ref;
   final ValueNotifier<double> scrollPosition;
-  final ItemScreen widget;
+  final Item item;
   final ScrollController scrollController;
   final Comment? currentUserComment;
+  final int commentCount;
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +211,7 @@ class ItemScreenItemCard extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: Image.network(
-                      widget._item.picture,
+                      item.picture,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -221,14 +224,14 @@ class ItemScreenItemCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget._item.name,
+                          item.name,
                           style: GoogleFonts.inter(
                             fontSize: 28 +
                                 ((MediaQuery.of(context).size.width - 393) *
                                     0.1),
                             fontWeight: FontWeight.w600,
                           ),
-                          maxLines: 4,
+                          maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                           softWrap: true,
                         ),
@@ -236,10 +239,10 @@ class ItemScreenItemCard extends StatelessWidget {
                         InkWell(
                           onTap: () => context.pushNamed(
                             RouteConstants.companyScreen,
-                            pathParameters: {"id": widget._item.companyId},
+                            pathParameters: {"id": item.companyId},
                           ),
                           child: Text(
-                            widget._item.companyName,
+                            item.companyName,
                             style: GoogleFonts.inter(
                               fontSize: 20,
                               fontWeight: FontWeight.normal,
@@ -248,6 +251,40 @@ class ItemScreenItemCard extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             softWrap: true,
                           ),
+                        ),
+                        const SizedBox(height: 5),
+                        Row(
+                          children: [
+                            Text(
+                              item.rating.toStringAsFixed(1),
+                              style: GoogleFonts.inter(
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
+                            const SizedBox(width: 5),
+                            RatingBarIndicator(
+                              rating: item.rating,
+                              itemBuilder: (context, index) => const Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              itemCount: 5,
+                              itemSize: 20,
+                              direction: Axis.horizontal,
+                              unratedColor: Colors.grey.shade300,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              "(${item.ratingCount})",
+                              style: GoogleFonts.inter(
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -263,13 +300,25 @@ class ItemScreenItemCard extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(30, 20, 0, 5),
-                  child: Text(
-                    "Yorumlar",
-                    style: GoogleFonts.inter(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  padding: const EdgeInsets.fromLTRB(20, 20, 0, 5),
+                  child: Row(
+                    children: [
+                      Text(
+                        commentCount.toString(),
+                        style: GoogleFonts.inter(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        "Yorum",
+                        style: GoogleFonts.inter(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -300,7 +349,7 @@ class ItemScreenItemCard extends StatelessWidget {
                             child: FocusScope(
                               child: CommentFieldScreen(
                                 ref: ref,
-                                item: widget._item,
+                                item: item,
                                 currentUserComment: currentUserComment,
                               ),
                             ),
