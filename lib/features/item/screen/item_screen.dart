@@ -435,7 +435,7 @@ class CommentTile extends StatelessWidget {
                                 ),
                                 child: SizedBox(
                                   child: Text(
-                                    comment.text!, // cant be null
+                                    comment.text ?? '',
                                     style: GoogleFonts.inter(
                                       fontSize: 16,
                                       fontWeight: FontWeight.normal,

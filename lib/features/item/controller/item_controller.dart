@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gurme/common/utils/show_toast.dart';
+import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/item/repository/item_repository.dart';
 import 'package:gurme/models/comment_model.dart';
 import 'package:gurme/models/item_model.dart';
@@ -12,7 +13,10 @@ final itemControllerProvider =
 
 final getCommentsProvider = StreamProvider.family.autoDispose(
   (ref, String itemId) {
-    return ref.watch(itemControllerProvider.notifier).getComments(itemId);
+    String userId = ref.watch(userProvider.notifier).state!.uid;
+    return ref
+        .watch(itemControllerProvider.notifier)
+        .getComments(itemId, userId);
   },
 );
 
@@ -23,8 +27,8 @@ class ItemController extends StateNotifier<bool> {
       : _itemRepository = itemRepository,
         super(false);
 
-  Stream<List<Comment>> getComments(String itemId) {
-    return _itemRepository.getComments(itemId);
+  Stream<List<Comment>> getComments(String itemId, String userId) {
+    return _itemRepository.getComments(itemId, userId);
   }
 
   Future<void> sendComment(

@@ -23,10 +23,13 @@ class ItemRepository {
   CollectionReference get _items => _firestore.collection('items');
   CollectionReference get _company => _firestore.collection('company');
 
-  Stream<List<Comment>> getComments(String itemId) {
+  // This function returns all the comments of the Item.
+  // If the current user has a comment it replaces it with the first comment in the list
+  // also check user information of comment and update if its changed (such as profile picture)
+  // and removes any comments with empty texts
+  Stream<List<Comment>> getComments(String itemId, String userId) {
     return _comments
         .where('itemId', isEqualTo: itemId)
-        .where('text', isNull: false)
         .snapshots()
         .asyncMap((querySnapshot) async {
       List<Comment> comments = [];
@@ -34,15 +37,26 @@ class ItemRepository {
         comments.add(Comment.fromMap(comment.data() as Map<String, dynamic>));
       }
 
-      for (var comment in comments) {
-        final querySnapshot = await _users.doc(comment.userRef).get();
+      for (var i = 0; i < comments.length; i++) {
+        final querySnapshot = await _users.doc(comments[i].userRef).get();
         final userData =
             UserModel.fromMap(querySnapshot.data() as Map<String, dynamic>);
-        if (comment.user != userData) {
-          comment = comment.copyWith(
+        if (comments[i].user != userData) {
+          comments[i] = comments[i].copyWith(
             user: userData,
           );
-          await _comments.doc(comment.id).update(comment.toMap());
+          await _comments.doc(comments[i].id).update(comments[i].toMap());
+        }
+        if (comments[i].userRef == userId) {
+          if (i != 0) {
+            var temp = comments[0];
+            comments[0] = comments[i];
+            comments[i] = temp;
+          }
+        }
+        if (comments[i].text == null && comments[i].userRef != userId) {
+          comments.remove(comments[i]);
+          i--;
         }
       }
 
