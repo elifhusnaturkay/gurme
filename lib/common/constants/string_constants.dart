@@ -23,4 +23,8 @@ class SuccessMessageConstants {
   static const loginSuccess = 'Kayıt olma işlemi başarılı';
   static const passwordResetEmailSent = 'Sıfırlama bağlantısı gönderildi';
   static const successfullyDeleted = 'Başarıyla silindi';
+  static const profilePictureSuccessfullyUpdated =
+      'Profil fotoğrafın başarıyla güncellendi';
+  static const bannerPictureSuccessfullyUpdated =
+      'Kapak fotoğrafın başarıyla güncellendi';
 }

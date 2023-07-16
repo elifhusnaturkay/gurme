@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gurme/common/constants/string_constants.dart';
 import 'package:gurme/common/utils/show_toast.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/profile/repository/profile_repository.dart';
@@ -117,6 +118,7 @@ class ProfileController extends StateNotifier<bool> {
       _ref
           .read(userProvider.notifier)
           .update((state) => state!.copyWith(profilePic: newUrl));
+      showToast(SuccessMessageConstants.profilePictureSuccessfullyUpdated);
       return true;
     });
 
@@ -135,6 +137,7 @@ class ProfileController extends StateNotifier<bool> {
       _ref
           .read(userProvider.notifier)
           .update((state) => state!.copyWith(bannerPic: newUrl));
+      showToast(SuccessMessageConstants.bannerPictureSuccessfullyUpdated);
       return true;
     });
 
