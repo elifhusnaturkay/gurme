@@ -308,7 +308,7 @@ class ItemRepository {
       );
     }
 
-    await _items.doc(company.id).update(updatedCompany.toMap());
+    await _company.doc(company.id).update(updatedCompany.toMap());
   }
 
   FutureEither<void> deleteComment(
