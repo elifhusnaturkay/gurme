@@ -7,6 +7,7 @@ import 'package:gurme/common/utils/lose_focus.dart';
 import 'package:gurme/common/widgets/no_background_company_list_tile.dart';
 import 'package:gurme/common/widgets/no_background_item_list_tile.dart';
 import 'package:gurme/core/providers/global_providers.dart';
+import 'package:gurme/features/notfound/not_found_screen.dart';
 import 'package:gurme/features/search/controller/search_controller.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -209,7 +210,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                       ],
                     );
                   },
-                  error: (error, stackTrace) => const Text("error"),
+                  error: (error, stackTrace) =>
+                      const NotFoundScreen(isNotFound: false),
                   loading: () => Center(
                     child: LoadingAnimationWidget.waveDots(
                       color: ColorConstants.primaryColor,
@@ -248,7 +250,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                       ],
                     );
                   },
-                  error: (error, stackTrace) => const Text("error"),
+                  error: (error, stackTrace) =>
+                      const NotFoundScreen(isNotFound: false),
                   loading: () => Center(
                     child: LoadingAnimationWidget.waveDots(
                       color: ColorConstants.primaryColor,

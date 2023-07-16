@@ -17,6 +17,7 @@ class ErrorMessageConstants {
   static const somethingWentWrong = 'Bir şeyler yanlış gitti';
   static const photoChangeError = 'Fotoğraf değiştirilirken bir hata oluştu';
   static const nameChangeError = 'İsim değişikliği sırasında bir hata oluşu';
+  static const notFoundError = 'Üzgünüz, aradığınız sayfayı bulamadık!';
 }
 
 class SuccessMessageConstants {

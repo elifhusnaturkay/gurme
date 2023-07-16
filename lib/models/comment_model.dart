@@ -16,10 +16,28 @@ class Comment {
     required this.itemId,
     required this.rating,
     required this.userRef,
-    this.text,
+    required this.text,
   });
 
   Comment copyWith({
+    String? id,
+    UserModel? user,
+    String? itemId,
+    int? rating,
+    String? userRef,
+    String? text,
+  }) {
+    return Comment(
+      id: id ?? this.id,
+      user: user ?? this.user,
+      itemId: itemId ?? this.itemId,
+      rating: rating ?? this.rating,
+      userRef: userRef ?? this.userRef,
+      text: text ?? this.text,
+    );
+  }
+
+  Comment copyWithNull({
     String? id,
     UserModel? user,
     String? itemId,

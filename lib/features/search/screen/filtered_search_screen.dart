@@ -6,6 +6,7 @@ import 'package:gurme/common/constants/color_constants.dart';
 import 'package:gurme/common/widgets/loading_spinner.dart';
 import 'package:gurme/common/widgets/no_background_item_list_tile.dart';
 import 'package:gurme/features/home/controller/home_controller.dart';
+import 'package:gurme/features/notfound/not_found_screen.dart';
 import 'package:gurme/features/search/controller/search_controller.dart';
 import 'package:gurme/models/category_model.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -140,9 +141,8 @@ class _FilteredSearchScreenState extends ConsumerState<FilteredSearchScreen> {
                         ],
                       );
                     },
-                    error: (error, stackTrace) {
-                      return Text(error.toString());
-                    },
+                    error: (error, stackTrace) =>
+                        const NotFoundScreen(isNotFound: false),
                     loading: () => Center(
                       child: LoadingAnimationWidget.waveDots(
                         color: ColorConstants.primaryColor,
@@ -152,7 +152,7 @@ class _FilteredSearchScreenState extends ConsumerState<FilteredSearchScreen> {
                   ),
             );
           },
-          error: (error, stackTrace) => Center(child: Text(error.toString())),
+          error: (error, stackTrace) => const NotFoundScreen(isNotFound: false),
           loading: () => const Scaffold(
             body: Center(
               child: LoadingSpinner(

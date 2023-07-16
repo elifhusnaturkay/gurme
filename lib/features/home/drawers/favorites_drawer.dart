@@ -9,6 +9,7 @@ import 'package:gurme/features/home/controller/home_controller.dart';
 import 'package:gurme/features/home/drawers/widgets/anon_favorite_drawer_warning.dart';
 import 'package:gurme/features/home/drawers/widgets/favorites_text.dart';
 import 'package:gurme/features/home/drawers/widgets/user_favorite_drawer_warning.dart';
+import 'package:gurme/features/notfound/not_found_screen.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class FavoritesDrawer extends ConsumerStatefulWidget {
@@ -69,7 +70,8 @@ class _FavoritesDrawerState extends ConsumerState<FavoritesDrawer> {
                               },
                             );
                     },
-                    error: (error, stackTrace) => [const Text("error")],
+                    error: (error, stackTrace) =>
+                        [const NotFoundScreen(isNotFound: false)],
                     loading: () => [
                       Center(
                         child: LoadingAnimationWidget.waveDots(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/widgets/loading_spinner.dart';
+import 'package:gurme/features/notfound/not_found_screen.dart';
 import 'package:gurme/features/profile/controller/profile_controller.dart';
 import 'package:gurme/features/profile/widgets/profile_banner_app_bar.dart';
 import 'package:gurme/features/profile/widgets/profile_comment_tile_company.dart';
@@ -90,9 +91,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     },
                                   );
                           },
-                          error: (error, stackTrace) {
-                            return Text(error.toString());
-                          },
+                          error: (error, stackTrace) =>
+                              const NotFoundScreen(isNotFound: false),
                           loading: () => const LoadingSpinner(
                             height: 50,
                             width: 50,
@@ -138,9 +138,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     },
                                   );
                           },
-                          error: (error, stackTrace) {
-                            return Text(error.toString());
-                          },
+                          error: (error, stackTrace) =>
+                              const NotFoundScreen(isNotFound: false),
                           loading: () => const LoadingSpinner(
                             height: 50,
                             width: 50,
@@ -151,7 +150,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
               ),
             );
           },
-          error: (error, stackTrace) => Center(child: Text(error.toString())),
+          error: (error, stackTrace) => const NotFoundScreen(isNotFound: false),
           loading: () => const Scaffold(
             body: Center(
               child: LoadingSpinner(

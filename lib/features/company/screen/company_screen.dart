@@ -11,6 +11,7 @@ import 'package:gurme/features/company/widgets/company_banner_sliver_app_bar.dar
 import 'package:gurme/features/company/widgets/company_information_sliver_app_bar.dart';
 import 'package:gurme/features/company/widgets/company_list_field.dart';
 import 'package:gurme/features/company/widgets/company_sliver_tab_bar.dart';
+import 'package:gurme/features/notfound/not_found_screen.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
@@ -156,7 +157,7 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
               ),
             );
           },
-          error: (error, stackTrace) => Center(child: Text(error.toString())),
+          error: (error, stackTrace) => const NotFoundScreen(isNotFound: false),
           loading: () => const Scaffold(
             body: Center(
               child: LoadingSpinner(

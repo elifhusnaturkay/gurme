@@ -7,6 +7,7 @@ import 'package:gurme/features/auth/screen/login/login_screen.dart';
 import 'package:gurme/features/auth/screen/signup/signup_screen.dart';
 import 'package:gurme/features/company/screen/company_screen.dart';
 import 'package:gurme/features/home/screen/home_screen.dart';
+import 'package:gurme/features/notfound/not_found_screen.dart';
 import 'package:gurme/features/profile/screen/edit_profile_screen.dart';
 import 'package:gurme/features/profile/screen/name_edit_screen.dart';
 import 'package:gurme/features/profile/screen/profile_screen.dart';
@@ -158,7 +159,19 @@ final routerProvider = Provider<GoRouter>(
                 child: EditNameScreen(name: state.pathParameters['name']!));
           },
         ),
+        GoRoute(
+          name: RouteConstants.notFoundScreen,
+          path: "/404",
+          pageBuilder: (context, state) {
+            return const MaterialPage(
+              child: NotFoundScreen(isNotFound: true),
+            );
+          },
+        ),
       ],
+      onException: (context, state, router) {
+        router.goNamed(RouteConstants.notFoundScreen);
+      },
     );
   },
 );

@@ -94,8 +94,8 @@ class ItemRepository {
     }
 
     try {
-      await updateItem(item, rating, isCommentEmpty);
-      await updateCompany(item.companyId, rating, isCommentEmpty);
+      await updateItem(null, item, rating, isCommentEmpty);
+      await updateCompany(null, item.companyId, rating, isCommentEmpty);
       await _comments.doc(commentId).set(comment.toMap());
       return right(null);
     } catch (e) {
@@ -110,14 +110,14 @@ class ItemRepository {
 
     // if text has only whitespace characters
     if (isCommentEmpty) {
-      updatedComment = comment.copyWith(rating: rating, text: null);
+      updatedComment = comment.copyWithNull(rating: rating, text: null);
     } else {
       updatedComment = comment.copyWith(rating: rating, text: text);
     }
 
     try {
-      await updateItem(item, rating, isCommentEmpty);
-      await updateCompany(item.companyId, rating, isCommentEmpty);
+      await updateItem(comment, item, rating, isCommentEmpty);
+      await updateCompany(comment, item.companyId, rating, isCommentEmpty);
       await _comments.doc(comment.id).update(updatedComment.toMap());
       return right(null);
     } catch (e) {
@@ -126,49 +126,124 @@ class ItemRepository {
   }
 
   Future<void> updateCompany(
-      String companyId, int rating, bool isCommentEmpty) async {
+    Comment? oldComment,
+    String companyId,
+    int rating,
+    bool isCommentEmpty,
+  ) async {
     late Company company;
     await _company.doc(companyId).get().then((value) {
       company = Company.fromMap(value.data() as Map<String, dynamic>);
     });
+    double newCompanyRating = company.rating;
 
-    // update rating
-    final sumOfCompanyRating = company.ratingCount * company.rating;
-    final newCompanyRating =
-        (sumOfCompanyRating + rating) / (company.ratingCount + 1);
+    if (oldComment == null) {
+      final sumOfItemRating = company.ratingCount * company.rating;
+      newCompanyRating = (sumOfItemRating + rating) / (company.ratingCount + 1);
+    } else if (oldComment.rating != rating) {
+      final sumOfItemRating = company.ratingCount * company.rating;
+      newCompanyRating = (sumOfItemRating + (rating - oldComment.rating)) /
+          company.ratingCount;
+    }
 
     late Company updatedCompany;
-    if (isCommentEmpty) {
-      updatedCompany = company.copyWith(
-        rating: newCompanyRating,
-        ratingCount: company.ratingCount + 1,
-      );
+    if (oldComment == null) {
+      if (isCommentEmpty) {
+        updatedCompany = company.copyWith(
+          rating: newCompanyRating,
+          ratingCount: company.ratingCount + 1,
+        );
+      } else {
+        updatedCompany = company.copyWith(
+          commentCount: company.commentCount + 1,
+          rating: newCompanyRating,
+          ratingCount: company.ratingCount + 1,
+        );
+      }
     } else {
-      updatedCompany = company.copyWith(
-        commentCount: company.commentCount + 1,
-        rating: newCompanyRating,
-        ratingCount: company.ratingCount + 1,
-      );
+      if (oldComment.text == null) {
+        if (isCommentEmpty) {
+          updatedCompany = company.copyWith(
+            rating: newCompanyRating,
+          );
+        } else {
+          updatedCompany = company.copyWith(
+            commentCount: company.commentCount + 1,
+            rating: newCompanyRating,
+          );
+        }
+      } else {
+        if (isCommentEmpty) {
+          updatedCompany = company.copyWith(
+            commentCount: company.commentCount - 1,
+            rating: newCompanyRating,
+          );
+        } else {
+          updatedCompany = company.copyWith(
+            rating: newCompanyRating,
+          );
+        }
+      }
     }
 
     await _company.doc(companyId).update(updatedCompany.toMap());
   }
 
-  Future<void> updateItem(Item item, int rating, bool isCommentEmpty) async {
-    final sumOfItemRating = item.ratingCount * item.rating;
-    final newItemRating = (sumOfItemRating + rating) / (item.ratingCount + 1);
+  Future<void> updateItem(
+    Comment? oldComment,
+    Item item,
+    int rating,
+    bool isCommentEmpty,
+  ) async {
+    double newItemRating = item.rating;
+
+    if (oldComment == null) {
+      final sumOfItemRating = item.ratingCount * item.rating;
+      newItemRating = (sumOfItemRating + rating) / (item.ratingCount + 1);
+    } else if (oldComment.rating != rating) {
+      final sumOfItemRating = item.ratingCount * item.rating;
+      newItemRating =
+          (sumOfItemRating + (rating - oldComment.rating)) / item.ratingCount;
+    }
+
     late Item updatedItem;
-    if (isCommentEmpty) {
-      updatedItem = item.copyWith(
-        rating: newItemRating,
-        ratingCount: item.ratingCount + 1,
-      );
+    if (oldComment == null) {
+      if (isCommentEmpty) {
+        updatedItem = item.copyWith(
+          rating: newItemRating,
+          ratingCount: item.ratingCount + 1,
+        );
+      } else {
+        updatedItem = item.copyWith(
+          commentCount: item.commentCount + 1,
+          rating: newItemRating,
+          ratingCount: item.ratingCount + 1,
+        );
+      }
     } else {
-      updatedItem = item.copyWith(
-        commentCount: item.commentCount + 1,
-        rating: newItemRating,
-        ratingCount: item.ratingCount + 1,
-      );
+      if (oldComment.text == null) {
+        if (isCommentEmpty) {
+          updatedItem = item.copyWith(
+            rating: newItemRating,
+          );
+        } else {
+          updatedItem = item.copyWith(
+            commentCount: item.commentCount + 1,
+            rating: newItemRating,
+          );
+        }
+      } else {
+        if (isCommentEmpty) {
+          updatedItem = item.copyWith(
+            commentCount: item.commentCount - 1,
+            rating: newItemRating,
+          );
+        } else {
+          updatedItem = item.copyWith(
+            rating: newItemRating,
+          );
+        }
+      }
     }
 
     await _items.doc(item.id).update(updatedItem.toMap());

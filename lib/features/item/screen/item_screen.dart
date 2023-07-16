@@ -6,6 +6,7 @@ import 'package:gurme/features/item/controller/item_controller.dart';
 import 'package:gurme/features/item/widgets/item_card.dart';
 import 'package:gurme/features/item/widgets/item_comment_tile.dart';
 import 'package:gurme/features/item/widgets/zero_comment_tile_item.dart';
+import 'package:gurme/features/notfound/not_found_screen.dart';
 import 'package:gurme/models/comment_model.dart';
 import 'package:gurme/models/item_model.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -103,9 +104,8 @@ class _ItemScreenState extends ConsumerState<ItemScreen>
                     ],
                   );
                 },
-                error: (error, stackTrace) {
-                  return Text(error.toString());
-                },
+                error: (error, stackTrace) =>
+                    const NotFoundScreen(isNotFound: false),
                 loading: () => Center(
                   child: LoadingAnimationWidget.waveDots(
                     color: ColorConstants.primaryColor,

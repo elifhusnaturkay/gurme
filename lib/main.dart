@@ -7,6 +7,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gurme/common/widgets/loading_spinner.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
+import 'package:gurme/features/notfound/not_found_screen.dart';
 import 'package:gurme/firebase_options.dart';
 import 'package:gurme/models/user_model.dart';
 import 'package:gurme/router.dart';
@@ -45,49 +46,47 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ref.watch(authStateChangeProvider).when(
-      data: (user) {
-        WidgetsBinding.instance.addPostFrameCallback(
-          (_) async {
-            if (user != null) {
-              getUserData(user);
-            } else {
-              await ref
-                  .read(authControllerProvider.notifier)
-                  .signInAnonymously();
-            }
+          data: (user) {
+            WidgetsBinding.instance.addPostFrameCallback(
+              (_) async {
+                if (user != null) {
+                  getUserData(user);
+                } else {
+                  await ref
+                      .read(authControllerProvider.notifier)
+                      .signInAnonymously();
+                }
+              },
+            );
+            return MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              title: 'Gurme',
+              locale: DevicePreview.locale(context),
+              builder: (context, myWidget) {
+                myWidget = DevicePreview.appBuilder(context, myWidget);
+                myWidget = EasyLoading.init()(context, myWidget);
+                return myWidget;
+              },
+              routeInformationParser:
+                  ref.watch(routerProvider).routeInformationParser,
+              routeInformationProvider:
+                  ref.watch(routerProvider).routeInformationProvider,
+              routerDelegate: ref.watch(routerProvider).routerDelegate,
+              theme: ThemeData.light(),
+            );
+          },
+          error: (error, stackTrace) => const NotFoundScreen(isNotFound: false),
+          loading: () {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: Container(
+                color: Theme.of(context).canvasColor,
+                child: const Center(
+                  child: LoadingSpinner(width: 75, height: 75),
+                ),
+              ),
+            );
           },
         );
-        return MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          title: 'Gurme',
-          locale: DevicePreview.locale(context),
-          builder: (context, myWidget) {
-            myWidget = DevicePreview.appBuilder(context, myWidget);
-            myWidget = EasyLoading.init()(context, myWidget);
-            return myWidget;
-          },
-          routeInformationParser:
-              ref.watch(routerProvider).routeInformationParser,
-          routeInformationProvider:
-              ref.watch(routerProvider).routeInformationProvider,
-          routerDelegate: ref.watch(routerProvider).routerDelegate,
-          theme: ThemeData.light(),
-        );
-      },
-      error: (error, stackTrace) {
-        return Text(error.toString());
-      },
-      loading: () {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: Container(
-            color: Theme.of(context).canvasColor,
-            child: const Center(
-              child: LoadingSpinner(width: 75, height: 75),
-            ),
-          ),
-        );
-      },
-    );
   }
 }

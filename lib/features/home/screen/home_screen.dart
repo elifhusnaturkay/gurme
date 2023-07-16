@@ -15,6 +15,7 @@ import 'package:gurme/features/home/controller/home_controller.dart';
 import 'package:gurme/features/home/drawers/favorites_drawer.dart';
 import 'package:gurme/features/home/widgets/home_app_bar_avatar.dart';
 import 'package:gurme/features/home/widgets/home_category_builder.dart';
+import 'package:gurme/features/notfound/not_found_screen.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -239,9 +240,8 @@ class HomeScreen extends ConsumerWidget {
                                 },
                               ).toList();
                             },
-                            error: (error, stackTrace) {
-                              return [Text(error.toString())];
-                            },
+                            error: (error, stackTrace) =>
+                                [const NotFoundScreen(isNotFound: false)],
                             loading: () => [
                               Center(
                                 child: LoadingAnimationWidget.waveDots(

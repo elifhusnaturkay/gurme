@@ -9,4 +9,5 @@ class RouteConstants {
   static const filteredSearchScreen = "filteredsearch";
   static const editProfileScreen = "editprofile";
   static const editNameScreen = "editname";
+  static const notFoundScreen = "404";
 }
