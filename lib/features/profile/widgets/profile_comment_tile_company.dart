@@ -87,11 +87,17 @@ class CommentTileCompany extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              '${item.companyName} - ${item.name}',
-                              style: GoogleFonts.inter(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.70,
+                              child: Text(
+                                '${item.companyName} - ${item.name}',
+                                style: GoogleFonts.inter(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: true,
                               ),
                             ),
                             CommentStarCount(comment: comment),
