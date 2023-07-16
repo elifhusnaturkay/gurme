@@ -15,7 +15,7 @@ class Item {
   final int ratingCount;
   final int commentCount;
   final GeoPoint location;
-  final double price;
+  final int price;
   Item({
     required this.id,
     required this.picture,
@@ -43,7 +43,7 @@ class Item {
     int? ratingCount,
     int? commentCount,
     GeoPoint? location,
-    double? price,
+    int? price,
   }) {
     return Item(
       id: id ?? this.id,
@@ -91,7 +91,7 @@ class Item {
       ratingCount: map['ratingCount'] ?? 0,
       commentCount: map['commentCount'] ?? 0,
       location: map['location'],
-      price: map['price'] ?? 0.0,
+      price: map['price'] ?? 0,
     );
   }
 

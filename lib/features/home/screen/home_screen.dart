@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/color_constants.dart';
 import 'package:gurme/common/constants/route_constants.dart';
+import 'package:gurme/common/utils/get_random_id.dart';
 import 'package:gurme/common/utils/show_bottom_sheet.dart';
 import 'package:gurme/common/widgets/company_carousel_slider.dart';
 import 'package:gurme/common/widgets/item_carousel_slider.dart';
@@ -15,6 +19,7 @@ import 'package:gurme/features/home/controller/home_controller.dart';
 import 'package:gurme/features/home/drawers/favorites_drawer.dart';
 import 'package:gurme/features/home/widgets/home_app_bar_avatar.dart';
 import 'package:gurme/features/home/widgets/home_category_builder.dart';
+import 'package:gurme/models/item_model.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -64,7 +69,31 @@ class HomeScreen extends ConsumerWidget {
                   builder: (context) {
                     return IconButton(
                       onPressed: () {
-                        Scaffold.of(context).openDrawer();
+                        /* Scaffold.of(context).openDrawer(); */
+                        String id = RandomIdGenerator.autoId();
+
+                        log(id);
+                        Item item = Item(
+                          id: id,
+                          picture:
+                              "https://firebasestorage.googleapis.com/v0/b/karma-gurme.appspot.com/o/items%2Farmut_kafe_bistro_su.webp?alt=media&token=208fb061-91c0-431e-9be9-26755742447a", // düzenle
+                          name: "Su", // düzenle
+                          lowercaseName: "su", // düzenle
+                          categoryId:
+                              "z4qg3yQK5OsAMrIWEYpY", // category bitince
+                          companyId: "h2vPrqHvFXr1x3CBnIaw",
+                          companyName: "Armut Kafe & Bistro",
+                          rating: 0.0000000000001,
+                          ratingCount: 0,
+                          commentCount: 0,
+                          location: GeoPoint(0, 0),
+                          price: 10, // düzenle
+                        );
+
+                        FirebaseFirestore.instance
+                            .collection("items")
+                            .doc(id)
+                            .set(item.toMap());
                       },
                       icon: const Icon(
                         Icons.menu_rounded,

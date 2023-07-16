@@ -120,7 +120,7 @@ class ItemScreenItemCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 5),
                         Text(
-                          "120 ₺", //TODO : Fiyat
+                          "${item.price} ₺",
                           style: GoogleFonts.inter(
                             fontSize: 15,
                             fontWeight: FontWeight.normal,

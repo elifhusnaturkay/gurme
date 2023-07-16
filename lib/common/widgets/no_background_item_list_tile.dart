@@ -91,7 +91,7 @@ class NoBackgroundItemListTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        "120 ₺", //TODO : Fiyat
+                        "${item.price} ₺",
                         style: GoogleFonts.inter(
                           fontSize: 12,
                           fontWeight: FontWeight.normal,
