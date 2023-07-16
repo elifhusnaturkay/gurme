@@ -80,6 +80,7 @@ class CompanyRepository {
     final querySnapshot = await _items
         .where('companyId', isEqualTo: companyId)
         .orderBy('ratingCount', descending: true)
+        .limit(5)
         .get();
 
     for (var item in querySnapshot.docs) {
