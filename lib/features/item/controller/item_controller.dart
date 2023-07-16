@@ -48,8 +48,10 @@ class ItemController extends StateNotifier<bool> {
     response.fold((error) => showToast(error), (r) => {});
   }
 
-  Future<void> deleteComment(String commentId) async {
-    final response = await _itemRepository.deleteComment(commentId);
+  Future<void> deleteComment(
+      String commentId, Comment oldComment, Item item) async {
+    final response =
+        await _itemRepository.deleteComment(commentId, oldComment, item);
 
     response.fold((error) => showToast(error),
         (r) => showToast(SuccessMessageConstants.successfullyDeleted));

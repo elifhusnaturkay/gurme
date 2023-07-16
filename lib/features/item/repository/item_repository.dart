@@ -249,9 +249,74 @@ class ItemRepository {
     await _items.doc(item.id).update(updatedItem.toMap());
   }
 
-  FutureEither<void> deleteComment(String commentId) async {
+  Future<void> deleteUpdateItem(
+    Comment oldComment,
+    Item item,
+  ) async {
+    final double newItemRating;
+
+    final sumOfItemRating = item.ratingCount * item.rating;
+    newItemRating =
+        (sumOfItemRating - oldComment.rating) / (item.ratingCount - 1);
+
+    late Item updatedItem;
+
+    if (oldComment.text == null) {
+      updatedItem = item.copyWith(
+        commentCount: item.commentCount,
+        rating: newItemRating,
+        ratingCount: item.ratingCount - 1,
+      );
+    } else {
+      updatedItem = item.copyWith(
+        commentCount: item.commentCount - 1,
+        rating: newItemRating,
+        ratingCount: item.ratingCount - 1,
+      );
+    }
+
+    await _items.doc(item.id).update(updatedItem.toMap());
+  }
+
+  Future<void> deleteUpdateCompany(
+    Comment oldComment,
+    String companyId,
+  ) async {
+    late Company company;
+    await _company.doc(companyId).get().then((value) {
+      company = Company.fromMap(value.data() as Map<String, dynamic>);
+    });
+    final double newCompanyRating;
+
+    final sumOfItemRating = company.ratingCount * company.rating;
+    newCompanyRating =
+        (sumOfItemRating - oldComment.rating) / (company.ratingCount - 1);
+
+    late Company updatedCompany;
+
+    if (oldComment.text == null) {
+      updatedCompany = company.copyWith(
+        commentCount: company.commentCount,
+        rating: newCompanyRating,
+        ratingCount: company.ratingCount - 1,
+      );
+    } else {
+      updatedCompany = company.copyWith(
+        commentCount: company.commentCount - 1,
+        rating: newCompanyRating,
+        ratingCount: company.ratingCount - 1,
+      );
+    }
+
+    await _items.doc(company.id).update(updatedCompany.toMap());
+  }
+
+  FutureEither<void> deleteComment(
+      String commentId, Comment oldComment, Item item) async {
     try {
       await _comments.doc(commentId).delete();
+      await deleteUpdateCompany(oldComment, item.companyId);
+      await deleteUpdateItem(oldComment, item);
       return right(null);
     } catch (e) {
       return left(ErrorMessageConstants.commentDeleteError);

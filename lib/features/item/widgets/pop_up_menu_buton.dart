@@ -19,8 +19,12 @@ class PopUpMenuButton extends StatelessWidget {
   final Item item;
   final Comment comment;
 
-  deleteComment(String commentId) {
-    ref.read(itemControllerProvider.notifier).deleteComment(commentId);
+  deleteComment(String commentId, Comment oldComment, Item item) {
+    ref.read(itemControllerProvider.notifier).deleteComment(
+          commentId,
+          oldComment,
+          item,
+        );
   }
 
   @override
@@ -39,7 +43,11 @@ class PopUpMenuButton extends StatelessWidget {
             },
           );
         } else if (value == "Delete") {
-          deleteComment(comment.id);
+          deleteComment(
+            comment.id,
+            comment,
+            item,
+          );
         }
       },
       constraints: const BoxConstraints(
