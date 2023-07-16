@@ -1,4 +1,3 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +18,8 @@ void main() async {
   );
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(
-    ProviderScope(
-      child: DevicePreview(enabled: true, builder: (context) => const MyApp()),
+    const ProviderScope(
+      child: MyApp(),
     ),
   );
 }
@@ -61,9 +60,7 @@ class _MyAppState extends ConsumerState<MyApp> {
             return MaterialApp.router(
               debugShowCheckedModeBanner: false,
               title: 'Gurme',
-              locale: DevicePreview.locale(context),
               builder: (context, myWidget) {
-                myWidget = DevicePreview.appBuilder(context, myWidget);
                 myWidget = EasyLoading.init()(context, myWidget);
                 return myWidget;
               },
