@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/asset_constants.dart';
+import 'package:gurme/common/constants/color_constants.dart';
 import 'package:gurme/common/constants/route_constants.dart';
 import 'package:gurme/common/utils/lose_focus.dart';
 import 'package:gurme/common/widgets/square_tile.dart';
@@ -110,7 +111,7 @@ class SignUpScreen extends ConsumerWidget {
                             style: GoogleFonts.inter(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
-                              color: Colors.indigo.shade400,
+                              color: ColorConstants.primaryColor,
                             ),
                           ),
                         )

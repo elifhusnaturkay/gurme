@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gurme/common/constants/color_constants.dart';
 import 'package:gurme/common/constants/route_constants.dart';
 
 class AnonFavoriteDrawerWarning extends StatelessWidget {
@@ -37,12 +38,12 @@ class AnonFavoriteDrawerWarning extends StatelessWidget {
                 style: GoogleFonts.inter(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: Colors.indigo.shade400,
+                  color: ColorConstants.primaryColor,
                 ),
               ),
               icon: Icon(
                 Icons.login_rounded,
-                color: Colors.indigo.shade400,
+                color: ColorConstants.primaryColor,
                 size: 32,
               ),
             ),

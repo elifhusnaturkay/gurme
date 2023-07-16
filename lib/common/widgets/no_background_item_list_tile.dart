@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gurme/common/utils/show_pop_up.dart';
+import 'package:gurme/common/constants/color_constants.dart';
+import 'package:gurme/common/utils/show_bottom_sheet.dart';
 import 'package:gurme/features/item/screen/item_screen.dart';
 import 'package:gurme/models/item_model.dart';
 
@@ -38,13 +39,13 @@ class NoBackgroundItemListTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: 50,
-                    height: 50,
+                    width: 55,
+                    height: 55,
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(
                         Radius.circular(8),
                       ),
-                      color: Colors.grey.shade200,
+                      color: ColorConstants.primaryColor.withOpacity(0.06),
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
@@ -55,34 +56,49 @@ class NoBackgroundItemListTile extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 15),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        item.name,
-                        style: GoogleFonts.inter(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w600,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item.name,
+                          style: GoogleFonts.inter(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      ),
-                      isCompanyScreen
-                          ? const SizedBox()
-                          : const SizedBox(height: 5),
-                      isCompanyScreen
-                          ? const SizedBox()
-                          : Text(
-                              item.companyName,
-                              style: GoogleFonts.inter(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
+                        isCompanyScreen
+                            ? const SizedBox()
+                            : const SizedBox(height: 5),
+                        isCompanyScreen
+                            ? const SizedBox()
+                            : Text(
+                                item.companyName,
+                                style: GoogleFonts.inter(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                    ],
+                      ],
+                    ),
                   ),
-                  const Spacer(),
+                  const SizedBox(width: 5),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
+                      Text(
+                        "120 ₺", //TODO : Fiyat
+                        style: GoogleFonts.inter(
+                          fontSize: 12,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.grey.shade400,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
                       Row(
                         children: [
                           Text(
@@ -128,7 +144,7 @@ class NoBackgroundItemListTile extends StatelessWidget {
                           ),
                           Icon(
                             Icons.chat_rounded,
-                            color: Colors.indigo.shade400,
+                            color: ColorConstants.primaryColor,
                             size: 12,
                           ),
                           const SizedBox(

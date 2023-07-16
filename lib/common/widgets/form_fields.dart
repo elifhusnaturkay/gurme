@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gurme/common/constants/color_constants.dart';
 
 class DefaultTextFormField extends StatelessWidget {
   final TextEditingController controller;
@@ -86,11 +87,11 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
           child: _obscureText
               ? Icon(
                   Icons.visibility,
-                  color: Colors.indigo.shade400,
+                  color: ColorConstants.primaryColor,
                 )
               : Icon(
                   Icons.visibility_off,
-                  color: Colors.indigo.shade400,
+                  color: ColorConstants.primaryColor,
                 ),
         ),
       ),

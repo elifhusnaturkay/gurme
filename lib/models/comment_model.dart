@@ -33,7 +33,7 @@ class Comment {
       itemId: itemId ?? this.itemId,
       rating: rating ?? this.rating,
       userRef: userRef ?? this.userRef,
-      text: text ?? this.text,
+      text: text,
     );
   }
 

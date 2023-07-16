@@ -8,6 +8,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:gurme/common/constants/asset_constants.dart';
 import 'package:gurme/common/constants/firebase_constants.dart';
+import 'package:gurme/common/constants/string_constants.dart';
 import 'package:gurme/core/providers/firebase_providers.dart';
 import 'package:gurme/common/utils/type_defs.dart';
 import 'package:gurme/models/user_model.dart';
@@ -87,18 +88,18 @@ class AuthRepository {
       return right(userModel);
     } on FirebaseException catch (e) {
       if (e.code == 'network-request-failed') {
-        return left('İnternet bağlantısında bir problem oluştu');
+        return left(ErrorMessageConstants.networkError);
       }
-      return left('Bilinmeyen bir hata oluştu');
+      return left(ErrorMessageConstants.unknownError);
     } on PlatformException catch (e) {
       if (e.code == 'network_error') {
-        return left('İnternet bağlantısında bir problem oluştu');
+        return left(ErrorMessageConstants.networkError);
       } else if (e.code == 'sign_in_failed') {
-        return left('Giriş yapılırken bir hata oldu');
+        return left(ErrorMessageConstants.loginError);
       }
-      return left('Bilinmeyen bir hata oluştu');
+      return left(ErrorMessageConstants.unknownError);
     } catch (e) {
-      return left('Bilinmeyen bir hata oluştu');
+      return left(ErrorMessageConstants.unknownError);
     }
   }
 
@@ -117,13 +118,13 @@ class AuthRepository {
         String pictureUrl = await uploadTask.ref.getDownloadURL();
         return pictureUrl;
       } else if (uploadTask.state == TaskState.error) {
-        throw Exception('Bilinmeyen bir hata oluştu');
+        throw Exception(ErrorMessageConstants.unknownError);
       }
     } catch (e) {
-      throw Exception('Bilinmeyen bir hata oluştu');
+      throw Exception(ErrorMessageConstants.unknownError);
     }
 
-    throw Exception('Bilinmeyen bir hata oluştu');
+    throw Exception(ErrorMessageConstants.unknownError);
   }
 
   FutureEither<void> signOut() async {
@@ -132,11 +133,11 @@ class AuthRepository {
       await _googleSignIn.signOut();
     } on FirebaseException catch (e) {
       if (e.code == 'network-request-failed') {
-        return left('İnternet bağlantısında bir problem oluştu');
+        return left(ErrorMessageConstants.networkError);
       }
-      return left('Bilinmeyen bir hata oluştu');
+      return left(ErrorMessageConstants.unknownError);
     } catch (e) {
-      return left('Bilinmeyen bir hata oluştu');
+      return left(ErrorMessageConstants.unknownError);
     }
     return right(null);
   }
@@ -169,21 +170,21 @@ class AuthRepository {
       return right(userModel);
     } on FirebaseException catch (e) {
       if (e.code == 'user-not-found') {
-        return left('Bu e-posta adresi ile bir kullanıcı bulunamadı');
+        return left(ErrorMessageConstants.userNotFound);
       } else if (e.code == 'invalid-email') {
-        return left('Lütfen geçerli bir email adresi giriniz');
+        return left(ErrorMessageConstants.invalidEmail);
       } else if (e.code == 'wrong-password') {
-        return left('Şifre yanlış, lütfen tekrar deneyiniz');
+        return left(ErrorMessageConstants.wrongPassword);
       } else if (e.code == 'operation-not-allowed') {
-        return left('Kullanıcı bulunamadı tekrar deneyiniz');
+        return left(ErrorMessageConstants.operationNotAllowed);
       } else if (e.code == 'user-disabled') {
-        return left('Kullanıcı bulunamadı tekrar deneyiniz');
+        return left(ErrorMessageConstants.userDisabled);
       } else if (e.code == 'network-request-failed') {
-        return left('İnternet bağlantısında bir problem oluştu');
+        return left(ErrorMessageConstants.networkError);
       }
-      return left('Bilinmeyen bir hata oluştu');
+      return left(ErrorMessageConstants.unknownError);
     } catch (e) {
-      return left('Bilinmeyen bir hata oluştu');
+      return left(ErrorMessageConstants.unknownError);
     }
   }
 
@@ -211,17 +212,18 @@ class AuthRepository {
     } on FirebaseException catch (e) {
       if (e.code == 'email-already-in-use') {
         return left(
-            'Bu e-posta ile bir kullanıcı zaten kayıtlı.\nLütfen giriş yapınız ya da farklı bir e-posta deneyiniz');
+          ErrorMessageConstants.emailAlreadyInUse,
+        );
       } else if (e.code == 'invalid-email') {
-        return left('Lütfen geçerli bir email adresi giriniz');
+        return left(ErrorMessageConstants.invalidEmail);
       } else if (e.code == 'weak-password') {
-        return left('Şifre çok zayıf tekrar deneyiniz');
+        return left(ErrorMessageConstants.weakPassword);
       } else if (e.code == 'network-request-failed') {
-        return left('İnternet bağlantısında bir problem oluştu');
+        return left(ErrorMessageConstants.networkError);
       }
-      return left('Bilinmeyen bir hata oluştu');
+      return left(ErrorMessageConstants.unknownError);
     } catch (e) {
-      return left('Bilinmeyen bir hata oluştu');
+      return left(ErrorMessageConstants.unknownError);
     }
   }
 
@@ -243,11 +245,11 @@ class AuthRepository {
       return right(userModel);
     } on FirebaseException catch (e) {
       if (e.code == 'network-request-failed') {
-        return left('İnternet bağlantısında bir problem oluştu');
+        return left(ErrorMessageConstants.networkError);
       }
-      return left('Bilinmeyen bir hata oluştu');
+      return left(ErrorMessageConstants.unknownError);
     } catch (e) {
-      return left('Bilinmeyen bir hata oluştu');
+      return left(ErrorMessageConstants.unknownError);
     }
   }
 
@@ -256,15 +258,15 @@ class AuthRepository {
       await _auth.sendPasswordResetEmail(email: email);
     } on FirebaseException catch (e) {
       if (e.code == 'invalid-email') {
-        return left('Lütfen geçerli bir email adresi giriniz');
+        return left(ErrorMessageConstants.invalidEmail);
       } else if (e.code == 'user-not-found') {
-        return left('Bu e-posta adresi ile bir kullanıcı bulunamadı');
+        return left(ErrorMessageConstants.userNotFound);
       } else if (e.code == 'network-request-failed') {
-        return left('İnternet bağlantısında bir problem oluştu');
+        return left(ErrorMessageConstants.networkError);
       }
-      return left('Bilinmeyen bir hata oluştu');
+      return left(ErrorMessageConstants.unknownError);
     } catch (e) {
-      return left('Bilinmeyen bir hata oluştu');
+      return left(ErrorMessageConstants.unknownError);
     }
     return right(null);
   }

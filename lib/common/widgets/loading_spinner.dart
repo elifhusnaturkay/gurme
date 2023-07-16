@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gurme/common/constants/asset_constants.dart';
+import 'package:gurme/common/constants/color_constants.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class LoadingSpinner extends StatelessWidget {
@@ -13,7 +14,7 @@ class LoadingSpinner extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         LoadingAnimationWidget.beat(
-          color: Colors.indigo.shade400,
+          color: ColorConstants.primaryColor,
           size: width + 25,
         ),
         Image.asset(

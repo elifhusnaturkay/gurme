@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gurme/common/constants/color_constants.dart';
 import 'package:gurme/common/utils/lose_focus.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/profile/controller/profile_controller.dart';
@@ -51,7 +52,7 @@ class _EditNameScreenState extends ConsumerState<EditNameScreen> {
                 automaticallyImplyLeading: true,
                 titleSpacing: 0,
                 iconTheme: const IconThemeData().copyWith(
-                  color: Colors.black,
+                  color: ColorConstants.black,
                 ),
                 backgroundColor: Theme.of(context).canvasColor,
                 foregroundColor: const Color.fromRGBO(246, 246, 246, 0.5),
@@ -69,7 +70,7 @@ class _EditNameScreenState extends ConsumerState<EditNameScreen> {
                   "Ad Soyad",
                   style: GoogleFonts.inter(
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: ColorConstants.black,
                     fontSize: 20,
                   ),
                 ),
@@ -84,7 +85,7 @@ class _EditNameScreenState extends ConsumerState<EditNameScreen> {
                       "Kaydet",
                       style: GoogleFonts.inter(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: ColorConstants.black,
                         fontSize: 14,
                       ),
                     ),
@@ -98,6 +99,7 @@ class _EditNameScreenState extends ConsumerState<EditNameScreen> {
         body: Padding(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
           child: TextFormField(
+            cursorColor: ColorConstants.primaryColor,
             controller: controller,
             maxLength: 30,
             decoration: InputDecoration(

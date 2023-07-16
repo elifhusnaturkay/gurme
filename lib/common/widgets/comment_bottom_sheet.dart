@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gurme/common/constants/color_constants.dart';
 import 'package:gurme/models/comment_model.dart';
 
 class CommentBottomSheet extends StatelessWidget {
@@ -27,7 +28,7 @@ class CommentBottomSheet extends StatelessWidget {
                       margin: const EdgeInsets.all(5),
                       child: CircleAvatar(
                         backgroundColor:
-                            Colors.indigo.shade400.withOpacity(0.2),
+                            ColorConstants.primaryColor.withOpacity(0.2),
                         radius: 28,
                         backgroundImage: NetworkImage(
                           comment.user.profilePic,
@@ -52,7 +53,7 @@ class CommentBottomSheet extends StatelessWidget {
                             comment.rating,
                             (index) => const Icon(
                               Icons.grade_rounded,
-                              color: Colors.amber,
+                              color: ColorConstants.starColor,
                               size: 15,
                             ),
                           ),

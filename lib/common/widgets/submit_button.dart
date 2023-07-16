@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gurme/common/constants/color_constants.dart';
 
 class SubmitButton extends StatefulWidget {
   const SubmitButton({super.key, required this.onTap, required this.text});
@@ -22,7 +23,7 @@ class _BigButtonState extends State<SubmitButton> {
         height: 51,
         margin: const EdgeInsets.symmetric(horizontal: 25),
         decoration: BoxDecoration(
-          color: Colors.indigo.shade400,
+          color: ColorConstants.primaryColor,
           borderRadius: BorderRadius.circular(100),
         ),
         child: Center(
@@ -31,7 +32,7 @@ class _BigButtonState extends State<SubmitButton> {
             style: GoogleFonts.inter(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: Colors.white,
+              color: ColorConstants.white,
             ),
           ),
         ),

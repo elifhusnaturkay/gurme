@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gurme/common/constants/color_constants.dart';
 import 'package:gurme/common/widgets/loading_spinner.dart';
 import 'package:gurme/common/widgets/no_background_item_list_tile.dart';
 import 'package:gurme/features/home/controller/home_controller.dart';
@@ -59,7 +60,7 @@ class _FilteredSearchScreenState extends ConsumerState<FilteredSearchScreen> {
                         automaticallyImplyLeading: true,
                         titleSpacing: 0,
                         iconTheme: const IconThemeData().copyWith(
-                          color: Colors.black,
+                          color: ColorConstants.black,
                         ),
                         backgroundColor: Theme.of(context).canvasColor,
                         foregroundColor:
@@ -77,185 +78,9 @@ class _FilteredSearchScreenState extends ConsumerState<FilteredSearchScreen> {
                         title: GestureDetector(
                           onTap: () {
                             updateCategoryIndex(currentCategoryIndex);
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              backgroundColor: Theme.of(context).canvasColor,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.elliptical(20, 17),
-                                  topRight: Radius.elliptical(20, 17),
-                                ),
-                              ),
-                              enableDrag: true,
-                              useSafeArea: true,
-                              builder: (context) {
-                                return Consumer(
-                                  builder: (context, ref, child) =>
-                                      DraggableScrollableSheet(
-                                    expand: false,
-                                    maxChildSize: 1,
-                                    minChildSize: 0.3,
-                                    initialChildSize: 0.5,
-                                    builder: (context, scrollController) =>
-                                        Column(
-                                      children: [
-                                        SingleChildScrollView(
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          scrollDirection: Axis.vertical,
-                                          controller: scrollController,
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        10, 10, 10, 0),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        context.pop();
-                                                      },
-                                                      child: const Icon(
-                                                        Icons.close,
-                                                      ),
-                                                    ),
-                                                    const Spacer(),
-                                                    Text(
-                                                      "Bir Kategori Seç",
-                                                      style: GoogleFonts.inter(
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                    const Spacer(),
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        updateSelectedCategory(
-                                                          categories,
-                                                        );
-                                                        setState(() {});
-                                                        context.pop();
-                                                      },
-                                                      child: const Icon(
-                                                        Icons.done,
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: ListView(
-                                            controller: scrollController,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(20),
-                                                child: Wrap(
-                                                  direction: Axis.horizontal,
-                                                  verticalDirection:
-                                                      VerticalDirection.down,
-                                                  spacing: 5,
-                                                  alignment:
-                                                      WrapAlignment.start,
-                                                  runSpacing: 10,
-                                                  runAlignment:
-                                                      WrapAlignment.start,
-                                                  children: [
-                                                    ...List.generate(
-                                                      categories.length,
-                                                      (index) {
-                                                        return GestureDetector(
-                                                          onTap: () {
-                                                            updateCategoryIndex(
-                                                                index);
-                                                            setState(() {});
-                                                          },
-                                                          child:
-                                                              AnimatedContainer(
-                                                            duration:
-                                                                const Duration(
-                                                              milliseconds: 200,
-                                                            ),
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(10),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10),
-                                                              border:
-                                                                  Border.all(
-                                                                width: ref.watch(
-                                                                            selectedCategoryIndexProvider) ==
-                                                                        index
-                                                                    ? 2
-                                                                    : 1,
-                                                                color: ref.watch(selectedCategoryIndexProvider) ==
-                                                                        index
-                                                                    ? Colors
-                                                                        .indigo
-                                                                        .shade400
-                                                                        .withOpacity(
-                                                                            1)
-                                                                    : Colors
-                                                                        .indigo
-                                                                        .shade400
-                                                                        .withOpacity(
-                                                                            0.5),
-                                                              ),
-                                                            ),
-                                                            child: Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: [
-                                                                // TODO: icon
-                                                                const Icon(Icons
-                                                                    .food_bank),
-                                                                const SizedBox(
-                                                                    width: 5),
-                                                                Text(
-                                                                  categories[
-                                                                          index]
-                                                                      .name,
-                                                                  style:
-                                                                      GoogleFonts
-                                                                          .inter(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                    color: Colors
-                                                                        .black,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        );
-                                                      },
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
+                            filteredSearchCategoryBottomSheet(
+                              context,
+                              categories,
                             );
                           },
                           child: Row(
@@ -271,13 +96,13 @@ class _FilteredSearchScreenState extends ConsumerState<FilteredSearchScreen> {
                                 selectedCategory.name,
                                 style: GoogleFonts.inter(
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black,
+                                  color: ColorConstants.black,
                                 ),
                               ),
                               const SizedBox(width: 5),
                               const Icon(
                                 Icons.expand_more_rounded,
-                                color: Colors.black,
+                                color: ColorConstants.black,
                                 size: 30,
                               ),
                             ],
@@ -320,7 +145,7 @@ class _FilteredSearchScreenState extends ConsumerState<FilteredSearchScreen> {
                     },
                     loading: () => Center(
                       child: LoadingAnimationWidget.waveDots(
-                        color: Colors.indigo.shade400,
+                        color: ColorConstants.primaryColor,
                         size: 50,
                       ),
                     ),
@@ -337,5 +162,148 @@ class _FilteredSearchScreenState extends ConsumerState<FilteredSearchScreen> {
             ),
           ),
         );
+  }
+
+  // can't seperate as a widget because of setState
+  Future<dynamic> filteredSearchCategoryBottomSheet(
+      BuildContext context, List<CategoryModel> categories) {
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Theme.of(context).canvasColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.elliptical(20, 17),
+          topRight: Radius.elliptical(20, 17),
+        ),
+      ),
+      enableDrag: true,
+      useSafeArea: true,
+      builder: (context) {
+        return Consumer(
+          builder: (context, ref, child) {
+            return DraggableScrollableSheet(
+              expand: false,
+              maxChildSize: 1,
+              minChildSize: 0.3,
+              initialChildSize: 0.5,
+              builder: (context, scrollController) => Column(
+                children: [
+                  SingleChildScrollView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    controller: scrollController,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  context.pop();
+                                },
+                                child: const Icon(
+                                  Icons.close,
+                                ),
+                              ),
+                              const Spacer(),
+                              Text(
+                                "Bir Kategori Seç",
+                                style: GoogleFonts.inter(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const Spacer(),
+                              GestureDetector(
+                                onTap: () {
+                                  updateSelectedCategory(
+                                    categories,
+                                  );
+                                  setState(() {});
+                                  context.pop();
+                                },
+                                child: const Icon(
+                                  Icons.done,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView(
+                      controller: scrollController,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Wrap(
+                            direction: Axis.horizontal,
+                            verticalDirection: VerticalDirection.down,
+                            spacing: 5,
+                            alignment: WrapAlignment.start,
+                            runSpacing: 10,
+                            runAlignment: WrapAlignment.start,
+                            children: [
+                              ...List.generate(
+                                categories.length,
+                                (index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      updateCategoryIndex(
+                                        index,
+                                      );
+                                      setState(() {});
+                                    },
+                                    child: AnimatedContainer(
+                                      duration: const Duration(
+                                        milliseconds: 200,
+                                      ),
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                          width: ref.watch(
+                                                      selectedCategoryIndexProvider) ==
+                                                  index
+                                              ? 2
+                                              : 1,
+                                          color: ref.watch(
+                                                      selectedCategoryIndexProvider) ==
+                                                  index
+                                              ? ColorConstants.primaryColor
+                                                  .withOpacity(1)
+                                              : ColorConstants.primaryColor
+                                                  .withOpacity(0.5),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        categories[index].name,
+                                        style: GoogleFonts.inter(
+                                          fontWeight: FontWeight.w400,
+                                          color: ColorConstants.black,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 }

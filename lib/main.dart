@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,8 +10,6 @@ import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/firebase_options.dart';
 import 'package:gurme/models/user_model.dart';
 import 'package:gurme/router.dart';
-
-final locationProvider = StateProvider<GeoPoint?>((ref) => null);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

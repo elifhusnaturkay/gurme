@@ -4,7 +4,7 @@ void showToast(String text) {
   EasyLoading.showToast(
     text,
     duration: const Duration(seconds: 2),
-    dismissOnTap: true,
+    dismissOnTap: false,
     toastPosition: EasyLoadingToastPosition.bottom,
   );
 }

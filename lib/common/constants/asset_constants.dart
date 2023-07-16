@@ -11,5 +11,5 @@ class AssetConstants {
       "https://firebasestorage.googleapis.com/v0/b/karma-gurme.appspot.com/o/user%2Fdefault_profile_picture.jpg?alt=media&token=a41ea647-d31c-4e4d-af57-e9054e033057";
 
   static String defaultBannerPic =
-      "https://firebasestorage.googleapis.com/v0/b/karma-gurme.appspot.com/o/user%2Fdefault_banner_picture.jpg?alt=media&token=fe6cc22c-41d1-4189-9d38-cf6ee9f4bfba";
+      "https://firebasestorage.googleapis.com/v0/b/karma-gurme.appspot.com/o/user%2Fdefault_banner_picture.jpeg?alt=media&token=3b2a469d-7661-456d-9c06-089e938f51a5";
 }

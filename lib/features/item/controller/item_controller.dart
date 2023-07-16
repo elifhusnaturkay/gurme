@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gurme/common/constants/string_constants.dart';
 import 'package:gurme/common/utils/show_toast.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/item/repository/item_repository.dart';
@@ -50,7 +51,7 @@ class ItemController extends StateNotifier<bool> {
   Future<void> deleteComment(String commentId) async {
     final response = await _itemRepository.deleteComment(commentId);
 
-    response.fold(
-        (error) => showToast(error), (r) => showToast('Başarıyla silindi'));
+    response.fold((error) => showToast(error),
+        (r) => showToast(SuccessMessageConstants.successfullyDeleted));
   }
 }

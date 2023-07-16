@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/asset_constants.dart';
+import 'package:gurme/common/constants/color_constants.dart';
 
 class ZeroCommentTileItem extends StatelessWidget {
   const ZeroCommentTileItem({super.key});
@@ -19,7 +20,7 @@ class ZeroCommentTileItem extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: Colors.indigo.shade400.withOpacity(0.06),
+                color: ColorConstants.primaryColor.withOpacity(0.06),
               ),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
@@ -33,7 +34,7 @@ class ZeroCommentTileItem extends StatelessWidget {
                         margin: const EdgeInsets.all(2),
                         child: CircleAvatar(
                           backgroundColor:
-                              Colors.indigo.shade400.withOpacity(0.2),
+                              ColorConstants.primaryColor.withOpacity(0.2),
                           radius: 24,
                           child: Image.asset(
                             AssetConstants.shortLogoPurple,
@@ -58,7 +59,7 @@ class ZeroCommentTileItem extends StatelessWidget {
                               5,
                               (index) => const Icon(
                                 Icons.grade_rounded,
-                                color: Colors.amber,
+                                color: ColorConstants.starColor,
                                 size: 15,
                               ),
                             ),

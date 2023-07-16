@@ -11,11 +11,11 @@ class Item {
   final String categoryId;
   final String companyId;
   final String companyName;
-  final String categoryName;
   final double rating;
   final int ratingCount;
   final int commentCount;
   final GeoPoint location;
+  final double price;
   Item({
     required this.id,
     required this.picture,
@@ -24,11 +24,11 @@ class Item {
     required this.categoryId,
     required this.companyId,
     required this.companyName,
-    required this.categoryName,
     required this.rating,
     required this.ratingCount,
     required this.commentCount,
     required this.location,
+    required this.price,
   });
 
   Item copyWith({
@@ -39,11 +39,11 @@ class Item {
     String? categoryId,
     String? companyId,
     String? companyName,
-    String? categoryName,
     double? rating,
     int? ratingCount,
     int? commentCount,
     GeoPoint? location,
+    double? price,
   }) {
     return Item(
       id: id ?? this.id,
@@ -53,11 +53,11 @@ class Item {
       categoryId: categoryId ?? this.categoryId,
       companyId: companyId ?? this.companyId,
       companyName: companyName ?? this.companyName,
-      categoryName: categoryName ?? this.categoryName,
       rating: rating ?? this.rating,
       ratingCount: ratingCount ?? this.ratingCount,
       commentCount: commentCount ?? this.commentCount,
       location: location ?? this.location,
+      price: price ?? this.price,
     );
   }
 
@@ -70,11 +70,11 @@ class Item {
       'categoryId': categoryId,
       'companyId': companyId,
       'companyName': companyName,
-      'categoryName': categoryName,
       'rating': rating,
       'ratingCount': ratingCount,
       'commentCount': commentCount,
       'location': location,
+      'price': price,
     };
   }
 
@@ -87,11 +87,11 @@ class Item {
       categoryId: map['categoryId'] ?? '',
       companyId: map['companyId'] ?? '',
       companyName: map['companyName'] ?? '',
-      categoryName: map['categoryName'] ?? '',
       rating: map['rating'] ?? 0.0,
       ratingCount: map['ratingCount'] ?? 0,
       commentCount: map['commentCount'] ?? 0,
       location: map['location'],
+      price: map['price'] ?? 0.0,
     );
   }
 
@@ -102,7 +102,7 @@ class Item {
 
   @override
   String toString() {
-    return 'Item(id: $id, picture: $picture, name: $name, lowercaseName: $lowercaseName, categoryId: $categoryId, companyId: $companyId, companyName: $companyName, categoryName: $categoryName, rating: $rating, ratingCount: $ratingCount, commentCount: $commentCount, location: $location)';
+    return 'Item(id: $id, picture: $picture, name: $name, lowercaseName: $lowercaseName, categoryId: $categoryId, companyId: $companyId, companyName: $companyName, rating: $rating, ratingCount: $ratingCount, commentCount: $commentCount, location: $location, price: $price)';
   }
 
   @override
@@ -116,11 +116,11 @@ class Item {
         other.categoryId == categoryId &&
         other.companyId == companyId &&
         other.companyName == companyName &&
-        other.categoryName == categoryName &&
         other.rating == rating &&
         other.ratingCount == ratingCount &&
         other.commentCount == commentCount &&
-        other.location == location;
+        other.location == location &&
+        other.price == price;
   }
 
   @override
@@ -132,10 +132,10 @@ class Item {
         categoryId.hashCode ^
         companyId.hashCode ^
         companyName.hashCode ^
-        categoryName.hashCode ^
         rating.hashCode ^
         ratingCount.hashCode ^
         commentCount.hashCode ^
-        location.hashCode;
+        location.hashCode ^
+        price.hashCode;
   }
 }

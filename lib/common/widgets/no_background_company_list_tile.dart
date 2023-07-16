@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gurme/common/constants/color_constants.dart';
 import 'package:gurme/common/constants/route_constants.dart';
 import 'package:gurme/common/utils/location_utils.dart';
 import 'package:gurme/models/company_model.dart';
@@ -52,14 +53,18 @@ class NoBackgroundCompanyListTile extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 15),
-                  Text(
-                    company.name,
-                    style: GoogleFonts.inter(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w600,
+                  Expanded(
+                    child: Text(
+                      company.name,
+                      style: GoogleFonts.inter(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  const Spacer(),
+                  const SizedBox(width: 5),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -77,11 +82,11 @@ class NoBackgroundCompanyListTile extends StatelessWidget {
                           const Icon(
                             Icons.grade_rounded,
                             size: 18,
-                            color: Colors.amber,
+                            color: ColorConstants.starColor,
                           ),
                           const SizedBox(width: 5),
                           Text(
-                            company.ratingCount.toString(),
+                            "(${company.ratingCount})",
                             style: GoogleFonts.inter(
                               fontSize: 12,
                               fontWeight: FontWeight.normal,
@@ -112,7 +117,7 @@ class NoBackgroundCompanyListTile extends StatelessWidget {
                             Icon(
                               Icons.location_pin,
                               size: 16,
-                              color: Colors.indigo.shade400,
+                              color: ColorConstants.primaryColor,
                             ),
                           ],
                         ),

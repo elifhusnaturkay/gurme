@@ -2,11 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gurme/common/constants/color_constants.dart';
 import 'package:gurme/common/utils/lose_focus.dart';
 import 'package:gurme/common/widgets/no_background_company_list_tile.dart';
 import 'package:gurme/common/widgets/no_background_item_list_tile.dart';
+import 'package:gurme/core/providers/global_providers.dart';
 import 'package:gurme/features/search/controller/search_controller.dart';
-import 'package:gurme/main.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
@@ -34,13 +35,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     );
 
     _colorAnimationItem = ColorTween(
-      begin: Colors.indigo.shade400,
+      begin: ColorConstants.primaryColor,
       end: const Color.fromRGBO(92, 107, 192, 0.5),
     ).animate(_animationController);
 
     _colorAnimationCompany = ColorTween(
       begin: const Color.fromRGBO(92, 107, 192, 0.5),
-      end: Colors.indigo.shade400,
+      end: ColorConstants.primaryColor,
     ).animate(_animationController);
 
     _animationController.addListener(() {
@@ -60,10 +61,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
   @override
   Widget build(BuildContext context) {
     GeoPoint? userLocation;
-    if (ref.read(locationProvider.notifier).state != null) {
+    if (ref.watch(locationProvider.notifier).state != null) {
       userLocation = GeoPoint(
-          ref.read(locationProvider.notifier).state!.latitude,
-          ref.read(locationProvider.notifier).state!.longitude);
+          ref.watch(locationProvider.notifier).state!.latitude,
+          ref.watch(locationProvider.notifier).state!.longitude);
     }
     return GestureDetector(
       onTap: loseFocus,
@@ -79,7 +80,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                   leadingWidth: 40,
                   titleSpacing: 0,
                   iconTheme: const IconThemeData(
-                    color: Colors.black,
+                    color: ColorConstants.black,
                   ),
                   shape: Border(
                     top: BorderSide(
@@ -98,7 +99,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                         200 + ((MediaQuery.of(context).size.width - 393) * 0.5),
                     child: TextField(
                       controller: searchController,
-                      cursorColor: Colors.indigo.shade400,
+                      cursorColor: ColorConstants.primaryColor,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Bugün canın ne çekiyor?',
@@ -211,7 +212,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                   error: (error, stackTrace) => const Text("error"),
                   loading: () => Center(
                     child: LoadingAnimationWidget.waveDots(
-                      color: Colors.indigo.shade400,
+                      color: ColorConstants.primaryColor,
                       size: 50,
                     ),
                   ),
@@ -250,7 +251,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                   error: (error, stackTrace) => const Text("error"),
                   loading: () => Center(
                     child: LoadingAnimationWidget.waveDots(
-                      color: Colors.indigo.shade400,
+                      color: ColorConstants.primaryColor,
                       size: 50,
                     ),
                   ),

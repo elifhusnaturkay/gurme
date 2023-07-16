@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gurme/common/constants/color_constants.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/item/controller/item_controller.dart';
 import 'package:gurme/models/comment_model.dart';
@@ -85,7 +86,7 @@ class _CommentFieldScreenState extends State<CommentFieldScreen> {
             itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
             itemBuilder: (context, _) => const Icon(
               Icons.grade_rounded,
-              color: Colors.amber,
+              color: ColorConstants.starColor,
             ),
             onRatingUpdate: (rating) {
               setState(() {
@@ -98,7 +99,7 @@ class _CommentFieldScreenState extends State<CommentFieldScreen> {
             child: TextField(
               onChanged: (text) {},
               controller: commentController,
-              cursorColor: Colors.indigo.shade400,
+              cursorColor: ColorConstants.primaryColor,
               maxLines: 3,
               minLines: 1,
               decoration: InputDecoration(
@@ -120,20 +121,20 @@ class _CommentFieldScreenState extends State<CommentFieldScreen> {
                           }
                         : null,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.indigo.shade400,
+                      backgroundColor: ColorConstants.primaryColor,
                       shape: const StadiumBorder(),
                     ),
                     icon: Icon(
                       Icons.send_rounded,
                       color: (ratingCount > 0 && ratingCount <= 5)
-                          ? Colors.indigo.shade400
+                          ? ColorConstants.primaryColor
                           : Colors.grey.shade300,
                     ),
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                    color: Colors.indigo.shade400,
+                    color: ColorConstants.primaryColor,
                     width: 2,
                   ),
                 ),

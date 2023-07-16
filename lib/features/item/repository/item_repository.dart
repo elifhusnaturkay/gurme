@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:gurme/common/constants/string_constants.dart';
 import 'package:gurme/common/utils/get_random_id.dart';
 import 'package:gurme/common/utils/type_defs.dart';
 import 'package:gurme/core/providers/firebase_providers.dart';
@@ -98,7 +99,7 @@ class ItemRepository {
       await _comments.doc(commentId).set(comment.toMap());
       return right(null);
     } catch (e) {
-      return left('Yorum gönderilirken bir şeyler ters gitti');
+      return left(ErrorMessageConstants.commentError);
     }
   }
 
@@ -120,7 +121,7 @@ class ItemRepository {
       await _comments.doc(comment.id).update(updatedComment.toMap());
       return right(null);
     } catch (e) {
-      return left('Yorum gönderilirken bir şeyler ters gitti');
+      return left(ErrorMessageConstants.commentError);
     }
   }
 
@@ -178,7 +179,7 @@ class ItemRepository {
       await _comments.doc(commentId).delete();
       return right(null);
     } catch (e) {
-      return left('Yorum silinirken bir hata oluştu');
+      return left(ErrorMessageConstants.commentDeleteError);
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gurme/common/constants/string_constants.dart';
 import 'package:gurme/common/utils/show_toast.dart';
 import 'package:gurme/features/auth/repository/auth_repository.dart';
 import 'package:gurme/models/user_model.dart';
@@ -70,7 +71,7 @@ class AuthController extends StateNotifier<bool> {
       showToast(error);
     }, (userModel) {
       _ref.read(userProvider.notifier).update((state) => userModel);
-      showToast('Kayıt olma işlemi başarılı');
+      showToast(SuccessMessageConstants.loginSuccess);
     });
   }
 
@@ -89,7 +90,7 @@ class AuthController extends StateNotifier<bool> {
 
     response.fold(
       (error) => showToast(error),
-      (r) => showToast('Sıfırlama bağlantısı gönderildi'),
+      (r) => showToast(SuccessMessageConstants.passwordResetEmailSent),
     );
   }
 

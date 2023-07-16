@@ -1,7 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:gurme/common/constants/color_constants.dart';
 
-class ProfileSliverTabBar extends SliverPersistentHeaderDelegate {
-  ProfileSliverTabBar(this._tabBar);
+class ProfileSilverTabBar extends StatelessWidget {
+  const ProfileSilverTabBar({
+    super.key,
+    required TabController tabController,
+  }) : _tabController = tabController;
+
+  final TabController _tabController;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverPersistentHeader(
+      delegate: ProfileSliverTabBarDelegate(
+        TabBar(
+          controller: _tabController,
+          isScrollable: false,
+          indicatorColor: ColorConstants.primaryColor,
+          labelColor: ColorConstants.black,
+          unselectedLabelColor: Colors.grey,
+          tabs: ["Yorumlar", "Favoriler"]
+              .map(
+                (category) => Tab(
+                  text: category,
+                ),
+              )
+              .toList(),
+        ),
+      ),
+      pinned: true,
+    );
+  }
+}
+
+class ProfileSliverTabBarDelegate extends SliverPersistentHeaderDelegate {
+  ProfileSliverTabBarDelegate(this._tabBar);
 
   final TabBar _tabBar;
 
@@ -19,7 +52,7 @@ class ProfileSliverTabBar extends SliverPersistentHeaderDelegate {
         boxShadow: [
           BoxShadow(
             offset: const Offset(0, 4),
-            color: Colors.black.withOpacity(0.25),
+            color: ColorConstants.black.withOpacity(0.25),
             blurRadius: 10,
             spreadRadius: 2,
           ),
@@ -37,7 +70,7 @@ class ProfileSliverTabBar extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  bool shouldRebuild(ProfileSliverTabBar oldDelegate) {
+  bool shouldRebuild(ProfileSliverTabBarDelegate oldDelegate) {
     return false;
   }
 }

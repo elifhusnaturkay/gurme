@@ -2,19 +2,15 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:gurme/common/utils/location_utils.dart';
-import 'package:gurme/common/utils/show_pop_up.dart';
+import 'package:gurme/common/widgets/item_carousel_slider.dart';
 import 'package:gurme/common/widgets/loading_spinner.dart';
-import 'package:gurme/core/providers/global_keys.dart';
+import 'package:gurme/core/providers/global_providers.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
 import 'package:gurme/features/company/controller/company_controller.dart';
+import 'package:gurme/features/company/widgets/company_banner_sliver_app_bar.dart';
+import 'package:gurme/features/company/widgets/company_information_sliver_app_bar.dart';
 import 'package:gurme/features/company/widgets/company_list_field.dart';
 import 'package:gurme/features/company/widgets/company_sliver_tab_bar.dart';
-import 'package:gurme/features/item/screen/item_screen.dart';
-import 'package:gurme/features/profile/controller/profile_controller.dart';
-import 'package:gurme/main.dart';
-import 'package:gurme/models/user_model.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
@@ -32,8 +28,6 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
   late TabController _tabController;
   Map<int, dynamic> itemsKeys = {};
 
-  late bool isFavorite;
-
   @override
   void initState() {
     super.initState();
@@ -42,12 +36,6 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
           Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
       axis: Axis.vertical,
     );
-
-    isFavorite = ref
-        .read(userProvider.notifier)
-        .state!
-        .favoriteCompanyIds
-        .contains(widget._id);
   }
 
   @override
@@ -96,43 +84,15 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
     return false;
   }
 
-  Future<bool> isFavoriteCompany(String userId, String companyId) async {
-    return await ref
-        .read(companyControllerProvider.notifier)
-        .isFavoriteCompany(userId, companyId);
-  }
-
-  Future<void> removeFromFavorites(UserModel user) async {
-    await ref
-        .read(
-          profileControllerProvider.notifier,
-        )
-        .removeFromFavorites(
-          user,
-          widget._id,
-        );
-  }
-
-  Future<void> addToFavorites(UserModel user) async {
-    await ref
-        .read(
-          profileControllerProvider.notifier,
-        )
-        .addToFavorites(
-          user,
-          widget._id,
-        );
-  }
-
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider.notifier).state!;
 
     GeoPoint? userLocation;
-    if (ref.read(locationProvider.notifier).state != null) {
+    if (ref.watch(locationProvider.notifier).state != null) {
       userLocation = GeoPoint(
-        ref.read(locationProvider.notifier).state!.latitude,
-        ref.read(locationProvider.notifier).state!.longitude,
+        ref.watch(locationProvider.notifier).state!.latitude,
+        ref.watch(locationProvider.notifier).state!.longitude,
       );
     }
 
@@ -147,187 +107,15 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
                 body: CustomScrollView(
                   controller: _autoScrollController,
                   slivers: [
-                    SliverAppBar(
-                      expandedHeight: 150,
-                      floating: false,
-                      flexibleSpace: LayoutBuilder(
-                        builder: (context, constraints) {
-                          final double ratio = (_autoScrollController.offset /
-                                  (150 - kToolbarHeight))
-                              .clamp(0, 1);
-                          return Stack(
-                            children: [
-                              Positioned.fill(
-                                child: Image.network(
-                                  companyData.company.bannerPic,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Positioned(
-                                top: 28,
-                                right: 0,
-                                child: user.isAuthenticated
-                                    ? IconButton(
-                                        onPressed: () {
-                                          isFavorite
-                                              ? removeFromFavorites(user)
-                                              : addToFavorites(user);
-                                          setState(() {
-                                            isFavorite = !isFavorite;
-                                          });
-                                        },
-                                        icon: Icon(
-                                          isFavorite
-                                              ? Icons.favorite
-                                              : Icons.favorite_border,
-                                          color: Colors.indigo.shade400
-                                              .withOpacity(1 - ratio),
-                                        ),
-                                      )
-                                    : Container(),
-                              ),
-                              Positioned(
-                                bottom: 10,
-                                right: 10,
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    return await LocationUtils.showOnMap(
-                                        context, companyData.company.location);
-                                  },
-                                  child: Container(
-                                    decoration: const BoxDecoration(
-                                      color: Color(0xFFE9EAFF),
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(6),
-                                      ),
-                                    ),
-                                    padding: const EdgeInsets.fromLTRB(
-                                      8,
-                                      4,
-                                      4,
-                                      4,
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          "Haritada Göster",
-                                          style: GoogleFonts.inter(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            color:
-                                                Colors.black.withOpacity(0.8),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 5),
-                                        Icon(
-                                          Icons.near_me_rounded,
-                                          size: 20,
-                                          color: Colors.indigo.shade400,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          );
-                        },
-                      ),
+                    CompanyBannerSliverAppBar(
+                      autoScrollController: _autoScrollController,
+                      user: user,
+                      company: companyData.company,
+                      ref: ref,
                     ),
-                    SliverAppBar(
-                      automaticallyImplyLeading: false,
-                      backgroundColor: Theme.of(context).canvasColor,
-                      elevation: 0,
-                      pinned: true,
-                      centerTitle: false,
-                      flexibleSpace: FlexibleSpaceBar(
-                        titlePadding: EdgeInsets.fromLTRB(
-                            15, MediaQuery.of(context).padding.top + 5, 15, 0),
-                        centerTitle: false,
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  companyData.company.name,
-                                  style: GoogleFonts.inter(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  softWrap: true,
-                                ),
-                              ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      companyData.company.rating
-                                          .toStringAsFixed(1),
-                                      style: GoogleFonts.inter(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.grey.shade600,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 5),
-                                    const Icon(
-                                      Icons.grade_rounded,
-                                      size: 18,
-                                      color: Colors.amber,
-                                    ),
-                                    const SizedBox(width: 5),
-                                    Text(
-                                      "(${companyData.company.ratingCount})"
-                                          .toString(),
-                                      style: GoogleFonts.inter(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.grey.shade600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                if (userLocation != null)
-                                  Row(
-                                    children: [
-                                      Text(
-                                        LocationUtils.calculateDistance(
-                                            userLocation.latitude,
-                                            userLocation.longitude,
-                                            companyData
-                                                .company.location.latitude,
-                                            companyData
-                                                .company.location.longitude),
-                                        style: GoogleFonts.inter(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.grey.shade600,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 5),
-                                      Icon(
-                                        Icons.location_pin,
-                                        size: 18,
-                                        color: Colors.indigo.shade400,
-                                      ),
-                                    ],
-                                  ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
+                    CopmanyInformationSliverAppBar(
+                      userLocation: userLocation,
+                      company: companyData.company,
                     ),
                     const SliverToBoxAdapter(
                       child: SizedBox(height: 10),
@@ -341,177 +129,10 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
                         ),
                         items: companyData.popularItems.map(
                           (popularItem) {
-                            return Builder(
-                              builder: (BuildContext context) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    showPopUpScreen(
-                                      context: context,
-                                      builder: (context) {
-                                        return ItemScreen(
-                                          item: popularItem,
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    margin:
-                                        const EdgeInsets.fromLTRB(15, 5, 15, 5),
-                                    decoration: const BoxDecoration(
-                                      color: Color.fromRGBO(92, 107, 192, 0.2),
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(8)),
-                                    ),
-                                    child: Stack(
-                                      fit: StackFit.expand,
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius: const BorderRadius.all(
-                                            Radius.circular(8),
-                                          ),
-                                          child: Image.network(
-                                            popularItem.picture,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        Positioned(
-                                          bottom: 10,
-                                          left: 10,
-                                          child: Container(
-                                            decoration: const BoxDecoration(
-                                              color: Color(0xFFE9EAFF),
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(6),
-                                              ),
-                                            ),
-                                            padding: const EdgeInsets.fromLTRB(
-                                              6,
-                                              4,
-                                              6,
-                                              5,
-                                            ),
-                                            child: Text(
-                                              popularItem.name,
-                                              style: GoogleFonts.inter(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.black
-                                                    .withOpacity(0.8),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          bottom: 10,
-                                          right: 10,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              Container(
-                                                decoration: const BoxDecoration(
-                                                  color: Color(0xFFE9EAFF),
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(6),
-                                                  ),
-                                                ),
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                  4,
-                                                  2,
-                                                  4,
-                                                  2,
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    Text(
-                                                      popularItem.rating
-                                                          .toStringAsFixed(1),
-                                                      style: GoogleFonts.inter(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: Colors.black
-                                                            .withOpacity(0.8),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(width: 5),
-                                                    const Icon(
-                                                      Icons.grade_rounded,
-                                                      size: 18,
-                                                      color: Colors.amber,
-                                                    ),
-                                                    const SizedBox(width: 5),
-                                                    Text(
-                                                      popularItem.ratingCount
-                                                          .toString(),
-                                                      style: GoogleFonts.inter(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: Colors.black
-                                                            .withOpacity(0.8),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              Container(
-                                                decoration: const BoxDecoration(
-                                                  color: Color(0xFFE9EAFF),
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(6),
-                                                  ),
-                                                ),
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                  4,
-                                                  2,
-                                                  2,
-                                                  2,
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    Text(
-                                                      popularItem.commentCount
-                                                          .toString(),
-                                                      style: GoogleFonts.inter(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: Colors.black
-                                                            .withOpacity(0.8),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Icon(
-                                                      Icons.chat_rounded,
-                                                      color: Colors
-                                                          .indigo.shade400,
-                                                      size: 16,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 2,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
+                            return ItemCarouselSlider(
+                              userLocation: userLocation,
+                              item: popularItem,
+                              isCompanyScreen: true,
                             );
                           },
                         ).toList(),
@@ -520,25 +141,10 @@ class _CompanyScreenState extends ConsumerState<CompanyScreen>
                     const SliverToBoxAdapter(
                       child: SizedBox(height: 15),
                     ),
-                    SliverPersistentHeader(
-                      delegate: CompanySliverTabBar(
-                        TabBar(
-                          onTap: (index) => _scrollToCategory(index),
-                          controller: _tabController,
-                          isScrollable: true,
-                          indicatorColor: Colors.indigo.shade400,
-                          labelColor: Colors.black87,
-                          unselectedLabelColor: Colors.grey,
-                          tabs: companyData.categories
-                              .map(
-                                (category) => Tab(
-                                  text: category.name,
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ),
-                      pinned: true,
+                    CompanySliverTabBar(
+                      tabController: _tabController,
+                      categories: companyData.categories,
+                      scrollToCategory: _scrollToCategory,
                     ),
                     CompanyListField(
                       itemsKeys: itemsKeys,

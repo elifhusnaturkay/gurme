@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gurme/common/constants/string_constants.dart';
 import 'package:gurme/common/utils/lose_focus.dart';
 import 'package:gurme/common/widgets/submit_button.dart';
 import 'package:gurme/common/widgets/form_fields.dart';
@@ -58,7 +59,7 @@ String? emailValidator(String? value) {
     return 'Lütfen gerekli alanları doldurun';
   }
   if (!RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$').hasMatch(value)) {
-    return 'Lütfen geçerli bir email adresi giriniz';
+    return ErrorMessageConstants.invalidEmail;
   }
   return null;
 }

@@ -3,9 +3,10 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gurme/common/constants/color_constants.dart';
 import 'package:gurme/common/constants/route_constants.dart';
+import 'package:gurme/common/utils/show_bottom_sheet.dart';
 import 'package:gurme/features/auth/controller/auth_controller.dart';
-import 'package:gurme/features/item/widgets/comment_field_screen.dart';
 import 'package:gurme/models/comment_model.dart';
 import 'package:gurme/models/item_model.dart';
 
@@ -71,7 +72,7 @@ class ItemScreenItemCard extends StatelessWidget {
                       160 + ((MediaQuery.of(context).size.height - 760) * 0.1),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: Colors.indigo.shade400.withOpacity(0.5),
+                    color: ColorConstants.primaryColor.withOpacity(0.5),
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
@@ -91,7 +92,7 @@ class ItemScreenItemCard extends StatelessWidget {
                         Text(
                           item.name,
                           style: GoogleFonts.inter(
-                            fontSize: 28 +
+                            fontSize: 22 +
                                 ((MediaQuery.of(context).size.width - 393) *
                                     0.1),
                             fontWeight: FontWeight.w600,
@@ -118,6 +119,15 @@ class ItemScreenItemCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 5),
+                        Text(
+                          "120 ₺", //TODO : Fiyat
+                          style: GoogleFonts.inter(
+                            fontSize: 15,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.grey.shade600,
+                          ),
+                        ),
+                        const SizedBox(height: 5),
                         Row(
                           children: [
                             Text(
@@ -133,7 +143,7 @@ class ItemScreenItemCard extends StatelessWidget {
                               rating: item.rating,
                               itemBuilder: (context, index) => const Icon(
                                 Icons.star,
-                                color: Colors.amber,
+                                color: ColorConstants.starColor,
                               ),
                               itemCount: 5,
                               itemSize: 20,
@@ -171,7 +181,7 @@ class ItemScreenItemCard extends StatelessWidget {
                       Text(
                         commentCount.toString(),
                         style: GoogleFonts.inter(
-                          fontSize: 24,
+                          fontSize: 20,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -179,7 +189,7 @@ class ItemScreenItemCard extends StatelessWidget {
                       Text(
                         "Yorum",
                         style: GoogleFonts.inter(
-                          fontSize: 24,
+                          fontSize: 20,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -193,33 +203,11 @@ class ItemScreenItemCard extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(0, 20, 10, 5),
                   child: TextButton(
                     onPressed: () {
-                      showModalBottomSheet(
-                        isScrollControlled: true,
-                        backgroundColor: Theme.of(context).canvasColor,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.elliptical(20, 17),
-                            topRight: Radius.elliptical(20, 17),
-                          ),
-                        ),
-                        enableDrag: true,
-                        useSafeArea: true,
-                        context: context,
-                        builder: (context) {
-                          return GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () {
-                              FocusScope.of(context).unfocus();
-                            },
-                            child: FocusScope(
-                              child: CommentFieldScreen(
-                                ref: ref,
-                                item: item,
-                                currentUserComment: currentUserComment,
-                              ),
-                            ),
-                          );
-                        },
+                      showCommentFieldBottomSheet(
+                        context,
+                        ref,
+                        item,
+                        currentUserComment,
                       );
                     },
                     child: currentUserComment == null &&
@@ -232,7 +220,7 @@ class ItemScreenItemCard extends StatelessWidget {
                             style: GoogleFonts.inter(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
-                              color: Colors.indigo.shade400,
+                              color: ColorConstants.primaryColor,
                             ),
                           )
                         : Container(),

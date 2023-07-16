@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gurme/common/constants/color_constants.dart';
 
 class SquareTile extends StatelessWidget {
   const SquareTile({super.key, required this.imagePath, required this.onTap});
@@ -13,9 +14,9 @@ class SquareTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.white),
+          border: Border.all(color: ColorConstants.white),
           borderRadius: BorderRadius.circular(15),
-          color: Colors.white,
+          color: ColorConstants.white,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:gurme/common/constants/string_constants.dart';
 import 'package:gurme/common/utils/show_toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,8 +25,7 @@ class LocationUtils {
     if (await canLaunchUrl(googleMapUrl)) {
       await launchUrl(googleMapUrl);
     } else {
-      // ignore: use_build_context_synchronously
-      showToast('Bir şeyler yanlış gitti');
+      showToast(ErrorMessageConstants.somethingWentWrong);
     }
   }
 }

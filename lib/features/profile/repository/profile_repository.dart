@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:gurme/common/constants/asset_constants.dart';
+import 'package:gurme/common/constants/string_constants.dart';
 import 'package:gurme/common/utils/type_defs.dart';
 import 'package:gurme/core/providers/firebase_providers.dart';
 import 'package:gurme/models/comment_model.dart';
@@ -104,7 +105,7 @@ class ProfileRepository {
       });
       return right(null);
     } catch (e) {
-      return left("Bir hata oldu.");
+      return left(ErrorMessageConstants.somethingWentWrong);
     }
   }
 
@@ -116,7 +117,7 @@ class ProfileRepository {
       });
       return right(null);
     } catch (e) {
-      return left("Bir hata oldu.");
+      return left(ErrorMessageConstants.somethingWentWrong);
     }
   }
 
@@ -132,7 +133,7 @@ class ProfileRepository {
       try {
         await _storage.ref().child(userProfilePic).delete();
       } catch (e) {
-        return left('Fotoğraf değiştirilirken bir hata oluştu');
+        return left(ErrorMessageConstants.photoChangeError);
       }
     }
 
@@ -148,9 +149,9 @@ class ProfileRepository {
       await updateProfilePictureOfUser(user, newUrl);
       return right(newUrl);
     } else if (uploadTask.state == TaskState.error) {
-      return left('Fotoğraf değiştirilirken bir hata oluştu');
+      return left(ErrorMessageConstants.photoChangeError);
     }
-    return left('Fotoğraf değiştirilirken bir hata oluştu');
+    return left(ErrorMessageConstants.photoChangeError);
   }
 
   FutureEither<void> updateProfilePictureOfUser(
@@ -161,7 +162,7 @@ class ProfileRepository {
       await _users.doc(user.uid).update(updatedUser.toMap());
       return right(null);
     } catch (e) {
-      return left('Fotoğraf değiştirilirken bir hata oluştu');
+      return left(ErrorMessageConstants.photoChangeError);
     }
   }
 
@@ -177,7 +178,7 @@ class ProfileRepository {
       try {
         await _storage.ref().child(userBannerPic).delete();
       } catch (e) {
-        return left('Fotoğraf değiştirilirken bir hata oluştu');
+        return left(ErrorMessageConstants.photoChangeError);
       }
     }
 
@@ -193,9 +194,9 @@ class ProfileRepository {
       await updateBannerPictureOfUser(user, newUrl);
       return right(newUrl);
     } else if (uploadTask.state == TaskState.error) {
-      return left('Fotoğraf değiştirilirken bir hata oluştu');
+      return left(ErrorMessageConstants.photoChangeError);
     }
-    return left('Fotoğraf değiştirilirken bir hata oluştu');
+    return left(ErrorMessageConstants.photoChangeError);
   }
 
   FutureEither<void> updateBannerPictureOfUser(
@@ -206,7 +207,7 @@ class ProfileRepository {
       await _users.doc(user.uid).update(updatedUser.toMap());
       return right(null);
     } catch (e) {
-      return left('Fotoğraf değiştirilirken bir hata oluştu');
+      return left(ErrorMessageConstants.photoChangeError);
     }
   }
 
@@ -216,7 +217,7 @@ class ProfileRepository {
       await _users.doc(user.uid).update(updatedUser.toMap());
       return right(null);
     } catch (e) {
-      return left('İsim değişikliği sırasında bir hata oluşu');
+      return left(ErrorMessageConstants.nameChangeError);
     }
   }
 
