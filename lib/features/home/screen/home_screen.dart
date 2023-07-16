@@ -69,31 +69,7 @@ class HomeScreen extends ConsumerWidget {
                   builder: (context) {
                     return IconButton(
                       onPressed: () {
-                        /* Scaffold.of(context).openDrawer(); */
-                        String id = RandomIdGenerator.autoId();
-
-                        log(id);
-                        Item item = Item(
-                          id: id,
-                          picture:
-                              "https://firebasestorage.googleapis.com/v0/b/karma-gurme.appspot.com/o/items%2Farmut_kafe_bistro_su.webp?alt=media&token=208fb061-91c0-431e-9be9-26755742447a", // düzenle
-                          name: "Su", // düzenle
-                          lowercaseName: "su", // düzenle
-                          categoryId:
-                              "z4qg3yQK5OsAMrIWEYpY", // category bitince
-                          companyId: "h2vPrqHvFXr1x3CBnIaw",
-                          companyName: "Armut Kafe & Bistro",
-                          rating: 0.0000000000001,
-                          ratingCount: 0,
-                          commentCount: 0,
-                          location: GeoPoint(0, 0),
-                          price: 10, // düzenle
-                        );
-
-                        FirebaseFirestore.instance
-                            .collection("items")
-                            .doc(id)
-                            .set(item.toMap());
+                        Scaffold.of(context).openDrawer();
                       },
                       icon: const Icon(
                         Icons.menu_rounded,
