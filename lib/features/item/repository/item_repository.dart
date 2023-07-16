@@ -94,7 +94,7 @@ class ItemRepository {
     }
 
     try {
-      await updateItem(null, item, rating, isCommentEmpty);
+      await updateItem(null, item.id, rating, isCommentEmpty);
       await updateCompany(null, item.companyId, rating, isCommentEmpty);
       await _comments.doc(commentId).set(comment.toMap());
       return right(null);
@@ -116,7 +116,7 @@ class ItemRepository {
     }
 
     try {
-      await updateItem(comment, item, rating, isCommentEmpty);
+      await updateItem(comment, item.id, rating, isCommentEmpty);
       await updateCompany(comment, item.companyId, rating, isCommentEmpty);
       await _comments.doc(comment.id).update(updatedComment.toMap());
       return right(null);
@@ -191,10 +191,15 @@ class ItemRepository {
 
   Future<void> updateItem(
     Comment? oldComment,
-    Item item,
+    String itemId,
     int rating,
     bool isCommentEmpty,
   ) async {
+    late Item item;
+    await _items.doc(itemId).get().then((value) {
+      item = Item.fromMap(value.data() as Map<String, dynamic>);
+    });
+
     double newItemRating = item.rating;
 
     if (oldComment == null) {
@@ -251,8 +256,12 @@ class ItemRepository {
 
   Future<void> deleteUpdateItem(
     Comment oldComment,
-    Item item,
+    String itemId,
   ) async {
+    late Item item;
+    await _items.doc(itemId).get().then((value) {
+      item = Item.fromMap(value.data() as Map<String, dynamic>);
+    });
     final double newItemRating;
 
     final sumOfItemRating = item.ratingCount * item.rating;
@@ -316,7 +325,7 @@ class ItemRepository {
     try {
       await _comments.doc(commentId).delete();
       await deleteUpdateCompany(oldComment, item.companyId);
-      await deleteUpdateItem(oldComment, item);
+      await deleteUpdateItem(oldComment, item.id);
       return right(null);
     } catch (e) {
       return left(ErrorMessageConstants.commentDeleteError);
