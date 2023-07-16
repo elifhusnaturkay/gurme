@@ -1,15 +1,11 @@
-import 'dart:developer';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gurme/common/constants/color_constants.dart';
 import 'package:gurme/common/constants/route_constants.dart';
-import 'package:gurme/common/utils/get_random_id.dart';
 import 'package:gurme/common/utils/show_bottom_sheet.dart';
 import 'package:gurme/common/widgets/company_carousel_slider.dart';
 import 'package:gurme/common/widgets/item_carousel_slider.dart';
@@ -19,7 +15,6 @@ import 'package:gurme/features/home/controller/home_controller.dart';
 import 'package:gurme/features/home/drawers/favorites_drawer.dart';
 import 'package:gurme/features/home/widgets/home_app_bar_avatar.dart';
 import 'package:gurme/features/home/widgets/home_category_builder.dart';
-import 'package:gurme/models/item_model.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class HomeScreen extends ConsumerWidget {
