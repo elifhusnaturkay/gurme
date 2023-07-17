@@ -53,26 +53,26 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür.Trello gurme f154 / sp
 - **Daily Scrum**: Daily Scrum toplnatıları takım üyelerinin yoğunluğu yüzünden yapılamamıştır. Sprint boyunca takımca iki tane toplantı yapılmıştır. Enese Sevim ve Ahmet Özcan takım üyeleri günlük olarak buluşup pair programming şeklinde kod yazıp ayrıyaten uygulamanın ilerleme yönüne karar vermişlerdir.
 
 #
-[**Sprint 1 Daily Scrum Logs**](https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/1.%20Sprint/Sprint1_scrum_log.png)
+[**Sprint 1 Daily Scrum Logs**](https://github.com/elifhusnaturkay/gurme/blob/main/-Project%20Managment-/1.%20Sprint/Sprint1_scrum_log.png)
 
 ## Product Backlog URL
 
 [Trello Backlog Board_Sprint_1](https://trello.com/b/Hhn5egnK/gurme-f154-sprint1)
 
 - **Sprint board update**: Sprint board screenshotları: 
-![Sprint1_1](https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/1.%20Sprint/Sprint1_1.png) 
-![Sprint1_2](https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/1.%20Sprint/Sprint1_2.png) 
-![Sprint1_3](https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/1.%20Sprint/Sprint1_3.png)
-![Sprint1_4](https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/1.%20Sprint/Sprint1_4.png)
-![Sprint1_5](https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/1.%20Sprint/Sprint1_5.png)
+![Sprint1_1](https://github.com/elifhusnaturkay/gurme/blob/main/-Project%20Managment-/1.%20Sprint/Sprint1_1.png) 
+![Sprint1_2](https://github.com/elifhusnaturkay/gurme/blob/main/-Project%20Managment-/1.%20Sprint/Sprint1_2.png) 
+![Sprint1_3](https://github.com/elifhusnaturkay/gurme/blob/main/-Project%20Managment-/1.%20Sprint/Sprint1_3.png)
+![Sprint1_4](https://github.com/elifhusnaturkay/gurme/blob/main/-Project%20Managment-/1.%20Sprint/Sprint1_4.png)
+![Sprint1_5](https://github.com/elifhusnaturkay/gurme/blob/main/-Project%20Managment-/1.%20Sprint/Sprint1_5.png)
 
 <table>
   <tr>
     <td>1</td>
     <td>2</td>
   <tr>
-    <td><img src="https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/1.%20Sprint/app_splash.png" width="350" height="800"></td>
-    <td><img src="https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/1.%20Sprint/app_login.png" width="350" height="800"></td>
+    <td><img src="https://github.com/elifhusnaturkay/gurme/blob/main/-Project%20Managment-/1.%20Sprint/app_splash.png" width="350" height="800"></td>
+    <td><img src="https://github.com/elifhusnaturkay/gurme/blob/main/-Project%20Managment-/1.%20Sprint/app_login.png" width="350" height="800"></td>
  </table>
 
 <table>
@@ -80,8 +80,8 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür.Trello gurme f154 / sp
     <td>3</td>
     <td>4</td>
   <tr>
-    <td><img src="https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/1.%20Sprint/app_signup.png" width="350" height="800"></td>
-    <td><img src="https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/1.%20Sprint/app_forgot_password.png" width="350" height="800"></td>
+    <td><img src="https://github.com/elifhusnaturkay/gurme/blob/main/-Project%20Managment-/1.%20Sprint/app_signup.png" width="350" height="800"></td>
+    <td><img src="https://github.com/elifhusnaturkay/gurme/blob/main/-Project%20Managment-/1.%20Sprint/app_forgot_password.png" width="350" height="800"></td>
  </table>
 
 
@@ -122,17 +122,17 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür.Trello gurme f154 / sp
 - **Daily Scrum**: Sprint boyunca takımca bir toplantı yapılmış, discord üzerinden iletişimde kalınmıştır. Enes Sevim ve Ahmet Özcan takım üyeleri günlük olarak buluşup pair programming şeklinde kod yazıp ayrıyaten uygulamanın ilerleme yönüne karar vermişlerdir. Scrum toplantısı png olarak Readme'de tarafımızdan paylaşılmaktadır.
 
 #
-[**Sprint 2 Daily Scrum Logs**](https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/2.%20Sprint/Sprint2_scrum_log.png)
+[**Sprint 2 Daily Scrum Logs**](https://github.com/elifhusnaturkay/gurme/blob/main/-Project%20Managment-/2.%20Sprint/Sprint2_scrum_log.png)
 
 ## Product Backlog URL
 
 [Trello Backlog Board_Sprint_2](https://trello.com/b/fCJQ8IaM/gurme-f154-sprint2)
 
 - **Sprint board update**: Sprint board screenshotları: 
-![Sprint1_1](https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/2.%20Sprint/Sprint2_1.png) 
-![Sprint1_2](https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/2.%20Sprint/Sprint2_2.png) 
-![Sprint1_3](https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/2.%20Sprint/Sprint2_3.png)
-![Sprint1_4](https://github.com/elifhusnaturkay/gurme/blob/main/-Proje%20Managment-/2.%20Sprint/Sprint2_4.png)
+![Sprint1_1](https://github.com/elifhusnaturkay/gurme/blob/main/-Project%20Managment-/2.%20Sprint/Sprint2_1.png) 
+![Sprint1_2](https://github.com/elifhusnaturkay/gurme/blob/main/-Project%20Managment-/2.%20Sprint/Sprint2_2.png) 
+![Sprint1_3](https://github.com/elifhusnaturkay/gurme/blob/main/-Project%20Managment-/2.%20Sprint/Sprint2_3.png)
+![Sprint1_4](https://github.com/elifhusnaturkay/gurme/blob/main/-Project%20Managment-/2.%20Sprint/Sprint2_4.png)
 
 https://github.com/elifhusnaturkay/gurme/assets/93215375/0d6fe355-8454-4402-9d3f-a75abc402b06
 
