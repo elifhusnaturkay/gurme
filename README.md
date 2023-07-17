@@ -16,24 +16,51 @@
 ##  Ürün İsmi
 # **Gurme**
 
-
-
-
-
-## Product Backlog URL
-
-
-
 ## Ürün Açıklaması
+
+Gurme; kafe, restoran ve benzerlilerinin ürünlerini değerlendirebileceğiniz, lezzetin izini sürmeniz ve en iyi deneyimi kolayca yaşamanız için tasarlanmış bir mobil uygulamadır. Gurme, alışık olduğumuz kafe, restoran ve benzerlilerini değerlendirme uygulamalarından farklı olarak, değerlendirmenin ürün üzerinden yapılmasıyla mekandan çok ürüne odaklanır, bunun sonucunda gurmelik mantığını tamamlayıp sektöre yeni bir tat katar. Bu eşsiz platform, gastronomiye ilgi duyanlar için vazgeçilmez bir rehberdir. 
+
+Gurme sayesinde çevrenizde bulunan kafe, restoran veya lokantaların menülerine, konumlarına, ürünlerin fiyat ve yorumlarına anlaşılabilir ve işlevselliği ön planda tutan bir arayüzle ulaşabilirsiniz. Gurme, bu harika işlevselliğin, böylesine anlaşılabilir bir arayüzde toplanmasının sonucu olarak siz gurmelerin, lezzetin izini daha kolayca sürmenizi ve en iyi deneyimi yaşamanızı ister. 
+ 
+Gurme, bir topluluk oluşturarak deneyimlerinizi paylaşmanızı teşvik eder. Favori içecek, tatlı veya yemeklerinizi değerlendirebilir, yorumlarınızı paylaşabilir ve aynı zamanda diğer kullanıcıların da görüşlerini takip edebilirsiniz. Bu şekilde, gastronomi tutkunu insanlarla etkileşimde bulunabilir ve mekan seçimlerinizi daha bilinçli bir şekilde yapabilirsiniz.
+
+Yeni bir mekan keşfetmek istediğinizde, Gurme size yakınınızdaki kafe, restoran ve lokantaların size uzaklıklarını, ürünlerinin değerlendirmelerini ve fiyatlarını bildirerek tatminkâr bir deneyim yaşamanızı sağlar. Mekanların kalitesini ve değerini kullanıcıların gerçek deneyimlerine dayalı olarak iletmeye önem verir. Böylece, en iyi mekanları keşfedebilir, lezzetli yemekler ve içeceklerle olan anlarınıza yeni bir tanesini daha ekleyebilirsiniz.
+
+Lezzet severlerin buluştuğu bu özel platformda, lezzet dolu yolculuğunuzun keyfini çıkarın!
+
+(Bootcamp’in zaman kısıtlılığından dolayı oluşan data eksikliği yüzünden mesafe filtresi şu anda devre dışıdır.)
 
 
 
 ## Ürün Özellikleri
 
+- Ürün ve Mekan Arama: Arama ekranından Ürün ve Restoran filtreleriyle bulmaya çalıştığınız ürün ve restoranlara bulabilirsiniz.
+
+- Kategori Filtrelenmiş Öneriler: Beğendiğiniz kategorilerdeki ürünlere ulaşabilirsiniz.
+
+- Mekan ve Ürün Önerileri: Çevrenizde bulunan sizin gibi diğer gurmelerin beğendiği restoran ve ürünlere ana ekranınızdaki önerilenlerden hızlı bir şekilde ulaşabilirsiniz.
+
+- Kullanıcı Değerlendirmeleri: Gerçek kullanıcıların yorumlarını okuyabilir ve kendi deneyimlerinizi paylaşabilirsiniz.
+
+- Detaylı Mekan Bilgileri: Mekan adı, konum, menü, mekanın en popülerleri ve menüdeki ürünlerin puan ve değerlendirme sayıları gibi bilgilere mekan sayfasından ulaşabilirsiniz. Kategorilere ayrılmış sekmelerle tek tuşla kategoriler arası hızlıca gezinebilirsiniz.
+
+- Ürün Ayrıntıları: Ürünlerin yorum, değerlendirme, fiyat ve hangi mekanda satıldığına dair bilgilere ürün ekranından hızlıca ulaşabilirsiniz.
+
+- Favoriler: Ana ekranınızda bulunan çekmeceden favori restoranlarınıza hızlıca ulaşabilirsiniz.
+
+- Profil: Profilinizde; değerlendirme, yorum ve favori mekanlarınız diğer gurmelere açık bir şekilde paylaşılır, bu şekilde zevklerinizi gurme arkadaşlarınızla kolaylıkla paylaşabilirsiniz.
+
+- Özelleştirilebilir Profil: Profilinizdeki kapak fotoğrafı, profil resmi, isim gibi bilgileri profil resminizin sağ üstünde bulabileceğiniz düzenleme tuşuna basarak düzenleyebilirsiniz.
+
 
 
 ## Hedef Kitle
-
+Gurme'nin hedef kitlesi şunlardan oluşur:
+- Kafe, restoran ve lokanta tutkunları
+- Lezzet arayışındaki genç yetişkinler
+- Seyahat edenler ve farklı şehirlerdeki mekanları keşfetmek isteyenler
+- Yemek deneyimlerini paylaşmayı seven sosyal medya kullanıcıları
+- Lezzetli yemeklerin tadını çıkarmak isteyen her yaş grubundan kullanıcılar
 
 
 ---
@@ -175,7 +202,7 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür.Trello gurme f154 / sp
 
 ## Product Backlog URL
 
-[Trello Backlog Board_Sprint_2](https://trello.com/b/PVcTawPS/gurme-f154-sprint3)
+[Trello Backlog Board_Sprint_3](https://trello.com/b/PVcTawPS/gurme-f154-sprint3)
 
 - **Sprint board update**: Sprint board screenshotları: 
 ![Sprint3_1](https://github.com/elifhusnaturkay/gurme/blob/main/-Project%20Managment-/3.%20Sprint/Sprint3_1.png) 
