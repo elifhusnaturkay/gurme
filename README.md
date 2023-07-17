@@ -213,6 +213,10 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür.Trello gurme f154 / sp
 ![Sprint3_6](https://github.com/elifhusnaturkay/gurme/blob/main/-Project%20Managment-/3.%20Sprint/Sprint3_6.png)
 ![Sprint3_7](https://github.com/elifhusnaturkay/gurme/blob/main/-Project%20Managment-/3.%20Sprint/Sprint3_7.png)
 
+
+https://github.com/elifhusnaturkay/gurme/assets/93215375/777f6af5-faa7-49ac-a440-0bff336328d8
+
+
 - **Sprint Review**: 3. ve son Sprintimizde planlarımıza uygun şekilde ilerleme kaydedip önceki verimsiz sprintimizden kalan ve bu sprintte de dahil olan görevlerimizi, beraber düzenli bir şekilde hayata geçirdik. İletişimde kalmamız sayesinde ilerleme yönümüz belli ve kesin oldu. Sprint sonuna doğru testlerimizi ve data importlarımız hallettik, bu da uygulamayı günümüz mobil uygulama standartlarına çıkarmış oldu. 
 
 
